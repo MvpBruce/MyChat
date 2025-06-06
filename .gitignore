@@ -1,0 +1,14 @@
+#ignore build files
+*.exe
+*.filters
+
+
+#ignore dirs
+dep/
+bin-int/
+.vscode/
+.vs/
+x64/
+
+#ignore special files
+

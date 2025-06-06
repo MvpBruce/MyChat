@@ -7,11 +7,11 @@
 
 //CRPT
 template<typename T>
-class Signleton {
+class Singleton {
 protected:
-    Signleton() = default;
-    Signleton(const Signleton<T>&) = delete;
-    Signleton& operator=(const Signleton<T>&) = delete;
+    Singleton() = default;
+    Singleton(const Singleton<T>&) = delete;
+    Singleton& operator=(const Singleton<T>&) = delete;
 
     static std::shared_ptr<T> s_instance;
 
@@ -22,19 +22,21 @@ public:
         std::call_once(s_once, [&](){
             s_instance = std::shared_ptr<T>(new T);
         });
+
+        return s_instance;
     }
 
     void PrintAddress() {
         std::cout << s_instance.get() << std::endl;
     }
 
-    ~Signleton()
+    ~Singleton()
     {
-        std::cout << "Signleton::~Signleton()" << std::endl;
+        std::cout << "Singleton::~Singleton()" << std::endl;
     }
 };
 
 template<typename T>
-std::shared_ptr<T> Signleton<T>::s_instance = nullptr;
+std::shared_ptr<T> Singleton<T>::s_instance = nullptr;
 
 #endif // SINGLETON_H
