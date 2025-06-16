@@ -71,12 +71,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>E:\Code\cpp\MyChat\dep\boost_1_88_0;E:\Code\cpp\MyChat\dep\libjson\include;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Code\cpp\MyChat\dep\boost_1_88_0\stage;E:\Code\cpp\MyChat\dep\libjson\lib\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>../../dep/boost_1_88_0;../../dep/libjson/include;$(IncludePath)</IncludePath>
+    <LibraryPath>../../dep/boost_1_88_0/stage;../../dep/libjson/lib/Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>E:\Code\cpp\MyChat\dep\boost_1_88_0;E:\Code\cpp\MyChat\dep\libjson\include;$(IncludePath)</IncludePath>
-    <LibraryPath>E:\Code\cpp\MyChat\dep\boost_1_88_0\stage;E:\Code\cpp\MyChat\dep\libjson\lib\Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>../../dep/boost_1_88_0;../../dep/libjson/include;$(IncludePath)</IncludePath>
+    <LibraryPath>../../dep/boost_1_88_0/stage;../../dep/libjson/lib/Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -137,7 +137,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="HttpConnection.cpp" />
+    <ClCompile Include="Server.cpp" />
     <ClCompile Include="GateServer.cpp" />
+    <ClCompile Include="TaskSystem.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Const.h" />
+    <ClInclude Include="HttpConnection.h" />
+    <ClInclude Include="Server.h" />
+    <ClInclude Include="Singleton.h" />
+    <ClInclude Include="TaskSystem.h" />
+    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
