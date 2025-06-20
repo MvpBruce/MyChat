@@ -19,7 +19,7 @@ public:
 	bool HSet(const std::string& table, const std::string& key, const std::string& value);
 	bool HGet(const std::string& table, std::string key, std::string& value);
 	bool Delete(const std::string& key);
-	bool Exist(const std::string& key);
+	bool ExistsKey(const std::string& key);
 	void Close();
 
 private:

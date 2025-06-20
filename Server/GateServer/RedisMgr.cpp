@@ -38,50 +38,32 @@ bool CRedisMgr::Auth(const std::string& password)
 bool CRedisMgr::Set(const std::string& key, const std::string& value)
 {
 	m_reply = (redisReply*)redisCommand(m_context, "SET %s %s", key.c_str(), value.c_str());
-	if (!m_reply)
+	if (!m_reply || m_reply->type != REDIS_REPLY_STATUS || (strcmp(m_reply->str, "ok") != 0 && strcmp(m_reply->str, "OK") != 0))
 	{
 		std::cout << "Failed to execute [SET " << key << " " << value << "]" << std::endl;
 		freeReplyObject(m_reply);
 		return false;
 	}
 
-	if (m_reply->type == REDIS_REPLY_STATUS && (strcmp(m_reply->str, "ok") || strcmp(m_reply->str, "OK")))
-	{
-		std::cout << "Success to execute [SET " << key << " " << value << "]" << std::endl;
-		freeReplyObject(m_reply);
-		return true;
-	}
-	else
-	{
-		std::cout << "Failed to execute [SET " << key << " " << value << "]" << std::endl;
-		freeReplyObject(m_reply);
-		return false;
-	}	
+	std::cout << "Success to execute [SET " << key << " " << value << "]" << std::endl;
+	freeReplyObject(m_reply);
+	return true;	
 }
 
 bool CRedisMgr::Get(const std::string& key, std::string& value)
 {
-	m_reply = (redisReply*)redisCommand(m_context, "GET %s %s", key.c_str(), value.c_str());
-	if (!m_reply)
+	m_reply = (redisReply*)redisCommand(m_context, "GET %s", key.c_str());
+	if (!m_reply || m_reply->type != REDIS_REPLY_STRING)
 	{
 		std::cout << "Failed to execute [GET " << key << "]" << std::endl;
 		freeReplyObject(m_reply);
 		return false;
 	}
 
-	if (m_reply->type == REDIS_REPLY_STRING)
-	{
-		std::cout << "Success to execute [GET " << key << "]" << std::endl;
-		value = m_reply->str;
-		freeReplyObject(m_reply);
-		return true;
-	}
-	else
-	{
-		std::cout << "Failed to execute [GET " << key << "]" << std::endl;
-		freeReplyObject(m_reply);
-		return false;
-	}
+	std::cout << "Success to execute [GET " << key << "]" << std::endl;
+	value = m_reply->str;
+	freeReplyObject(m_reply);
+	return true;
 }
 
 bool CRedisMgr::LPush(const std::string& key, const std::string& value)
@@ -101,7 +83,7 @@ bool CRedisMgr::LPush(const std::string& key, const std::string& value)
 
 bool CRedisMgr::LPop(const std::string& key, std::string& value)
 {
-	m_reply = (redisReply*)redisCommand(m_context, "LPOP %s %s", key.c_str(), value.c_str());
+	m_reply = (redisReply*)redisCommand(m_context, "LPOP %s", key.c_str());
 	if (!m_reply || m_reply->type == REDIS_REPLY_NIL)
 	{
 		std::cout << "Failed to execute [LPOP " << key << "]" << std::endl;
@@ -194,7 +176,7 @@ bool CRedisMgr::Delete(const std::string& key)
 	return true;
 }
 
-bool CRedisMgr::Exist(const std::string& key)
+bool CRedisMgr::ExistsKey(const std::string& key)
 {
 	m_reply = (redisReply*)redisCommand(m_context, "EXISTS %s", key.c_str());
 	if (!m_reply || m_reply->type != REDIS_REPLY_INTEGER || m_reply->integer == 0)
@@ -206,7 +188,7 @@ bool CRedisMgr::Exist(const std::string& key)
 
 	std::cout << "Found [key " << key << "]" << std::endl;
 	freeReplyObject(m_reply);
-	return false;
+	return true;
 }
 
 void CRedisMgr::Close()
@@ -214,6 +196,7 @@ void CRedisMgr::Close()
 	redisFree(m_context);
 }
 
-CRedisMgr::CRedisMgr()
+CRedisMgr::CRedisMgr():
+	m_context(nullptr), m_reply(nullptr)
 {
 }
