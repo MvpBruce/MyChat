@@ -22,6 +22,7 @@ public:
 
 		return s_instance;
 	}
+
 	~Singleton()
 	{
 		std::cout << "Destruct Singleton" << std::endl;

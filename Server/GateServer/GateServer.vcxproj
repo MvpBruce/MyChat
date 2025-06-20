@@ -71,12 +71,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>../../dep/boost_1_88_0;../../dep/libjson/include;$(IncludePath)</IncludePath>
-    <LibraryPath>../../dep/boost_1_88_0/stage;../../dep/libjson/lib/Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>../../dep/boost_1_88_0;../../dep/libjson/include;../../dep/redis/deps/hiredis;$(IncludePath)</IncludePath>
+    <LibraryPath>../../dep/boost_1_88_0/stage;../../dep/libjson/lib/Debug;../../dep/redis/lib/Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>../../dep/boost_1_88_0;../../dep/libjson/include;$(IncludePath)</IncludePath>
-    <LibraryPath>../../dep/boost_1_88_0/stage;../../dep/libjson/lib/Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>../../dep/boost_1_88_0;../../dep/libjson/include;../../dep/redis/deps/hiredis;$(IncludePath)</IncludePath>
+    <LibraryPath>../../dep/boost_1_88_0/stage;../../dep/libjson/lib/Release;../../dep/redis/lib/Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -116,7 +116,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>jsoncpp_static.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>jsoncpp_static.lib;hiredis.lib;Win32_Interop.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -133,11 +133,12 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>jsoncpp_static.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>jsoncpp_static.lib;hiredis.lib;Win32_Interop.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="HttpConnection.cpp" />
+    <ClCompile Include="RedisMgr.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="GateServer.cpp" />
     <ClCompile Include="TaskSystem.cpp" />
@@ -145,6 +146,7 @@
   <ItemGroup>
     <ClInclude Include="Const.h" />
     <ClInclude Include="HttpConnection.h" />
+    <ClInclude Include="RedisMgr.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="TaskSystem.h" />

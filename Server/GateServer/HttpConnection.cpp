@@ -36,21 +36,38 @@ void CHttpConnection::HandleRequest()
 	//Create a response
 	m_response.version(req.version());
 	m_response.keep_alive(false);
-	if (req.method_string() == "GET")
+	if (req.method() == http::verb::get)
 	{
 		ParseParams(req.target());
-		bool ret = CTaskSystem::GetInstance()->ExecuteEvent(m_url , shared_from_this());
+		bool ret = CTaskSystem::GetInstance()->ExecuteEvent(m_url , shared_from_this(), req.method());
 		//error
 		if (!ret)
 		{
 			m_response.result(http::status::not_found);
 			m_response.set(http::field::content_type, "text/plain");
-			beast::ostream(m_response.body()) << "Url not found\r\n";
+			beast::ostream(m_response.body()) << "Url not found" << std::endl;
 			WriteResopnse();
 			return;
 		}
 		
 		//correct
+		m_response.result(http::status::ok);
+		m_response.set(http::field::server, "GateServer");
+		WriteResopnse();
+	}
+	else if (req.method() == http::verb::post)
+	{
+		ParseParams(req.target());
+		bool ret = CTaskSystem::GetInstance()->ExecuteEvent(m_url, shared_from_this(), req.method());
+		if (!ret)
+		{
+			m_response.result(http::status::not_found);
+			m_response.set(http::field::content_type, "text/plain");
+			beast::ostream(m_response.body()) << "Url not found" << std::endl;
+			WriteResopnse();
+			return;
+		}
+
 		m_response.result(http::status::ok);
 		m_response.set(http::field::server, "GateServer");
 		WriteResopnse();

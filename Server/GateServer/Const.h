@@ -3,10 +3,21 @@
 #include <boost/beast.hpp>
 #include "Singleton.h"
 #include <functional>
-#include <map>
 #include <unordered_map>
+
+//json
+#include <json/reader.h>
+#include <json/writer.h>
+#include <json/value.h>
 
 namespace net = boost::asio;
 namespace beast = boost::beast;
 namespace http = beast::http;
 using tcp = net::ip::tcp;
+
+
+enum class ErrorCodes {
+	Success = 0,
+	Error_Json = 1001,
+	Error_RPC = 1002
+};

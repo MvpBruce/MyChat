@@ -13,12 +13,13 @@ private:
 public:
 	~CTaskSystem();
 
-	void RegisterEvent(std::string strName, HttpHandler handler);
+	void RegisterEvent(std::string strName, HttpHandler handler, http::verb method);
 
-	bool ExecuteEvent(std::string strName, std::shared_ptr<CHttpConnection> connection);
+	bool ExecuteEvent(std::string strName, std::shared_ptr<CHttpConnection> connection, http::verb method);
 
 private:
-	std::map<std::string, HttpHandler> m_handlers;
+	std::unordered_map<std::string, HttpHandler> m_getHandlers;
+	std::unordered_map<std::string, HttpHandler> m_postHandlers;
 };
 
 

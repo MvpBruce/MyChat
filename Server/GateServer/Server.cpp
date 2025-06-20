@@ -2,10 +2,10 @@
 #include <iostream>
 #include "HttpConnection.h"
 
-CServer::CServer(net::io_context& ioc, unsigned int nPort):
+CServer::CServer(net::io_context& ioc, unsigned short nPort):
 	m_ioc(ioc), m_acceptor(ioc, tcp::endpoint(tcp::v4(), nPort)), m_socket(ioc)
 {
-	std::cout << "Started server" << std::endl;
+	std::cout << "Started server: " << net::ip::host_name() << ":" << nPort << std::endl;
 }
 
 void CServer::Start()
