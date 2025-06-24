@@ -18,13 +18,13 @@ public:
 
 private slots:
     void on_btn_GetCode_clicked();
+    void slot_register_finished(RequstID id, QString res, ErrorCodes ec);
 
 private:
-    void showTip(QString str, bool isError);
     void initHandlers();
 
 private:
-    void slot_register_finished(RequstID id, QString res, ErrorCodes ec);
+    void showTip(QString str, bool isError);
 
 private:
     Ui::RegisterDialog *ui;

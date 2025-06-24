@@ -7,4 +7,6 @@ std::function<void(QWidget*)> resetStyle = [](QWidget* w){
     w->style()->polish(w);
 };
 
+QString strGateServerURL = "";
+
 #endif // GLOBAL_CPP

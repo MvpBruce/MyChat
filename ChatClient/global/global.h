@@ -5,6 +5,7 @@
 #include <functional>
 
 extern std::function<void(QWidget*)> resetStyle;
+extern QString strGateServerURL;
 
 enum class RequstID {
     GET_VERIFY_CODE = 1000,

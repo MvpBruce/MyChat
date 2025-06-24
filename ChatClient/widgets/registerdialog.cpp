@@ -4,6 +4,7 @@
 #include <QRegularExpression>
 #include "core/HttpMgr.h"
 #include <QJsonDocument>
+#include <QJsonObject>
 
 RegisterDialog::RegisterDialog(QWidget *parent)
     : QDialog(parent)
@@ -17,6 +18,7 @@ RegisterDialog::RegisterDialog(QWidget *parent)
     resetStyle(ui->error_tip);
 
     connect(HttpMgr::GetInstance().get(), &HttpMgr::sig_register_finished, this, &RegisterDialog::slot_register_finished);
+    initHandlers();
 }
 
 RegisterDialog::~RegisterDialog()
@@ -31,17 +33,19 @@ void RegisterDialog::on_btn_GetCode_clicked()
     bool bMatched = regex.match(email).hasMatch();
     if (bMatched)
     {
-
+        QJsonObject jObj;
+        jObj["email"] = email;
+        HttpMgr::GetInstance()->PostHttpRequst(QUrl(strGateServerURL + "/get_verifycode"), jObj, RequstID::GET_VERIFY_CODE, Modules::REGISTER);
     }
     else
     {
-        showTip(tr("Invalid email"), true);
+        showTip(tr("Invalid email"), false);
     }
 }
 
-void RegisterDialog::showTip(QString str, bool isError)
+void RegisterDialog::showTip(QString str, bool isErrorr)
 {
-    if (isError)
+    if (isErrorr)
         ui->error_tip->setProperty("state", "error");
     else
         ui->error_tip->setProperty("state", "normal");
@@ -52,37 +56,44 @@ void RegisterDialog::showTip(QString str, bool isError)
 
 void RegisterDialog::slot_register_finished(RequstID id, QString res, ErrorCodes ec)
 {
-    //Error case
-    if (ec != ErrorCodes::SUCCESS)
+    if (ec == ErrorCodes::NEWTORK)
     {
-        showTip(tr("Network request failed"), false);
+        showTip(tr("Network request error"), false);
         return;
     }
 
-    QJsonDocument jsonDoc = QJsonDocument::fromJson(res.toUtf8());
-    if (jsonDoc.isNull())
+    QJsonDocument jDoc = QJsonDocument::fromJson(res.toUtf8());
+    if (jDoc.isEmpty())
     {
-        showTip(tr("Failed to parse Json"), false);
+        showTip(tr("Parse json error"), false);
         return;
     }
 
-    //Register callback function by request id
-    m_handlers[id](jsonDoc.object());
+    if (!jDoc.isObject())
+    {
+        showTip(tr("Parse json error"), false);
+        return;
+    }
+
+
+    QJsonObject jObj = jDoc.object();
+
+    m_handlers[id](jObj);
 }
 
 void RegisterDialog::initHandlers()
 {
-    m_handlers.insert(RequstID::GET_VERIFY_CODE, [this](QJsonObject jsonObj){
-        int ec = jsonObj["error"].toInt();
-        if (ec != (int)ErrorCodes::SUCCESS)
+    m_handlers.insert(RequstID::GET_VERIFY_CODE, [this](const QJsonObject jObj){
+        int nError = jObj["error"].toInt();
+        if (nError != (int)ErrorCodes::SUCCESS)
         {
-            showTip(tr("Error params"), false);
+            this->showTip("Parameters error", false);
             return;
         }
 
-        auto email = jsonObj["email"].toString();
-        showTip(tr("Verification code has been sent to your email"), false);
-        qDebug() << "Email is: "<< email;
+        auto email = jObj["email"].toString();
+        this->showTip("Code has been sent to email", true);
+        qDebug() << "Email is: " << email;
     });
 }
 
