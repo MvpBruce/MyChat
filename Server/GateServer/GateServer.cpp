@@ -5,12 +5,47 @@
 #include <string>
 #include "Server.h"
 #include "hiredis.h"
+#include "RedisMgr.h"
+#include <assert.h>
+
+void TestRedisMgr() {
+    assert(CRedisMgr::GetInstance()->Connect("127.0.0.1", 6380));
+    assert(CRedisMgr::GetInstance()->Auth("123456"));
+    assert(CRedisMgr::GetInstance()->Set("blogwebsite", "llfc.club"));
+    std::string value = "";
+    assert(CRedisMgr::GetInstance()->Get("blogwebsite", value));
+    assert(CRedisMgr::GetInstance()->Get("nonekey", value) == false);
+    assert(CRedisMgr::GetInstance()->HSet("bloginfo", "blogwebsite", "llfc.club"));
+    assert(CRedisMgr::GetInstance()->HGet("bloginfo", "blogwebsite", value));
+    assert(CRedisMgr::GetInstance()->ExistsKey("bloginfo"));
+    assert(CRedisMgr::GetInstance()->Delete("bloginfo"));
+    assert(CRedisMgr::GetInstance()->Delete("bloginfo"));
+    assert(CRedisMgr::GetInstance()->ExistsKey("bloginfo") == false);
+    assert(CRedisMgr::GetInstance()->LPush("lpushkey1", "lpushvalue1"));
+    assert(CRedisMgr::GetInstance()->LPush("lpushkey1", "lpushvalue2"));
+    assert(CRedisMgr::GetInstance()->LPush("lpushkey1", "lpushvalue3"));
+    assert(CRedisMgr::GetInstance()->RPop("lpushkey1", value));
+    assert(CRedisMgr::GetInstance()->RPop("lpushkey1", value));
+    assert(CRedisMgr::GetInstance()->LPop("lpushkey1", value));
+    assert(CRedisMgr::GetInstance()->LPop("lpushkey2", value) == false);
+    CRedisMgr::GetInstance()->Close();
+}
+
+void TestGRPC()
+{
+
+}
 
 int main()
 {
     try
     {
         //test redis
+        //TestRedisMgr();
+
+        //test grpc
+        TestGRPC();
+        return 0;
 
 
         //end test
