@@ -3,8 +3,8 @@
 #include "TaskSystem.h"
 #include "Utils.h"
 
-CHttpConnection::CHttpConnection(tcp::socket socket):
-	m_socket(std::move(socket)), m_timer(m_socket.get_executor(), std::chrono::seconds(60))
+CHttpConnection::CHttpConnection(net::io_context& ioc):
+m_socket(ioc), m_timer(ioc, std::chrono::seconds(60))
 {
 }
 
@@ -28,6 +28,11 @@ void CHttpConnection::Start()
 			std::cout << "CHttpConnection::Start() exception is: " << e.what() << std::endl;
 		}
 	});
+}
+
+tcp::socket& CHttpConnection::GetSocket()
+{
+	return m_socket;
 }
 
 void CHttpConnection::HandleRequest()

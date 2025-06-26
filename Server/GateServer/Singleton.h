@@ -16,7 +16,7 @@ public:
 	static std::shared_ptr<T> GetInstance()
 	{
 		static std::once_flag flag;
-		std::call_once(flag, []() {
+		std::call_once(flag, [&]() {
 			s_instance = std::shared_ptr<T>(new T);
 		});
 

@@ -1,24 +1,26 @@
 #include "Server.h"
 #include <iostream>
 #include "HttpConnection.h"
+#include "AsioServicePool.h"
 
 CServer::CServer(net::io_context& ioc, unsigned short nPort):
-	m_ioc(ioc), m_acceptor(ioc, tcp::endpoint(tcp::v4(), nPort)), m_socket(ioc)
+	m_ioc(ioc), m_acceptor(ioc, tcp::endpoint(tcp::v4(), nPort))
 {
-	std::cout << "Started server: " << net::ip::host_name() << ":" << nPort << std::endl;
+	std::cout << "Started server: " << "127.0.0.1" << ":" << nPort << std::endl;
 }
 
 void CServer::Start()
 {
 	auto self = shared_from_this();
-	m_acceptor.async_accept(m_socket, [self](boost::system::error_code ec) {
+	auto& ioc = AsioServicePool::GetInstance()->GetService();
+	std::shared_ptr<CHttpConnection> httpConnection = std::make_shared<CHttpConnection>(ioc);
+	m_acceptor.async_accept(httpConnection->GetSocket(), [self, httpConnection](boost::system::error_code ec) {
 		try
 		{
 			if (ec)
 				self->Start();
 
 			//Create a http connection
-			std::shared_ptr<CHttpConnection> httpConnection = std::make_shared<CHttpConnection>(std::move(self->m_socket));
 			httpConnection->Start();
 			self->Start();
 		}

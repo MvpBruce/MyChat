@@ -1,13 +1,12 @@
 #pragma once
 #include "Const.h"
 
-
 class CHttpConnection : public std::enable_shared_from_this<CHttpConnection>
 {
 public:
-	CHttpConnection(tcp::socket socket);
-
+	CHttpConnection(net::io_context& ioc);
 	void Start();
+	tcp::socket& GetSocket();
 
 public:
 	http::response<http::dynamic_body> m_response;

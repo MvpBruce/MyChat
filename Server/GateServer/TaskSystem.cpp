@@ -1,5 +1,6 @@
 #include "TaskSystem.h"
 #include "HttpConnection.h"
+#include "VefifyGrpcClient.h"
 
 CTaskSystem::CTaskSystem()
 {
@@ -22,9 +23,10 @@ CTaskSystem::CTaskSystem()
 		}
 
 		auto strEmail = src_Json["email"].asString();
+		GetVerifyRsp rsp = CVefifyGrpcClient::GetInstance()->GetVerifyCode(strEmail);
 		std::cout << "Email is: " << strEmail << std::endl;
 		root["email"] = strEmail;
-		root["error"] = static_cast<int>(ErrorCodes::Success);
+		root["error"] = rsp.code().c_str();
 		beast::ostream(connection->m_response.body()) << root.toStyledString();
 	}, http::verb::post);
 }

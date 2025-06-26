@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AsioServicePool.cpp" />
     <ClCompile Include="HttpConnection.cpp" />
     <ClCompile Include="message.grpc.pb.cc" />
     <ClCompile Include="message.pb.cc" />
@@ -149,6 +150,7 @@
     <ClCompile Include="VefifyGrpcClient.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AsioServicePool.h" />
     <ClInclude Include="Const.h" />
     <ClInclude Include="HttpConnection.h" />
     <ClInclude Include="message.grpc.pb.h" />

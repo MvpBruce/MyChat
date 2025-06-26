@@ -4,6 +4,7 @@
 #include "Singleton.h"
 #include <functional>
 #include <unordered_map>
+#include <vector>
 
 //json
 #include <json/reader.h>
