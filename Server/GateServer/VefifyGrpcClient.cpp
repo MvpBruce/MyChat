@@ -8,8 +8,7 @@ using grpc::Status;
 
 CVefifyGrpcClient::CVefifyGrpcClient()
 {
-	std::shared_ptr<Channel> channel = grpc::CreateChannel("127.0.0.1:50051", grpc::InsecureChannelCredentials());
-	m_stub = VerifyService::NewStub(channel);
+	m_rpcPool.reset(new RPCPool("127.0.0.1", "50051", 5));
 }
 
 GetVerifyRsp CVefifyGrpcClient::GetVerifyCode(std::string email)
@@ -19,9 +18,11 @@ GetVerifyRsp CVefifyGrpcClient::GetVerifyCode(std::string email)
 	GetVerifyRsp resp;
 
 	req.set_email(email.c_str());
-	Status s = m_stub->GetVerifyCode(&client, req, &resp);
+	auto con = m_rpcPool->GetConnection();
+	Status s = con->GetVerifyCode(&client, req, &resp);
 	if (!s.ok())
 		resp.set_error(static_cast<int>(ErrorCodes::Error_RPC));
 
+	m_rpcPool->ReturnConnection(std::move(con));
 	return resp;
 }

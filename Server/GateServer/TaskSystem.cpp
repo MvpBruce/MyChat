@@ -6,7 +6,7 @@ CTaskSystem::CTaskSystem()
 {
 	RegisterEvent("/get_verifycode", [](std::shared_ptr<CHttpConnection> connection){
 		std::string strJson = beast::buffers_to_string(connection->m_parser.get().body().data());
-		std::cout << "Received json: " << strJson << std::endl;
+		std::cout << "Received json from client: " << strJson << std::endl;
 		connection->m_response.set(http::field::content_type, "text/json");
 		//Parse json string to json object
 		Json::Value root;
@@ -26,7 +26,7 @@ CTaskSystem::CTaskSystem()
 		GetVerifyRsp rsp = CVefifyGrpcClient::GetInstance()->GetVerifyCode(strEmail);
 		std::cout << "Email is: " << strEmail << std::endl;
 		root["email"] = strEmail;
-		root["error"] = rsp.code().c_str();
+		root["error"] = rsp.error();
 		beast::ostream(connection->m_response.body()) << root.toStyledString();
 	}, http::verb::post);
 }
