@@ -38,7 +38,7 @@ public:
 
 	void Stop()
 	{
-		std::lock_guard<std::mutex> lock(m_mutext);
+		std::lock_guard<std::mutex> lock(m_mutex);
 		m_bStop = true;
 		m_cond.notify_all();
 		while (m_connections.empty())
@@ -52,7 +52,7 @@ public:
 
 	std::unique_ptr<VerifyService::Stub> GetConnection()
 	{
-		std::unique_lock<std::mutex> lock(m_mutext);
+		std::unique_lock<std::mutex> lock(m_mutex);
 		m_cond.wait(lock, [this]() {
 			if (m_bStop)
 				return true;
@@ -70,7 +70,7 @@ public:
 
 	void ReturnConnection(std::unique_ptr<VerifyService::Stub> con)
 	{
-		std::unique_lock<std::mutex> lock(m_mutext);
+		std::unique_lock<std::mutex> lock(m_mutex);
 		if (m_bStop)
 			return;
 
@@ -80,7 +80,7 @@ public:
 
 private:
 	std::queue<std::unique_ptr<VerifyService::Stub>> m_connections;
-	std::mutex m_mutext;
+	std::mutex m_mutex;
 	std::condition_variable m_cond;
 	std::atomic<bool> m_bStop;
 };
