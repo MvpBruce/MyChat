@@ -15,17 +15,15 @@ let transport = nodemailer.createTransport(
 
 function sendEmail(emailOptions) {
     return new Promise(function (resolve, reject){
-        // transport.sendMail(emailOptions, function (err, info) {
-        //     if (err) {
-        //         console.error('Error sending email:', err)
-        //         reject(err)
-        //     } else {
-        //         console.log('Email sent successfully:', info.response)
-        //         resolve(info)
-        //     }
-        // })
-        console.log('Sending email to:', emailOptions.to)
-        resolve("Email sent successfully (mock response)");
+        transport.sendMail(emailOptions, function (err, info) {
+            if (err) {
+                console.error('Error sending email:', err)
+                reject(err)
+            } else {
+                console.log('Email sent successfully:', info.response)
+                resolve(info)
+            }
+        })
     });
 }
 
