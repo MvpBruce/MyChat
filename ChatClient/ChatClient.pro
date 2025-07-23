@@ -9,25 +9,30 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    buttons/timebutton.cpp \
     core/HttpMgr.cpp \
     global/global.cpp \
     widgets/logindialog.cpp \
     main.cpp \
     widgets/mainwindow.cpp \
-    widgets/registerdialog.cpp
+    widgets/registerdialog.cpp \
+    widgets/resetdialog.cpp
 
 HEADERS += \
+    buttons/timebutton.h \
     core/HttpMgr.h \
     core/Singleton.h \
     global/global.h \
     widgets/logindialog.h \
     widgets/mainwindow.h \
-    widgets/registerdialog.h
+    widgets/registerdialog.h \
+    widgets/resetdialog.h
 
 FORMS += \
     ui/logindialog.ui \
     ui/mainwindow.ui \
-    ui/registerdialog.ui
+    ui/registerdialog.ui \
+    ui/resetdialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

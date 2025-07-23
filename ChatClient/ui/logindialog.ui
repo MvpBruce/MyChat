@@ -71,9 +71,9 @@
       </spacer>
      </item>
      <item>
-      <widget class="QLabel" name="label_3">
+      <widget class="QPushButton" name="forget_btn">
        <property name="text">
-        <string>Forgot</string>
+        <string>Forget password</string>
        </property>
       </widget>
      </item>

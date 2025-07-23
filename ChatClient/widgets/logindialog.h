@@ -17,6 +17,10 @@ public:
 
 signals:
     void switchToRegister();
+    void switchToResetPwd();
+
+private slots:
+    void on_forget_btn_clicked();
 
 private:
     Ui::LoginDialog *ui;
