@@ -32,7 +32,7 @@ AsioServicePool::~AsioServicePool()
 
 net::io_context& AsioServicePool::GetService()
 {
-	auto& service = m_ioServices[++m_nextIOService];
+	auto& service = m_ioServices[m_nextIOService++];
 	if (m_nextIOService == m_ioServices.size())
 		m_nextIOService = 0;
 
