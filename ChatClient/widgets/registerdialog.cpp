@@ -82,7 +82,6 @@ void RegisterDialog::slot_register_finished(RequstID id, QString res, ErrorCodes
         return;
     }
 
-
     QJsonObject jObj = jDoc.object();
 
     m_handlers[id](jObj);

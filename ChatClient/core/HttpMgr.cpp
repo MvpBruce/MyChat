@@ -49,4 +49,8 @@ void HttpMgr::slot_http_finished(RequstID id, QString res, ErrorCodes ec, Module
         //send register signal
         emit sig_register_finished(id, res, ec);
     }
+    else if (mod == Modules::RESET)
+    {
+        emit sig_resetPwd_finished(id, res, ec);
+    }
 }

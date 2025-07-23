@@ -23,6 +23,7 @@ private slots:
     void on_reset_pwd_btn_clicked();
     void on_cancel_btn_clicked();
     void on_get_code_btn_clicked();
+    void slot_resetPwd_finished(RequstID id, QString res, ErrorCodes ec);
 
 private:
     bool checkValidEmail();

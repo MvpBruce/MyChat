@@ -4,13 +4,13 @@
 #include <QJsonObject>
 #include "core/HttpMgr.h"
 
-
 ResetDialog::ResetDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::ResetDialog)
 {
     ui->setupUi(this);
 
+    connect(HttpMgr::GetInstance().get(), &HttpMgr::sig_resetPwd_finished, this, &ResetDialog::slot_resetPwd_finished);
     connect(ui->lineEdit_User, &QLineEdit::editingFinished, this, &ResetDialog::checkValidUser);
     connect(ui->lineEdit_Email, &QLineEdit::editingFinished, this, &ResetDialog::checkValidEmail);
     connect(ui->lineEdit_Pwd, &QLineEdit::editingFinished, this, &ResetDialog::checkValidPassWord);
@@ -114,6 +114,7 @@ void ResetDialog::initHandlers()
         this->showTip("Password has been reset, please return to login", true);
         qDebug() << "Email is: " << email;
         qDebug() << "User uuid is: " << jObj["uuid"].toString();
+        emit switchToLogin();
     });
 }
 
@@ -174,5 +175,31 @@ void ResetDialog::on_get_code_btn_clicked()
     QJsonObject jsonObj;
     jsonObj["email"] = email;
     HttpMgr::GetInstance()->PostHttpRequst(QUrl(strGateServerURL + "/get_verifycode"), jsonObj, RequstID::GET_VERIFY_CODE, Modules::RESET);
+}
+
+void ResetDialog::slot_resetPwd_finished(RequstID id, QString res, ErrorCodes ec)
+{
+    if (ec == ErrorCodes::NEWTORK)
+    {
+        showTip(tr("Network request error"), false);
+        return;
+    }
+
+    QJsonDocument jDoc = QJsonDocument::fromJson(res.toUtf8());
+    if (jDoc.isEmpty())
+    {
+        showTip(tr("Parse json error"), false);
+        return;
+    }
+
+    if (!jDoc.isObject())
+    {
+        showTip(tr("Parse json error"), false);
+        return;
+    }
+
+    QJsonObject jObj = jDoc.object();
+
+    m_handlers[id](jObj);
 }
 
