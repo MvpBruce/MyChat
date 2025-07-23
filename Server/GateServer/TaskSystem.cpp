@@ -106,9 +106,9 @@ CTaskSystem::CTaskSystem()
 			return;
 		}
 
-		auto email = src_Json["email"].toStyledString();
-		auto user = src_Json["user"].toStyledString();
-		auto password = src_Json["password"].toStyledString();
+		auto email = src_Json["email"].asString();
+		auto user = src_Json["user"].asString();
+		auto password = src_Json["password"].asString();
 
 		std::string strUuid;
 		//Get verifycode from redis
@@ -121,7 +121,7 @@ CTaskSystem::CTaskSystem()
 		}
 
 		//Check verification code 
-		auto verifyCode = src_Json["verifycode"].toStyledString();
+		auto verifyCode = src_Json["verifycode"].asString();
 		if (strUuid != verifyCode)
 		{
 			std::cout << "Verification code was not matched" << std::endl;
@@ -150,7 +150,7 @@ CTaskSystem::CTaskSystem()
 			return;
 		}
 
-		std::cout << "Succeed to update passowrd" << password << std::endl;
+		std::cout << "Succeed to update passowrd " << password << std::endl;
 		root["error"] = static_cast<int>(ErrorCodes::Success);
 		root["email"] = email;
 		root["user"] = user;
