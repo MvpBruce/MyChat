@@ -18,7 +18,7 @@ const ErrorCode = {
     RedisError: 3
 };
 
-let code_prefix = "code_"
+//let code_prefix = "code_"
 
 module.exports = {
     email_username,
@@ -26,6 +26,6 @@ module.exports = {
     redis_host,
     redis_port,
     redis_passowrd,
-    code_prefix,
+    //code_prefix,
     ErrorCode
 }

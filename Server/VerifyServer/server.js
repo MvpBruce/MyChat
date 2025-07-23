@@ -7,8 +7,8 @@ const redis = require('./redis')
 
 async function GetVerifyCode(call, callback) {
     try {
-        //code_emailname:uuid
-        const queryKey = config.code_prefix + call.request.email;
+        //emailname:uuid
+        const queryKey = call.request.email;
         let verifyCode = await redis.GetRedis(queryKey);
         if (verifyCode == null)
         {
@@ -29,8 +29,8 @@ async function GetVerifyCode(call, callback) {
             text: `Your verification code is: ${verifyCode}`
         };
 
-        let result = await email.sendEmail(emailOptions);
-        console.log(result);
+        //let result = await email.sendEmail(emailOptions);
+        //console.log(result);
         callback(null,  {email: call.request.email, error: config.ErrorCode.Success, code: verifyCode});
 
     }catch (error) {
