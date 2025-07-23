@@ -8,7 +8,7 @@ using grpc::Status;
 
 CVefifyGrpcClient::CVefifyGrpcClient()
 {
-	m_rpcPool.reset(new RPCPool("127.0.0.1", "50051", 5));
+	m_rpcPool.reset(new RPCPool("127.0.0.1", "50052", 5));
 }
 
 GetVerifyRsp CVefifyGrpcClient::GetVerifyCode(std::string email)

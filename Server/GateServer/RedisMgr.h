@@ -40,7 +40,7 @@ public:
 	RedisPool(std::string url, unsigned int port, std::string password, size_t nSize)
 		: m_bStop(false)
 	{
-		for (size_t i = 0; i < nSize; ++nSize)
+		for (size_t i = 0; i < nSize; i++)
 		{
 			auto con = redisConnect(url.c_str(), port);
 			if (!con || (con && con->err))
@@ -61,7 +61,7 @@ public:
 			std::cout << "Success to authenticate" << std::endl;
 			freeReplyObject(pReply);
 
-			m_contexts.emplace(redisConnect(url.c_str(), port));
+			m_contexts.emplace(con);
 		}
 	}
 
@@ -103,6 +103,7 @@ public:
 			return;
 
 		m_contexts.push(con);
+		m_cond.notify_one();
 	}
 
 private:
