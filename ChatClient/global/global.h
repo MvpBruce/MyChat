@@ -3,6 +3,7 @@
 #include <QWidget>
 #include <QStyle>
 #include <functional>
+#include <QRegularExpression>
 
 extern std::function<void(QWidget*)> resetStyle;
 extern QString strGateServerURL;
@@ -10,7 +11,8 @@ extern QString strGateServerURL;
 enum class RequstID {
     GET_VERIFY_CODE = 1000,
     REGISTER_USER,
-    RESET_PWD
+    RESET_PWD,
+    LOGIN_USER
 };
 
 enum class ErrorCodes
@@ -23,7 +25,8 @@ enum class ErrorCodes
 enum class Modules
 {
     REGISTER = 0,
-    RESET
+    RESET,
+    LOGIN
 };
 
 #endif // GLOBAL_H

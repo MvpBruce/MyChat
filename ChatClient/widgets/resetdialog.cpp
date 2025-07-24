@@ -1,6 +1,6 @@
 #include "resetdialog.h"
 #include "ui_resetdialog.h"
-#include <QRegularExpression>
+//#include <QRegularExpression>
 #include <QJsonObject>
 #include "core/HttpMgr.h"
 
@@ -114,7 +114,6 @@ void ResetDialog::initHandlers()
         this->showTip("Password has been reset, please return to login", true);
         qDebug() << "Email is: " << email;
         qDebug() << "User uuid is: " << jObj["uuid"].toString();
-        emit switchToLogin();
     });
 }
 
@@ -157,12 +156,10 @@ void ResetDialog::on_reset_pwd_btn_clicked()
     HttpMgr::GetInstance()->PostHttpRequst(QUrl(strGateServerURL + "/reset_pwd"), jsonObj, RequstID::RESET_PWD, Modules::RESET);
 }
 
-
 void ResetDialog::on_cancel_btn_clicked()
 {
     emit switchToLogin();
 }
-
 
 void ResetDialog::on_get_code_btn_clicked()
 {

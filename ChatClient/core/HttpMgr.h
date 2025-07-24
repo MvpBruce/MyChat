@@ -28,6 +28,7 @@ signals:
     void sig_http_finished(RequstID id, QString res, ErrorCodes ec, Modules mod);
     void sig_register_finished(RequstID id, QString res, ErrorCodes ec);
     void sig_resetPwd_finished(RequstID id, QString res, ErrorCodes ec);
+    void sig_userLogin_finished(RequstID id, QString res, ErrorCodes ec);
 };
 
 #endif // HTTPMGR_H

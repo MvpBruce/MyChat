@@ -1,6 +1,6 @@
 #include "registerdialog.h"
 #include "ui_registerdialog.h"
-#include <QRegularExpression>
+//#include <QRegularExpression>
 #include "core/HttpMgr.h"
 #include <QJsonDocument>
 #include <QJsonObject>

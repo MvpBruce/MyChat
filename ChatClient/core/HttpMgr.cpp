@@ -53,4 +53,8 @@ void HttpMgr::slot_http_finished(RequstID id, QString res, ErrorCodes ec, Module
     {
         emit sig_resetPwd_finished(id, res, ec);
     }
+    else if (mod == Modules::LOGIN)
+    {
+        emit sig_userLogin_finished(id, res, ec);
+    }
 }
