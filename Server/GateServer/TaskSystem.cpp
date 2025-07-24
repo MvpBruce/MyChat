@@ -141,7 +141,7 @@ CTaskSystem::CTaskSystem()
 		}
 
 		//Update password
-		bRet = MySqlMgr::GetInstance()->UpdatePassowrd(user, password);
+		bRet = MySqlMgr::GetInstance()->UpdatePassword(user, password);
 		if (!bRet)
 		{
 			std::cout << "Failed to update password" << std::endl;
@@ -158,6 +158,49 @@ CTaskSystem::CTaskSystem()
 		root["verifycode"] = verifyCode;
 		beast::ostream(connection->m_response.body()) << root.toStyledString();
 	}, http::verb::post);
+
+	RegisterEvent("/login_user", [](std::shared_ptr<CHttpConnection> connection) {
+		std::string strJson = beast::buffers_to_string(connection->m_parser.get().body().data());
+		std::cout << "Received json: " << strJson << std::endl;
+		connection->m_response.set(http::field::content_type, "text/json");
+		Json::Value root;
+		Json::Reader reader;
+		Json::Value src_Json;
+		bool bRet = reader.parse(strJson, src_Json);
+		if (!bRet)
+		{
+			std::cout << "Parsed Json error" << std::endl;
+			root["error"] = static_cast<int>(ErrorCodes::Error_Json);
+			std::string strRes = root.toStyledString();
+			beast::ostream(connection->m_response.body()) << strRes;
+			return;
+		}
+
+		auto user = src_Json["user"].asString();
+		auto password = src_Json["password"].asString();
+		UserInfo userInfo;
+		//Check user and password exist in database
+		bRet = MySqlMgr::GetInstance()->CheckPassword(user, password, userInfo);
+		if (!bRet)
+		{
+			std::cout << "Password not matched" << std::endl;
+			root["error"] = static_cast<int>(ErrorCodes::Password_Invalid);
+			beast::ostream(connection->m_response.body()) << root.toStyledString();
+			return;
+		}
+
+		//Check Status Server and find a good connection, todo
+
+
+		std::cout << "Succeed to login, uid: " << userInfo.uid << std::endl;
+		root["error"] = static_cast<int>(ErrorCodes::Success);
+		root["user"] = user;
+		root["uid"] = userInfo.uid;
+		root["token"] = "";
+		root["host"] = "";
+		
+		beast::ostream(connection->m_response.body()) << root.toStyledString();
+	},  http::verb::post);
 }
 
 CTaskSystem::~CTaskSystem()

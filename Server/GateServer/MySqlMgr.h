@@ -9,7 +9,8 @@ public:
 	~MySqlMgr();
 	int RegisterUser(const std::string& user, const std::string& email, const std::string& password);
 	bool CheckEmail(const std::string& user, const std::string& email);
-	bool UpdatePassowrd(const std::string& user, const std::string& password);
+	bool UpdatePassword(const std::string& user, const std::string& password);
+	bool CheckPassword(const std::string& user, const std::string& password, UserInfo& userInfo);
 
 private:
 	MySqlMgr();

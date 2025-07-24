@@ -26,5 +26,19 @@ enum class ErrorCodes {
 	Verify_Error = 1004,
 	User_Existed = 1005,
 	Email_Not_Matched = 1006,
-	Password_Update_Failed = 1007
+	Password_Update_Failed = 1007,
+	Password_Invalid = 1008
 };
+
+class Defer
+{
+public:
+	Defer(std::function<void(void)> func) : m_func(func) {}
+	~Defer() { m_func(); }
+
+private:
+	std::function<void(void)> m_func;
+};
+
+//class ConfigMgr;
+//extern ConfigMgr configMgr;

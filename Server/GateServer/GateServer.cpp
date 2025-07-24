@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include "Server.h"
+#include "ConfigMgr.h"
 
 int main()
 {
@@ -18,7 +19,9 @@ int main()
             ioc.stop();
         });
      
-        unsigned short nPort = static_cast<unsigned short>(8080);
+        ConfigMgr configMgr;
+        std::string strGatePort = configMgr["GateServer"]["port"];
+        unsigned int nPort = atoi(strGatePort.c_str());
         std::shared_ptr<CServer> pServer = std::make_shared<CServer>(ioc, nPort);
         pServer->Start();
         ioc.run();

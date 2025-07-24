@@ -6,7 +6,7 @@
 CServer::CServer(net::io_context& ioc, unsigned short nPort):
 	m_ioc(ioc), m_acceptor(ioc, tcp::endpoint(tcp::v4(), nPort))
 {
-	std::cout << "Running server: " << "127.0.0.1" << ":" << nPort << std::endl;
+	std::cout << "Running server on port: " << nPort << std::endl;
 }
 
 void CServer::Start()

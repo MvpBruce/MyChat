@@ -20,7 +20,12 @@ bool MySqlMgr::CheckEmail(const std::string& user, const std::string& email)
 	return m_mySqlDao.CheckEmail(user, email);
 }
 
-bool MySqlMgr::UpdatePassowrd(const std::string& user, const std::string& password)
+bool MySqlMgr::UpdatePassword(const std::string& user, const std::string& password)
 {
 	return m_mySqlDao.UpdatePassowrd(user, password);
+}
+
+bool MySqlMgr::CheckPassword(const std::string& user, const std::string& password, UserInfo& userInfo)
+{
+	return m_mySqlDao.CheckPassword(user, password, userInfo);
 }
