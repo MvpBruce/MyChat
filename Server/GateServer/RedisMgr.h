@@ -27,7 +27,6 @@ private:
 	CRedisMgr();
 
 private:
-	//redisContext* m_context;
 	redisReply* m_reply;
 	std::unique_ptr<RedisPool> m_redisPool;
 };

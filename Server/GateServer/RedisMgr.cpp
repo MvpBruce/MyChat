@@ -1,7 +1,7 @@
 #include "RedisMgr.h"
 
 CRedisMgr::CRedisMgr()
-	:/*m_context(nullptr), */m_reply(nullptr)
+	:m_reply(nullptr)
 {
 	m_redisPool.reset(new RedisPool("127.0.0.1", 6380, "123456", 5));
 }
@@ -10,36 +10,6 @@ CRedisMgr::~CRedisMgr()
 {
 	m_redisPool.reset();
 }
-
-//bool CRedisMgr::Connect(const std::string& url, int port)
-//{
-//	m_context = redisConnect(url.c_str(), port);
-//	if (!m_context || (m_context && m_context->err))
-//	{
-//		std::cout << "Failed to connect " << url << ":" << port << std::endl;
-//		Close();
-//		return false;
-//	}
-//
-//	return true;
-//}
-//
-//bool CRedisMgr::Auth(const std::string& password)
-//{
-//	m_reply = (redisReply*)redisCommand(m_context, "AUTH %s", password.c_str());
-//	if (m_reply->type == REDIS_REPLY_ERROR)
-//	{
-//		std::cout << "Failed to authenticate " << std::endl;
-//		freeReplyObject(m_reply);
-//		return false;
-//	}
-//	else
-//	{
-//		std::cout << "Success to authenticate " << std::endl;
-//		freeReplyObject(m_reply);
-//		return true;
-//	}
-//}
 
 bool CRedisMgr::Set(const std::string& key, const std::string& value)
 {
