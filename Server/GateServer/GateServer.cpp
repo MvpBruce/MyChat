@@ -19,7 +19,7 @@ int main()
             ioc.stop();
         });
      
-        ConfigMgr configMgr;
+        auto& configMgr = ConfigMgr::GetInstance();
         std::string strGatePort = configMgr["GateServer"]["port"];
         unsigned int nPort = atoi(strGatePort.c_str());
         std::shared_ptr<CServer> pServer = std::make_shared<CServer>(ioc, nPort);

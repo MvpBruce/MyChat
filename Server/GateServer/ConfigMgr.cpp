@@ -58,3 +58,9 @@ ConfigMgr& ConfigMgr::operator= (const ConfigMgr& src)
 
 	return *this;
 }
+
+ConfigMgr& ConfigMgr::GetInstance()
+{
+	static ConfigMgr mgr;
+	return mgr;
+}

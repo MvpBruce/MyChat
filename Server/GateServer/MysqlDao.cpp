@@ -1,17 +1,17 @@
 #include "MysqlDao.h"
-#include "MySqlMgr.h"
 #include "jdbc/cppconn/prepared_statement.h"
+#include "ConfigMgr.h"
 
 MysqlDao::MysqlDao()
 {
+	auto& configMgr = ConfigMgr::GetInstance();
 	//Get config from ini, todo
-	std::string url = "127.0.0.1";
-	std::string port = "3308";
-	std::string user = "root";
-	std::string password = "123456";
-	std::string schema = "mychat";
-	int nSize = 5;
-	m_pool.reset(new MySqlPool(url + ":" + port, user, password, schema, nSize));
+	std::string url = configMgr["Mysql"]["host"];
+	std::string port = configMgr["Mysql"]["port"];
+	std::string user = configMgr["Mysql"]["user"];
+	std::string password = configMgr["Mysql"]["pwd"];
+	std::string schema = configMgr["Mysql"]["schema"];
+	m_pool.reset(new MySqlPool(url + ":" + port, user, password, schema, 5));
 }
 
 MysqlDao::~MysqlDao()

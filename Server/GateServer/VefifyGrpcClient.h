@@ -27,7 +27,7 @@ private:
 class RPCPool
 {
 public:
-	RPCPool(std::string host, std::string port, size_t nSize = std::thread::hardware_concurrency())
+	RPCPool(std::string& host, std::string& port, size_t nSize = std::thread::hardware_concurrency())
 		:m_bStop(false)
 	{
 		for (size_t i = 0; i < nSize; ++i)

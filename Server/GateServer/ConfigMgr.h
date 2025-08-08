@@ -33,16 +33,17 @@ struct Section
 class ConfigMgr
 {
 public:
-	ConfigMgr();
+	
 	~ConfigMgr();
 
 	ConfigMgr(const ConfigMgr& src);
 
 	Section operator[](std::string secName);
 	ConfigMgr& operator= (const ConfigMgr& src);
-
+	static ConfigMgr& GetInstance();
 
 private:
+	ConfigMgr();
 	std::map<std::string, Section> m_mapConfig;
 };
 

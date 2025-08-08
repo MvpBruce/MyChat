@@ -36,7 +36,7 @@ private:
 class RedisPool
 {
 public:
-	RedisPool(std::string url, unsigned int port, std::string password, size_t nSize)
+	RedisPool(std::string& url, unsigned int port, std::string& password, size_t nSize)
 		: m_bStop(false)
 	{
 		for (size_t i = 0; i < nSize; i++)

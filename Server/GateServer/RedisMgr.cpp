@@ -1,9 +1,14 @@
 #include "RedisMgr.h"
+#include "ConfigMgr.h"
 
 CRedisMgr::CRedisMgr()
 	:m_reply(nullptr)
 {
-	m_redisPool.reset(new RedisPool("127.0.0.1", 6380, "123456", 5));
+	auto& configMgr = ConfigMgr::GetInstance();
+	auto host = configMgr["Redis"]["host"];
+	auto port = configMgr["Redis"]["port"];
+	auto pwd = configMgr["Redis"]["pwd"];
+	m_redisPool.reset(new RedisPool(host, atoi(port.c_str()), pwd, 5));
 }
 
 CRedisMgr::~CRedisMgr()
