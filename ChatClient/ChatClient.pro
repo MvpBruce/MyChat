@@ -11,6 +11,7 @@ CONFIG += c++17
 SOURCES += \
     buttons/timebutton.cpp \
     core/HttpMgr.cpp \
+    core/TcpMgr.cpp \
     global/global.cpp \
     widgets/logindialog.cpp \
     main.cpp \
@@ -22,6 +23,7 @@ HEADERS += \
     buttons/timebutton.h \
     core/HttpMgr.h \
     core/Singleton.h \
+    core/TcpMgr.h \
     global/global.h \
     widgets/logindialog.h \
     widgets/mainwindow.h \
@@ -44,3 +46,14 @@ RESOURCES += \
 
 DISTFILES += \
     config.ini
+	
+CONFIG(debug, debug|release) {
+	DESTDIR = debug
+} else {
+	DESTDIR = release
+}
+	
+OBJECTS_DIR = obj
+MOC_DIR = moc
+UI_DIR = ui
+RCC_DIR = qr

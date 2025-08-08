@@ -2,6 +2,7 @@
 #include "ui_logindialog.h"
 #include <QJsonObject>
 #include "core/HttpMgr.h"
+#include "core/TcpMgr.h"
 
 LoginDialog::LoginDialog(QWidget *parent)
     : QDialog(parent)
@@ -10,6 +11,10 @@ LoginDialog::LoginDialog(QWidget *parent)
     ui->setupUi(this);
     connect(ui->reg_btn, &QPushButton::clicked, this, &LoginDialog::switchToRegister);
     connect(HttpMgr::GetInstance().get(), &HttpMgr::sig_userLogin_finished, this, &LoginDialog::slot_user_login_finish);
+
+    connect(this, &LoginDialog::sig_connect_tcp, TcpMgr::GetInstance().get(), &TcpMgr::slot_tcp_connect);
+    connect(TcpMgr::GetInstance().get(), &TcpMgr::sig_connect_success, this, &LoginDialog::slot_tcp_connect_finished);
+    //connect(TcpMgr::GetInstance().get(), &TcpMgr::sig_send_data, TcpMgr::GetInstance().get(), &TcpMgr::slot_send_data);
     initHandlers();
 }
 
@@ -37,7 +42,7 @@ void LoginDialog::on_pushButton_clicked()
     //Send http request
     QJsonObject jsonObj;
     jsonObj["user"] = user;
-    jsonObj["passowrd"] = pwd;
+    jsonObj["password"] = pwd;
 
     HttpMgr::GetInstance()->PostHttpRequst(QUrl(strGateServerURL + "/login_user"), jsonObj, RequstID::LOGIN_USER, Modules::LOGIN);
 }
@@ -123,7 +128,41 @@ void LoginDialog::initHandlers()
 
         auto user = jObj["user"].toString();
         showTip(tr("Login successful"), true);
-        qDebug()<< "User is: " << user ;
+
+        ServerInfo info;
+        info.host = jObj["user"].toString();
+        info.port = jObj["port"].toString();
+        info.uId = jObj["uid"].toInt();
+        info.token = jObj["token"].toString();
+
+        m_uid = info.uId;
+        m_token = info.token;
+
+        qDebug()<< "User: " << user << ", uid: " << info.uId << ", host: " << info.host
+                 << ", port: " << info.port << ", token: " << info.token;
+
+        //Notify tcpmgr to send tcp request to chat server
+        emit sig_connect_tcp(info);
     });
+}
+
+void LoginDialog::slot_tcp_connect_finished(bool bSuccess)
+{
+    if (bSuccess)
+    {
+        showTip(tr("Connected to chat server, logining..."), true);
+        QJsonObject jObj;
+        jObj["uid"] = m_uid;
+        jObj["token"] = m_token;
+
+        QJsonDocument doc(jObj);
+        QByteArray jsonData = doc.toJson();
+        //Send tcp request to chat server
+        emit TcpMgr::GetInstance()->sig_send_data(RequstID::CHAT_LOGIN, jsonData);
+    }
+    else
+    {
+        showTip(tr("Newtork exception"), false);
+    }
 }
 

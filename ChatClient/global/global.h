@@ -12,7 +12,8 @@ enum class RequstID {
     GET_VERIFY_CODE = 1000,
     REGISTER_USER,
     RESET_PWD,
-    LOGIN_USER
+    LOGIN_USER,
+    CHAT_LOGIN
 };
 
 enum class ErrorCodes
@@ -27,6 +28,14 @@ enum class Modules
     REGISTER = 0,
     RESET,
     LOGIN
+};
+
+struct ServerInfo
+{
+    QString host;
+    QString port;
+    QString token;
+    int uId;
 };
 
 #endif // GLOBAL_H
