@@ -1,14 +1,14 @@
 
 #include <iostream>
 #include "ConfigMgr.h"
-#include "StatusServiceImpl.h"
+#include "StatusServiceImp.h"
 #include <boost/asio.hpp>
 
 void Run()
 {
 	auto& configMgr = ConfigMgr::GetInstance();
 	auto serverAddress = configMgr["StatusServer"]["host"] + ":" + configMgr["StatusServer"]["port"];
-	StatusServiceImpl service;
+	StatusServiceImp service;
 	grpc::ServerBuilder builder;
 	builder.AddListeningPort(serverAddress, grpc::InsecureServerCredentials());
 	builder.RegisterService(&service);

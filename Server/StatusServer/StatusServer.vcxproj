@@ -128,7 +128,7 @@
     <ClCompile Include="message.grpc.pb.cc" />
     <ClCompile Include="message.pb.cc" />
     <ClCompile Include="StatusServer.cpp" />
-    <ClCompile Include="StatusServiceImpl.cpp" />
+    <ClCompile Include="StatusServiceImp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConfigMgr.h" />
@@ -136,7 +136,7 @@
     <ClInclude Include="message.grpc.pb.h" />
     <ClInclude Include="message.pb.h" />
     <ClInclude Include="Singleton.h" />
-    <ClInclude Include="StatusServiceImpl.h" />
+    <ClInclude Include="StatusServiceImp.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="message.proto" />

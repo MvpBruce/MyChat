@@ -27,7 +27,7 @@
     <ClCompile Include="message.pb.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="StatusServiceImpl.cpp">
+    <ClCompile Include="StatusServiceImp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,7 +47,7 @@
     <ClInclude Include="Singleton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="StatusServiceImpl.h">
+    <ClInclude Include="StatusServiceImp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
