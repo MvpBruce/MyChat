@@ -30,6 +30,18 @@
     <ClCompile Include="StatusServiceImp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MysqlDao.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RedisMgr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MySqlMgr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MySqlPool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConfigMgr.h">
@@ -48,6 +60,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="StatusServiceImp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RedisMgr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MysqlDao.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MySqlMgr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MySqlPool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
