@@ -20,7 +20,8 @@ SOURCES += \
     widgets/mainwindow.cpp \
     widgets/registerdialog.cpp \
     widgets/resetdialog.cpp \
-    widgets/searchlineedit.cpp
+    widgets/searchlineedit.cpp \
+    widgets/userchatlist.cpp
 
 HEADERS += \
     buttons/timebutton.h \
@@ -34,7 +35,8 @@ HEADERS += \
     widgets/mainwindow.h \
     widgets/registerdialog.h \
     widgets/resetdialog.h \
-    widgets/searchlineedit.h
+    widgets/searchlineedit.h \
+    widgets/userchatlist.h
 
 FORMS += \
     ui/logindialog.ui \

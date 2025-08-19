@@ -59,7 +59,7 @@
       </layout>
      </item>
      <item>
-      <widget class="QListWidget" name="user_chat_list"/>
+      <widget class="UserChatList" name="user_chat_list"/>
      </item>
      <item>
       <widget class="QListWidget" name="search_chat_list"/>
@@ -118,6 +118,11 @@
    <class>SearchLineEdit</class>
    <extends>QLineEdit</extends>
    <header>searchlineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>UserChatList</class>
+   <extends>QListWidget</extends>
+   <header>userchatlist.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
