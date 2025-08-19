@@ -14,7 +14,7 @@ LoginDialog::LoginDialog(QWidget *parent)
 
     connect(this, &LoginDialog::sig_connect_tcp, TcpMgr::GetInstance().get(), &TcpMgr::slot_tcp_connect);
     connect(TcpMgr::GetInstance().get(), &TcpMgr::sig_connect_success, this, &LoginDialog::slot_tcp_connect_finished);
-    //connect(TcpMgr::GetInstance().get(), &TcpMgr::sig_send_data, TcpMgr::GetInstance().get(), &TcpMgr::slot_send_data);
+    connect(TcpMgr::GetInstance().get(), &TcpMgr::sig_login_failed, this, &LoginDialog::slot_login_failed);
     initHandlers();
 }
 
@@ -26,25 +26,6 @@ LoginDialog::~LoginDialog()
 void LoginDialog::on_forget_btn_clicked()
 {
     emit switchToResetPwd();
-}
-
-void LoginDialog::on_pushButton_clicked()
-{
-    qDebug()<<"login btn clicked";
-    if (!checkValidUser())
-        return;
-
-    if (!checkValidPassWord())
-        return;
-
-    auto user = ui->lineEdit_User->text();
-    auto pwd = ui->lineEdit_Pwd->text();
-    //Send http request
-    QJsonObject jsonObj;
-    jsonObj["user"] = user;
-    jsonObj["password"] = pwd;
-
-    HttpMgr::GetInstance()->PostHttpRequst(QUrl(strGateServerURL + "/login_user"), jsonObj, RequstID::LOGIN_USER, Modules::LOGIN);
 }
 
 bool LoginDialog::checkValidUser()
@@ -130,7 +111,7 @@ void LoginDialog::initHandlers()
         showTip(tr("Login successful"), true);
 
         ServerInfo info;
-        info.host = jObj["user"].toString();
+        info.host = jObj["host"].toString();
         info.port = jObj["port"].toString();
         info.uId = jObj["uid"].toInt();
         info.token = jObj["token"].toString();
@@ -164,5 +145,38 @@ void LoginDialog::slot_tcp_connect_finished(bool bSuccess)
     {
         showTip(tr("Newtork exception"), false);
     }
+}
+
+void LoginDialog::slot_login_failed(int error)
+{
+    QString strTips = QString("Login failed, error: %1").arg(error);
+    showTip(strTips, false);
+    //enableButtons(false);
+}
+
+void LoginDialog::enableButtons(bool enabled)
+{
+    ui->login_btn->setEnabled(enabled);
+    ui->reg_btn->setEnabled(enabled);
+}
+
+
+void LoginDialog::on_login_btn_clicked()
+{
+    qDebug()<<"login btn clicked";
+    if (!checkValidUser())
+        return;
+
+    if (!checkValidPassWord())
+        return;
+
+    auto user = ui->lineEdit_User->text();
+    auto pwd = ui->lineEdit_Pwd->text();
+    //Send http request
+    QJsonObject jsonObj;
+    jsonObj["user"] = user;
+    jsonObj["password"] = pwd;
+
+    HttpMgr::GetInstance()->PostHttpRequst(QUrl(strGateServerURL + "/login_user"), jsonObj, RequstID::LOGIN_USER, Modules::LOGIN);
 }
 

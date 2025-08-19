@@ -18,16 +18,19 @@ public slots:
 signals:
     void sig_connect_success(bool bSuccess);
     void sig_send_data(RequstID reqId, QByteArray data);
+    void sig_login_failed(int nError);
+    void sig_switch_chatDialog();
 
 private:
     TcpMgr();
     void initHandlers();
+    void processMsg(RequstID id, int len, QByteArray data);
 
 private:
     QTcpSocket m_socket;
     QString m_host;
     quint16 m_port;
-    bool m_bPending;
+    bool m_bPending; //Need to continue to parse msg thats means it has processed head, but still need to process body
     QByteArray m_buffer;
     quint16 m_messageId;
     quint16 m_messageLen;

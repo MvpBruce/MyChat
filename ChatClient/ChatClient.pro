@@ -13,6 +13,8 @@ SOURCES += \
     core/HttpMgr.cpp \
     core/TcpMgr.cpp \
     global/global.cpp \
+    core/usermgr.cpp \
+    widgets/chatdialog.cpp \
     widgets/logindialog.cpp \
     main.cpp \
     widgets/mainwindow.cpp \
@@ -25,6 +27,8 @@ HEADERS += \
     core/Singleton.h \
     core/TcpMgr.h \
     global/global.h \
+    core/usermgr.h \
+    widgets/chatdialog.h \
     widgets/logindialog.h \
     widgets/mainwindow.h \
     widgets/registerdialog.h \
@@ -34,7 +38,8 @@ FORMS += \
     ui/logindialog.ui \
     ui/mainwindow.ui \
     ui/registerdialog.ui \
-    ui/resetdialog.ui
+    ui/resetdialog.ui \
+    ui/chatdialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -57,3 +62,9 @@ OBJECTS_DIR = obj
 MOC_DIR = moc
 UI_DIR = ui
 RCC_DIR = qr
+
+#copy ini
+myfiles.files = $$PWD/config.ini
+myfiles.path  = $$DESTDIR
+COPIES += myfiles
+

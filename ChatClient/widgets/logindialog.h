@@ -26,16 +26,18 @@ signals:
 
 private slots:
     void on_forget_btn_clicked();
-    void on_pushButton_clicked();
     void slot_user_login_finish(RequstID id, QString res, ErrorCodes ec);
     void slot_tcp_connect_finished(bool bSuccess);
+    void slot_login_failed(int error);
+
+    void on_login_btn_clicked();
 
 private:
     bool checkValidUser();
     bool checkValidPassWord();
     void showTip(QString str, bool isErrorr);
-
     void initHandlers();
+    void enableButtons(bool enabled);
 
 private:
     Ui::LoginDialog *ui;

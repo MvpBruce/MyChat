@@ -109,7 +109,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="login_btn">
        <property name="text">
         <string>Login</string>
        </property>
