@@ -13,3 +13,11 @@ QDialog#LoginDialog{
 #side_bar{
     background-color:rgb(46, 46, 46);
 }
+
+#user_search {
+    background-color:rgb(247, 247, 247);
+}
+
+#search_edit {
+    border: 2px;
+}

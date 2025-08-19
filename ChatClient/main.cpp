@@ -7,7 +7,7 @@
 
 void initQSS(QApplication& app)
 {
-    QFile qss(":/styles/assets/styles/stylesheet.qss");
+    QFile qss(":/assets/styles/stylesheet.qss");
     if (qss.open(QFile::ReadOnly))
     {
         qDebug("Open qss sucess");

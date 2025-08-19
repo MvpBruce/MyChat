@@ -1,5 +1,8 @@
 <RCC>
-    <qresource prefix="/styles">
+    <qresource prefix="/">
         <file>../assets/styles/stylesheet.qss</file>
+		<file>../assets/image/search.png</file>
+		<file>../assets/image/search_close.png</file>
+		<file>../assets/image/search_transparent.png</file>
     </qresource>
 </RCC>
