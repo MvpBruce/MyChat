@@ -3,6 +3,7 @@
 #include "VefifyGrpcClient.h"
 #include "RedisMgr.h"
 #include "MySqlMgr.h"
+#include "StatusGrpcClient.h"
 
 CTaskSystem::CTaskSystem()
 {
@@ -50,9 +51,9 @@ CTaskSystem::CTaskSystem()
 		}
 
 		auto strEmail = src_Json["email"].asString();
-		std::string strUuid;
+		std::string strVerifycode;
 		//Get verifycode from redis
-		if (!CRedisMgr::GetInstance()->Get(strEmail, strUuid))
+		if (!CRedisMgr::GetInstance()->Get(strEmail, strVerifycode))
 		{
 			std::cout << "Verification code was expired" << std::endl;
 			root["error"] = static_cast<int>(ErrorCodes::Verify_Expired);
@@ -62,7 +63,7 @@ CTaskSystem::CTaskSystem()
 		
 		auto strCode = src_Json["verifycode"].asString();
 		//Not matched
-		if (strCode != strUuid)
+		if (strCode != strVerifycode)
 		{
 			std::cout << "Verification code was not matched" << std::endl;
 			root["error"] = static_cast<int>(ErrorCodes::Verify_Error);
@@ -82,10 +83,11 @@ CTaskSystem::CTaskSystem()
 			return;
 		}
 
-		root["error"] = static_cast<int>(ErrorCodes::Success);;
+		root["error"] = static_cast<int>(ErrorCodes::Success);
 		root["email"] = strEmail;
 		root["password"] = strPwd;
 		root["verifycode"] = strCode;
+		root["uid"] = nUid;
 		beast::ostream(connection->m_response.body()) << root.toStyledString();
 	}, http::verb::post);
 
@@ -110,9 +112,9 @@ CTaskSystem::CTaskSystem()
 		auto user = src_Json["user"].asString();
 		auto password = src_Json["password"].asString();
 
-		std::string strUuid;
+		std::string strVerifycode;
 		//Get verifycode from redis
-		if (!CRedisMgr::GetInstance()->Get(email, strUuid))
+		if (!CRedisMgr::GetInstance()->Get(email, strVerifycode))
 		{
 			std::cout << "Verification code was expired" << std::endl;
 			root["error"] = static_cast<int>(ErrorCodes::Verify_Expired);
@@ -122,7 +124,7 @@ CTaskSystem::CTaskSystem()
 
 		//Check verification code 
 		auto verifyCode = src_Json["verifycode"].asString();
-		if (strUuid != verifyCode)
+		if (strVerifycode != verifyCode)
 		{
 			std::cout << "Verification code was not matched" << std::endl;
 			root["error"] = static_cast<int>(ErrorCodes::Verify_Error);
@@ -189,15 +191,23 @@ CTaskSystem::CTaskSystem()
 			return;
 		}
 
-		//Check Status Server and find a good connection, todo
-
+		//Check Status Server and find a good connection
+		auto reply = StatusGrpcClient::GetInstance()->GetChatServer(userInfo.uid);
+		if (reply.error())
+		{
+			std::cout << "Grpc get chat server failed: " << reply.error() << std::endl;
+			root["error"] = static_cast<int>(ErrorCodes::Error_RPC);
+			beast::ostream(connection->m_response.body()) << root.toStyledString();
+			return;
+		}
 
 		std::cout << "Succeed to login, uid: " << userInfo.uid << std::endl;
 		root["error"] = static_cast<int>(ErrorCodes::Success);
 		root["user"] = user;
 		root["uid"] = userInfo.uid;
-		root["token"] = "";
-		root["host"] = "";
+		root["token"] = reply.token();
+		root["host"] = reply.host();
+		root["port"] = reply.port();
 		
 		beast::ostream(connection->m_response.body()) << root.toStyledString();
 	},  http::verb::post);

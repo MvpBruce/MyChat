@@ -84,6 +84,8 @@ bool MysqlDao::CheckEmail(const std::string& user, const std::string& email)
 
 			return true;
 		}
+
+		return true;
 	}
 	catch (sql::SQLException& e)
 	{

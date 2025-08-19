@@ -1,5 +1,6 @@
 #include "RedisMgr.h"
 #include "ConfigMgr.h"
+#include "Const.h"
 
 CRedisMgr::CRedisMgr()
 	:m_reply(nullptr)
@@ -22,6 +23,8 @@ bool CRedisMgr::Set(const std::string& key, const std::string& value)
 	if (!context)
 		return false;
 
+	Defer defer([this, context]() {m_redisPool->RetrunConnection(context);});
+
 	m_reply = (redisReply*)redisCommand(context, "SET %s %s", key.c_str(), value.c_str());
 	if (!m_reply || m_reply->type != REDIS_REPLY_STATUS || (strcmp(m_reply->str, "ok") != 0 && strcmp(m_reply->str, "OK") != 0))
 	{
@@ -41,6 +44,7 @@ bool CRedisMgr::Get(const std::string& key, std::string& value)
 	if (!context)
 		return false;
 
+	Defer defer([this, context]() {m_redisPool->RetrunConnection(context);});
 	m_reply = (redisReply*)redisCommand(context, "GET %s", key.c_str());
 	if (!m_reply || m_reply->type != REDIS_REPLY_STRING)
 	{
@@ -61,6 +65,7 @@ bool CRedisMgr::LPush(const std::string& key, const std::string& value)
 	if (!context)
 		return false;
 
+	Defer defer([this, context]() {m_redisPool->RetrunConnection(context);});
 	m_reply = (redisReply*)redisCommand(context, "LPUSH %s %s", key.c_str(), value.c_str());
 	if (!m_reply || m_reply->type != REDIS_REPLY_INTEGER || m_reply->integer <= 0)
 	{
@@ -80,6 +85,7 @@ bool CRedisMgr::LPop(const std::string& key, std::string& value)
 	if (!context)
 		return false;
 
+	Defer defer([this, context]() {m_redisPool->RetrunConnection(context);});
 	m_reply = (redisReply*)redisCommand(context, "LPOP %s", key.c_str());
 	if (!m_reply || m_reply->type == REDIS_REPLY_NIL)
 	{
@@ -100,6 +106,7 @@ bool CRedisMgr::RPush(const std::string& key, const std::string& value)
 	if (!context)
 		return false;
 
+	Defer defer([this, context]() {m_redisPool->RetrunConnection(context);});
 	m_reply = (redisReply*)redisCommand(context, "RPUSH %s %s", key.c_str(), value.c_str());
 	if(!m_reply || m_reply->type != REDIS_REPLY_INTEGER || m_reply->integer <= 0)
 	{
@@ -119,6 +126,7 @@ bool CRedisMgr::RPop(const std::string& key, std::string& value)
 	if (!context)
 		return false;
 
+	Defer defer([this, context]() {m_redisPool->RetrunConnection(context);});
 	m_reply = (redisReply*)redisCommand(context, "RPOP %s %s", key.c_str(), value.c_str());
 	if (!m_reply || m_reply->type == REDIS_REPLY_NIL)
 	{
@@ -140,6 +148,7 @@ bool CRedisMgr::HSet(const std::string& table, const std::string& key, const std
 	if (!context)
 		return false;
 
+	Defer defer([this, context]() {m_redisPool->RetrunConnection(context);});
 	m_reply = (redisReply*)redisCommand(context, "HSET %s %s %s", table.c_str(), key.c_str(), value.c_str());
 	if (!m_reply || m_reply->type != REDIS_REPLY_INTEGER)
 	{
@@ -159,6 +168,7 @@ bool CRedisMgr::HGet(const std::string& table, std::string key, std::string& val
 	if (!context)
 		return false;
 
+	Defer defer([this, context]() {m_redisPool->RetrunConnection(context);});
 	m_reply = (redisReply*)redisCommand(context, "HGET %s %s", table.c_str(), key.c_str());
 	if (!m_reply || m_reply->type == REDIS_REPLY_NIL)
 	{
@@ -180,6 +190,7 @@ bool CRedisMgr::Delete(const std::string& key)
 	if (!context)
 		return false;
 
+	Defer defer([this, context]() {m_redisPool->RetrunConnection(context);});
 	m_reply = (redisReply*)redisCommand(context, "DEL %s", key.c_str());
 	if (!m_reply || m_reply->type != REDIS_REPLY_INTEGER)
 	{
@@ -199,6 +210,7 @@ bool CRedisMgr::ExistsKey(const std::string& key)
 	if (!context)
 		return false;
 
+	Defer defer([this, context]() {m_redisPool->RetrunConnection(context);});
 	m_reply = (redisReply*)redisCommand(context, "EXISTS %s", key.c_str());
 	if (!m_reply || m_reply->type != REDIS_REPLY_INTEGER || m_reply->integer == 0)
 	{

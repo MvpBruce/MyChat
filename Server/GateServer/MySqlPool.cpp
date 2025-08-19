@@ -37,8 +37,7 @@ std::unique_ptr<sql::Connection> MySqlPool::GetConnection()
 		if (m_stop)
 			return true;
 
-		if (!m_pool.empty())
-			return true;
+		return !m_pool.empty();
 	});
 
 	if (m_stop)

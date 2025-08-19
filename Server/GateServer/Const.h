@@ -27,7 +27,9 @@ enum class ErrorCodes {
 	User_Existed = 1005,
 	Email_Not_Matched = 1006,
 	Password_Update_Failed = 1007,
-	Password_Invalid = 1008
+	Password_Invalid = 1008,
+	Uid_Invalid,
+	Token_Invalid
 };
 
 class Defer
@@ -40,5 +42,4 @@ private:
 	std::function<void(void)> m_func;
 };
 
-//class ConfigMgr;
-//extern ConfigMgr configMgr;
+#define UTOKENPREFIX "utoken_";
