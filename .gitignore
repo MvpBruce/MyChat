@@ -1,6 +1,7 @@
 #ignore build files
 *.exe
 *.filters
+*.user
 
 
 #ignore dirs
@@ -9,6 +10,9 @@ bin-int/
 .vscode/
 .vs/
 x64/
+build/
+node_modules/
+Debug/
 
 #ignore special files
 
