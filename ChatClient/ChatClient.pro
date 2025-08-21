@@ -16,7 +16,10 @@ SOURCES += \
     global/global.cpp \
     core/usermgr.cpp \
     widgets/chatdialog.cpp \
+    widgets/chatpage.cpp \
+    widgets/chatview.cpp \
     widgets/listitembase.cpp \
+    widgets/loadingdlg.cpp \
     widgets/logindialog.cpp \
     main.cpp \
     widgets/mainwindow.cpp \
@@ -35,7 +38,10 @@ HEADERS += \
     global/global.h \
     core/usermgr.h \
     widgets/chatdialog.h \
+    widgets/chatpage.h \
+    widgets/chatview.h \
     widgets/listitembase.h \
+    widgets/loadingdlg.h \
     widgets/logindialog.h \
     widgets/mainwindow.h \
     widgets/registerdialog.h \
@@ -50,7 +56,9 @@ FORMS += \
     ui/registerdialog.ui \
     ui/resetdialog.ui \
     ui/chatdialog.ui \
-    ui/userchatitem.ui
+    ui/userchatitem.ui \
+    ui/chatpage.ui \
+    ui/loadingdlg.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

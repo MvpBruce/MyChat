@@ -1,5 +1,6 @@
 #include "chatdialog.h"
 #include "ui_chatdialog.h"
+#include "loadingdlg.h"
 
 #include <QRandomGenerator>
 #include "userchatitem.h"
@@ -33,7 +34,7 @@ std::vector<QString> names = {
 
 ChatDialog::ChatDialog(QWidget *parent)
     : QDialog(parent)
-    , ui(new Ui::ChatDialog)
+    , ui(new Ui::ChatDialog), m_bLoading(false)
 {
     ui->setupUi(this);
 
@@ -68,6 +69,7 @@ ChatDialog::ChatDialog(QWidget *parent)
     ui->add_btn->ChangeState("normal","hover","press");
 
     ui->search_chat_list->hide();
+    connect(ui->user_chat_list, &UserChatList::sig_load_more_users, this, &ChatDialog::slot_load_more_users);
     addChatUserList();
 }
 
@@ -92,4 +94,18 @@ void ChatDialog::addChatUserList()
         ui->user_chat_list->addItem(item);
         ui->user_chat_list->setItemWidget(item, chat_user_wid);
     }
+}
+
+void ChatDialog::slot_load_more_users()
+{
+    if (m_bLoading)
+        return;
+
+    m_bLoading = true;
+    LoadingDlg* dlg = new LoadingDlg(this);
+    dlg->setModal(true);
+    dlg->show();
+    addChatUserList();
+    dlg->deleteLater();
+    m_bLoading = false;
 }

@@ -17,8 +17,12 @@ public:
 
     void addChatUserList();
 
+public slots:
+    void slot_load_more_users();
+
 private:
     Ui::ChatDialog *ui;
+    bool m_bLoading;
 };
 
 #endif // CHATDIALOG_H

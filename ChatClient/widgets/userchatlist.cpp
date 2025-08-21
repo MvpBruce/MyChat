@@ -34,9 +34,9 @@ bool UserChatList::eventFilter(QObject* obj, QEvent* event)
         pScrollBar->setValue(pScrollBar->value() - nSteps);
         int nMaxValue = pScrollBar->maximum();
         int nCurValue = pScrollBar->value();
-        if (nMaxValue < nCurValue)
+        if (nMaxValue <= nCurValue)
         {
-            emit sig_load_users();
+            emit sig_load_more_users();
         }
 
         return true;

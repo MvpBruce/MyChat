@@ -13,7 +13,7 @@ protected:
     bool eventFilter(QObject* obj, QEvent* event) override;
 
 signals:
-    void sig_load_users();
+    void sig_load_more_users();
 };
 
 #endif // USERCHATLIST_H
