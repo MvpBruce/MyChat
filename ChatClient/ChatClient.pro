@@ -15,7 +15,9 @@ SOURCES += \
     core/TcpMgr.cpp \
     global/global.cpp \
     core/usermgr.cpp \
+    widgets/bubbleframebase.cpp \
     widgets/chatdialog.cpp \
+    widgets/chatmsgbaseitem.cpp \
     widgets/chatpage.cpp \
     widgets/chatview.cpp \
     widgets/listitembase.cpp \
@@ -37,7 +39,9 @@ HEADERS += \
     core/TcpMgr.h \
     global/global.h \
     core/usermgr.h \
+    widgets/bubbleframebase.h \
     widgets/chatdialog.h \
+    widgets/chatmsgbaseitem.h \
     widgets/chatpage.h \
     widgets/chatview.h \
     widgets/listitembase.h \

@@ -43,4 +43,10 @@ enum ListItemType {
     CHAT_USER_ITEM
 };
 
+enum Role
+{
+    Self,
+    Other
+};
+
 #endif // GLOBAL_H
