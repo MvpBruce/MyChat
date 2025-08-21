@@ -9,21 +9,25 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    buttons/statebtn.cpp \
     buttons/timebutton.cpp \
     core/HttpMgr.cpp \
     core/TcpMgr.cpp \
     global/global.cpp \
     core/usermgr.cpp \
     widgets/chatdialog.cpp \
+    widgets/listitembase.cpp \
     widgets/logindialog.cpp \
     main.cpp \
     widgets/mainwindow.cpp \
     widgets/registerdialog.cpp \
     widgets/resetdialog.cpp \
     widgets/searchlineedit.cpp \
+    widgets/userchatitem.cpp \
     widgets/userchatlist.cpp
 
 HEADERS += \
+    buttons/statebtn.h \
     buttons/timebutton.h \
     core/HttpMgr.h \
     core/Singleton.h \
@@ -31,11 +35,13 @@ HEADERS += \
     global/global.h \
     core/usermgr.h \
     widgets/chatdialog.h \
+    widgets/listitembase.h \
     widgets/logindialog.h \
     widgets/mainwindow.h \
     widgets/registerdialog.h \
     widgets/resetdialog.h \
     widgets/searchlineedit.h \
+    widgets/userchatitem.h \
     widgets/userchatlist.h
 
 FORMS += \
@@ -43,7 +49,8 @@ FORMS += \
     ui/mainwindow.ui \
     ui/registerdialog.ui \
     ui/resetdialog.ui \
-    ui/chatdialog.ui
+    ui/chatdialog.ui \
+    ui/userchatitem.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

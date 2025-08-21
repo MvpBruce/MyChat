@@ -39,4 +39,8 @@ struct ServerInfo
     int uId;
 };
 
+enum ListItemType {
+    CHAT_USER_ITEM
+};
+
 #endif // GLOBAL_H

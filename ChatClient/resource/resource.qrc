@@ -4,5 +4,13 @@
 		<file>../assets/image/search.png</file>
 		<file>../assets/image/search_close.png</file>
 		<file>../assets/image/search_transparent.png</file>
+		<file>../assets/image/add_friend.png</file>
+		<file>../assets/image/add_friend_hover.png</file>
+		<file>../assets/image/add_friend_normal.png</file>
+		<file>../assets/image/head_1.jpg</file>
+		<file>../assets/image/head_2.jpg</file>
+		<file>../assets/image/head_3.jpg</file>
+		<file>../assets/image/head_4.jpg</file>
+		<file>../assets/image/head_5.jpg</file>
     </qresource>
 </RCC>

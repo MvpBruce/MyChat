@@ -1,6 +1,36 @@
 #include "chatdialog.h"
 #include "ui_chatdialog.h"
 
+#include <QRandomGenerator>
+#include "userchatitem.h"
+
+//test
+std::vector<QString>  strs ={"hello world !",
+                             "nice to meet u",
+                             "New year，new life",
+                             "You have to love yourself",
+                             "My love is written in the wind ever since the whole world is you"};
+
+std::vector<QString> heads = {
+    ":/assets/image/head_1.jpg",
+    ":/assets/image/head_2.jpg",
+    ":/assets/image/head_3.jpg",
+    ":/assets/image/head_4.jpg",
+    ":/assets/image/head_5.jpg"
+};
+
+std::vector<QString> names = {
+    "llfc",
+    "zack",
+    "golang",
+    "cpp",
+    "java",
+    "nodejs",
+    "python",
+    "rust"
+};
+//end
+
 ChatDialog::ChatDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::ChatDialog)
@@ -34,9 +64,32 @@ ChatDialog::ChatDialog(QWidget *parent)
     });
 
     ui->search_edit->setMaxLength(15);
+
+    ui->add_btn->ChangeState("normal","hover","press");
+
+    ui->search_chat_list->hide();
+    addChatUserList();
 }
 
 ChatDialog::~ChatDialog()
 {
     delete ui;
+}
+
+void ChatDialog::addChatUserList()
+{
+    for(int i = 0; i < 13; i++){
+        int randomValue = QRandomGenerator::global()->bounded(100);
+        int str_i = randomValue%strs.size();
+        int head_i = randomValue%heads.size();
+        int name_i = randomValue%names.size();
+
+        auto *chat_user_wid = new UserChatItem();
+        chat_user_wid->SetInfo(names[name_i], heads[head_i], strs[str_i]);
+        QListWidgetItem *item = new QListWidgetItem;
+        //qDebug()<<"chat_user_wid sizeHint is " << chat_user_wid->sizeHint();
+        item->setSizeHint(chat_user_wid->sizeHint());
+        ui->user_chat_list->addItem(item);
+        ui->user_chat_list->setItemWidget(item, chat_user_wid);
+    }
 }

@@ -10,14 +10,73 @@ QDialog#LoginDialog{
     color: red;
 }
 
-#side_bar{
-    background-color:rgb(46, 46, 46);
+#left_bar{
+    background-color:rgb(46,46,46);
 }
 
-#user_search {
+#search_wid {
     background-color:rgb(247, 247, 247);
 }
 
 #search_edit {
     border: 2px;
 }
+
+#user_chat_list {
+	background-color:rgb(247, 247, 247);
+	border: none;
+}
+
+#user_chat_list::item::selected {
+	background-color: #d3d7d4;
+	border: none;
+	outline: none;
+}
+
+#user_chat_list::item::hover {
+	background-color: rgb(206, 207, 208);
+	border: none;
+	outline: none;
+}
+
+#user_chat_list::focus {
+	border: none;
+	outline: none;
+}
+
+#add_btn[state='normal']{
+    border-image: url(:/assets/image/add_friend_normal.png);
+}
+
+#add_btn[state='hover']{
+    border-image: url(:/assets/image/add_friend_hover.png);
+}
+
+#add_btn[state='press']{
+    border-image: url(:/assets/image/add_friend.png);
+}
+
+UserChatItem {
+	background-color:rgb(247,247,247);
+    border: none;
+}
+
+#user_chat_lb {
+	color:rgb(153,153,153);
+    font-size: 12px;
+    font-family: "Microsoft YaHei"
+}
+
+#user_name_lb {
+    color:rgb(0,0,0);
+    font-size: 14px;
+    font-weight: normal;
+    font-family: "Microsoft YaHei";
+}
+
+#chat_time_wid #chat_time_lb{
+   color:rgb(140,140,140);
+   font-size: 12px;
+   font-family: "Microsoft YaHei";
+}
+

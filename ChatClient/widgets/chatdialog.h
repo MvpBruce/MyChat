@@ -15,6 +15,8 @@ public:
     explicit ChatDialog(QWidget *parent = nullptr);
     ~ChatDialog();
 
+    void addChatUserList();
+
 private:
     Ui::ChatDialog *ui;
 };
