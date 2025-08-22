@@ -19,7 +19,7 @@ ChatView::ChatView(QWidget *parent)
     w->setAutoFillBackground(true);
 
     QVBoxLayout* pVLayout = new QVBoxLayout();
-    //pVLayout->addWidget(new QWidget(), 10000);
+    pVLayout->addWidget(new QWidget(), 10000);
     w->setLayout(pVLayout);
     m_pScrollArea->setWidget(w);
 

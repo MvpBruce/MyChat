@@ -28,6 +28,7 @@ SOURCES += \
     widgets/registerdialog.cpp \
     widgets/resetdialog.cpp \
     widgets/searchlineedit.cpp \
+    widgets/textbubble.cpp \
     widgets/userchatitem.cpp \
     widgets/userchatlist.cpp
 
@@ -51,6 +52,7 @@ HEADERS += \
     widgets/registerdialog.h \
     widgets/resetdialog.h \
     widgets/searchlineedit.h \
+    widgets/textbubble.h \
     widgets/userchatitem.h \
     widgets/userchatlist.h
 

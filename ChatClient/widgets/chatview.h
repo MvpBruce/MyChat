@@ -12,6 +12,7 @@ class ChatView : public QWidget
 public:
     explicit ChatView(QWidget *parent = nullptr);
     void appendChild(QWidget* widget);
+
 protected:
     bool eventFilter(QObject *o, QEvent *e) override;
 
