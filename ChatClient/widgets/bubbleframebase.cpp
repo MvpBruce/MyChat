@@ -7,9 +7,9 @@ BubbleFrameBase::BubbleFrameBase(Role role, QWidget* parent)
 {
     m_pHLayout = new QHBoxLayout();
     // if (m_Role == Role::Self)
-    //     m_pHLayout->setContentsMargins(m_nMargin, m_nMargin, m_nMargin, m_nMargin);
+    //     m_pHLayout->setContentsMargins(0, m_nMargin, 0, m_nMargin);
     // else
-    //     m_pHLayout->setContentsMargins(m_nMargin, m_nMargin, m_nMargin, m_nMargin);
+    //     m_pHLayout->setContentsMargins(0, m_nMargin, 0, m_nMargin);
 
     this->setLayout(m_pHLayout);
 }
@@ -36,14 +36,29 @@ void BubbleFrameBase::paintEvent(QPaintEvent *e)
         QColor bgColor(149, 236, 105);
         painter.setBrush(QBrush(bgColor));
         //Draw rectangle
-        QRect bgRect(0, 0, this->width(), this->height());
+        QRect bgRect(0, 0, this->width() - s_nWidth, this->height());
         painter.drawRoundedRect(bgRect, 5, 5);
-        //Draw corner triangle
-        //painter.drawPolygon();
+        //Draw right triangle
+        QPointF points[3] = {
+            QPointF(bgRect.x() + bgRect.width(), 12),
+            QPointF(bgRect.x() + bgRect.width(), s_nWidth + 12),
+            QPointF(bgRect.x() + bgRect.width() + s_nWidth, 12)
+        };
+        painter.drawPolygon(points, 3);
     }
     else
     {
-
+        QColor bgColor(255, 255, 255);
+        painter.setBrush(QBrush(bgColor));
+        QRect bgRect(s_nWidth, 0, this->width(), this->height());
+        painter.drawRoundedRect(bgRect, 5, 5);
+        //Draw left triangle later
+        QPointF points[3] = {
+            QPointF(bgRect.x(), 12),
+            QPointF(bgRect.x(), 12 + s_nWidth),
+            QPointF(bgRect.x() - s_nWidth, 12)
+        };
+        painter.drawPolygon(points, 3);
     }
 
     return QFrame::paintEvent(e);

@@ -89,7 +89,6 @@ void ChatDialog::addChatUserList()
         auto *chat_user_wid = new UserChatItem();
         chat_user_wid->SetInfo(names[name_i], heads[head_i], strs[str_i]);
         QListWidgetItem *item = new QListWidgetItem;
-        //qDebug()<<"chat_user_wid sizeHint is " << chat_user_wid->sizeHint();
         item->setSizeHint(chat_user_wid->sizeHint());
         ui->user_chat_list->addItem(item);
         ui->user_chat_list->setItemWidget(item, chat_user_wid);

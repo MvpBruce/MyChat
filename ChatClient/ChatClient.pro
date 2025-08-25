@@ -20,6 +20,7 @@ SOURCES += \
     widgets/chatmsgbaseitem.cpp \
     widgets/chatpage.cpp \
     widgets/chatview.cpp \
+    widgets/imagebubble.cpp \
     widgets/listitembase.cpp \
     widgets/loadingdlg.cpp \
     widgets/logindialog.cpp \
@@ -45,6 +46,7 @@ HEADERS += \
     widgets/chatmsgbaseitem.h \
     widgets/chatpage.h \
     widgets/chatview.h \
+    widgets/imagebubble.h \
     widgets/listitembase.h \
     widgets/loadingdlg.h \
     widgets/logindialog.h \

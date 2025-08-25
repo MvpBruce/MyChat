@@ -3,6 +3,7 @@
 #include "global/global.h"
 #include "chatmsgbaseitem.h"
 #include "textbubble.h"
+#include "imagebubble.h"
 
 ChatPage::ChatPage(QWidget *parent)
     : QWidget(parent)
@@ -27,6 +28,21 @@ void ChatPage::on_send_btn_clicked()
     pChatItem->setNmae(userName);
     TextBubble* pTextBubble = new TextBubble(role, "Hello world");
     pChatItem->setWidget(pTextBubble);
+    ui->chat_history_list->appendChild(pChatItem);
+
+    ChatMsgBaseItem* pOther = new ChatMsgBaseItem(Role::Other);
+    pOther->setIcon(QPixmap(":/assets/image/head_2.jpg"));
+    pOther->setNmae(QString("Other"));
+    pTextBubble = new TextBubble(Role::Other, "Received hello world");
+    pOther->setWidget(pTextBubble);
+    ui->chat_history_list->appendChild(pOther);
+
+
+    pChatItem = new ChatMsgBaseItem(role);
+    pChatItem->setIcon(QPixmap(userIcon));
+    pChatItem->setNmae(userName);
+    ImageBubble* pBubble = new ImageBubble(QPixmap(":/assets/image/head_3.jpg"), role);
+    pChatItem->setWidget(pBubble);
     ui->chat_history_list->appendChild(pChatItem);
 }
 
