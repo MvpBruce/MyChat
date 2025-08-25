@@ -13,5 +13,7 @@
 		<file>../assets/image/head_4.jpg</file>
 		<file>../assets/image/head_5.jpg</file>
 		<file>../assets/image/loading.gif</file>
+		<file>../assets/image/chat_normal.png</file>
+		<file>../assets/image/chat_press.png</file>
     </qresource>
 </RCC>

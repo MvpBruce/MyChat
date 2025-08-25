@@ -80,3 +80,11 @@ UserChatItem {
    font-family: "Microsoft YaHei";
 }
 
+#chat_lable[state='normal'] {
+	border-image: url(:/assets/image/chat_normal.png);
+}
+
+#chat_lable[state='press'] {
+	border-image: url(:/assets/image/chat_press.png);
+}
+

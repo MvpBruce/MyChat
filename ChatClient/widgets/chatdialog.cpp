@@ -70,6 +70,16 @@ ChatDialog::ChatDialog(QWidget *parent)
 
     ui->search_chat_list->hide();
     connect(ui->user_chat_list, &UserChatList::sig_load_more_users, this, &ChatDialog::slot_load_more_users);
+
+    //Add user head icon
+    QString strIconHead = ":/assets/image/head_1.jpg";
+    QPixmap pixMat(strIconHead);
+    QPixmap scaledPix = pixMat.scaled(ui->head_lable->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    ui->head_lable->setPixmap(scaledPix);
+    ui->head_lable->setScaledContents(true);
+
+    //Set contacts icon
+
     addChatUserList();
 }
 
