@@ -53,3 +53,5 @@ enum class MSG_IDS
 #define HEAD_ID_LEN 2
 #define HEAD_DATA_LEN 2
 #define MAX_SEND_QUEUE 1000
+
+#define LOGIN_NUMBER "loginnumber"

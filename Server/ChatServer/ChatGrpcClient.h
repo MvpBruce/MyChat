@@ -72,6 +72,7 @@ class ChatGrpcClient : public Singleton<ChatGrpcClient>
 	friend class Singleton<ChatGrpcClient>;
 private:
 	ChatGrpcClient();
+
 private:
 	std::unordered_map<std::string, std::unique_ptr<ChatPool>> m_chatPool;
 };

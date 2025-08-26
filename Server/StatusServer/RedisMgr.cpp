@@ -204,6 +204,28 @@ bool CRedisMgr::Delete(const std::string& key)
 	return true;
 }
 
+bool CRedisMgr::HDel(const std::string& table, const std::string& key)
+{
+	auto context = m_redisPool->GetConnection();
+	if (!context)
+		return false;
+
+	Defer defer([this, context]() {m_redisPool->RetrunConnection(context); });
+	m_reply = (redisReply*)redisCommand(context, "HDEL %s %s", table.c_str(), key.c_str());
+	if (m_reply == nullptr) {
+		std::cerr << "HDEL command failed" << std::endl;
+		return false;
+	}
+
+	bool success = false;
+	if (m_reply->type == REDIS_REPLY_INTEGER) {
+		success = m_reply->integer > 0;
+	}
+
+	freeReplyObject(m_reply);
+	return success;
+}
+
 bool CRedisMgr::ExistsKey(const std::string& key)
 {
 	auto context = m_redisPool->GetConnection();
@@ -224,7 +246,7 @@ bool CRedisMgr::ExistsKey(const std::string& key)
 	return true;
 }
 
-//void CRedisMgr::Close()
-//{
-//	redisFree(m_context);
-//}
+void CRedisMgr::Close()
+{
+	m_redisPool.reset();
+}

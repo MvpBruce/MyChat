@@ -15,6 +15,6 @@ ChatGrpcClient::ChatGrpcClient()
 
 	for (auto& name : serverNames)
 	{
-		m_chatPool.emplace(config[name]["host"], std::make_unique<ChatPool>(config[name]["host"], config[name]["port"]));
+		m_chatPool.emplace(config[name]["name"], std::make_unique<ChatPool>(config[name]["host"], config[name]["port"]));
 	}
 }
