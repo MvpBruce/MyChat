@@ -43,3 +43,18 @@ service StatusService {
 	rpc Login(LoginReq) returns (LoginRsp) {}
 }
 
+message SendChatMsgReq {
+	int32 fromuid = 1;
+	int32 touid = 2;
+	string message = 3;
+}
+
+message SendChatMsgRsp {
+	int32 error = 1;
+	int32 fromuid = 2;
+	int32 token = 3;
+}
+
+service ChatService {
+	rpc SendChatMsg(SendChatMsgReq) returns (SendChatMsgRsp) {}
+}

@@ -45,7 +45,7 @@ public:
 		std::lock_guard<std::mutex> lock(m_mutex);
 		m_bStop = true;
 		m_cond.notify_all();
-		while (m_connections.empty())
+		while (!m_connections.empty())
 			m_connections.pop();
 	}
 
