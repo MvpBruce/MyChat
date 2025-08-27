@@ -19,10 +19,9 @@ TcpMgr::TcpMgr(): m_host(""), m_port(0), m_bPending(false), m_messageId(0), m_me
     QObject::connect(this, &TcpMgr::sig_send_data, this, &TcpMgr::slot_send_data);
 
     //When data is ready
-    QObject::connect(&m_socket, &QTcpSocket::readyRead, [&] () {
+    QObject::connect(&m_socket, &QTcpSocket::readyRead, [this] () {
         m_buffer.append(m_socket.readAll());
         QDataStream stream(&m_buffer, QIODevice::ReadOnly);
-
         //todo
         while(true)
         {
@@ -52,7 +51,6 @@ TcpMgr::TcpMgr(): m_host(""), m_port(0), m_bPending(false), m_messageId(0), m_me
             qDebug() << "Msg body: " << msgBody;
             //Move forward to new head for next msg
             m_buffer = m_buffer.mid(m_messageLen);
-
             processMsg(RequstID(m_messageId), m_messageLen, msgBody);
         }
     });
@@ -77,6 +75,7 @@ void TcpMgr::slot_tcp_connect(ServerInfo info)
     m_host = info.host;
     m_port = info.port.toUInt();
     //Will trigger QTcpSocket::connected
+    qDebug() << "Connecting to hsot: " << m_host << ":" << m_port;
     m_socket.connectToHost(m_host, m_port);
 }
 
