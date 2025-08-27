@@ -11,27 +11,34 @@ std::string GenerateUUID()
 }
 
 StatusServiceImp::StatusServiceImp()
-	: m_nServerIndex(0)
 {
 	auto& configMgr = ConfigMgr::GetInstance();
-	ChatServer server;
-	server.host = configMgr["ChatServer1"]["host"];
-	server.port = configMgr["ChatServer1"]["port"];
-	m_Servers.push_back(server);
+	auto serverList = configMgr["ServerList"]["Servers"];
+	std::vector<std::string> vecName;
+	std::stringstream ss(serverList);
+	std::string strName;
+	while (std::getline(ss, strName, ','))
+	{
+		vecName.push_back(strName);
+	}
 
-	server.host = configMgr["ChatServer2"]["host"];
-	server.port = configMgr["ChatServer2"]["port"];
-	m_Servers.push_back(server);
+	for (auto& name : vecName)
+	{
+		ChatServer chatServer;
+		chatServer.host = configMgr[name]["host"];
+		chatServer.port = configMgr[name]["port"];
+		chatServer.name = name;
+
+		m_Servers[name] = chatServer;
+	}
 }
 
 Status StatusServiceImp::GetChatServer(ServerContext* context, const GetChatServerReq* request, GetChatServerRsp* response)
 {
-	//m_nServerIndex = (m_nServerIndex++) % (m_Servers.size());
-	m_nServerIndex = 0;
-	auto& server = m_Servers[m_nServerIndex];
-	response->set_host(server.host);
-	response->set_port(server.port);
-	response->set_error(static_cast<int>(ErrorCodes::Success));
+	const auto& chatServer = GetChatServer();
+	response->set_host(chatServer.host);
+	response->set_port(chatServer.port);
+	response->set_error(ErrorCodes::Success);
 	response->set_token(GenerateUUID());
 	InsertToken(request->uid(), response->token());
 	return Status::OK;
@@ -76,6 +83,28 @@ Status StatusServiceImp::Login(ServerContext* context, const LoginReq* request, 
 ChatServer StatusServiceImp::GetChatServer()
 {
 	std::lock_guard<std::mutex> lock(m_Mutex);
+	auto minServer = m_Servers.begin()->second;
+	std::string strCount = "";
+	bool bRet = CRedisMgr::GetInstance()->HGet(LOGIN_NUMBER, minServer.name, strCount);
+	if (!bRet)
+		minServer.conNums = INT_MAX;
+	else
+		minServer.conNums = std::stoi(strCount);
+
+	for (auto& server : m_Servers)
+	{
+		if (server.second.name == minServer.name)
+			continue;
+
+		bRet = CRedisMgr::GetInstance()->HGet(LOGIN_NUMBER, server.second.name, strCount);
+		if (!bRet)
+			server.second.conNums = INT_MAX;
+		else
+			server.second.conNums = std::stoi(strCount);
+
+		if (server.second.conNums < minServer.conNums)
+			minServer = server.second;
+	}
 	
-	return ChatServer();
+	return minServer;
 }

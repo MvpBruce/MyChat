@@ -101,10 +101,7 @@ void CHttpConnection::CheckTimeOut()
 	auto self = shared_from_this();
 	m_timer.async_wait([self](boost::system::error_code ec) {
 		if (!ec)
-		{
-			std::cout << "Time out" << std::endl;
 			self->m_socket.close();
-		}
 	});
 }
 

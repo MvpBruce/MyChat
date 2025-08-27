@@ -1,6 +1,7 @@
 #pragma once
 #include <boost/asio.hpp>
 #include <boost/beast.hpp>
+#include <boost/uuid.hpp>
 #include "Singleton.h"
 #include <functional>
 #include <unordered_map>
@@ -28,8 +29,8 @@ enum ErrorCodes {
 	Email_Not_Matched = 1006,
 	Password_Update_Failed = 1007,
 	Password_Invalid = 1008,
-	Uid_Invalid,
-	Token_Invalid
+	Uid_Invalid = 1009,
+	Token_Invalid = 1010
 };
 
 class Defer

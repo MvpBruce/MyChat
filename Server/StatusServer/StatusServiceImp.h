@@ -15,6 +15,8 @@ struct ChatServer
 {
 	std::string host;
 	std::string port;
+	std::string name;
+	int conNums;
 };
 
 class StatusServiceImp final : public StatusService::Service
@@ -29,8 +31,7 @@ private:
 
 private:
 	void InsertToken(int uid, std::string token);
-	std::vector<ChatServer> m_Servers;
-	int m_nServerIndex;
+	std::unordered_map<std::string, ChatServer> m_Servers;
 	std::mutex m_Mutex;
 };
 

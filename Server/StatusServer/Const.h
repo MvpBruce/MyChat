@@ -1,6 +1,7 @@
 #pragma once
 #include <boost/asio.hpp>
 #include <boost/beast.hpp>
+#include <boost/uuid.hpp>
 #include "Singleton.h"
 #include <functional>
 #include <unordered_map>
@@ -18,7 +19,7 @@ namespace http = beast::http;
 using tcp = net::ip::tcp;
 
 
-enum class ErrorCodes {
+enum ErrorCodes {
 	Success = 0,
 	Error_Json = 1001,
 	Error_RPC = 1002,
@@ -28,8 +29,8 @@ enum class ErrorCodes {
 	Email_Not_Matched = 1006,
 	Password_Update_Failed = 1007,
 	Password_Invalid = 1008,
-	Uid_Invalid,
-	Token_Invalid
+	Uid_Invalid = 1009,
+	Token_Invalid = 1010
 };
 
 class Defer
@@ -42,4 +43,17 @@ private:
 	std::function<void(void)> m_func;
 };
 
+enum MSG_IDS
+{
+	MSG_CHAT_LOGIN = 1005,
+	MSG_CHAT_LOGIN_RSP = 1006
+};
+
+#define MAX_LEN 2048
+#define HEAD_MAX_LEN 4
+#define HEAD_ID_LEN 2
+#define HEAD_DATA_LEN 2
+#define MAX_SEND_QUEUE 1000
+
+#define LOGIN_NUMBER "loginnumber"
 #define UTOKENPREFIX "utoken_";

@@ -1,0 +1,30 @@
+#pragma once
+#include "Const.h"
+
+class Session;
+class TaskNode;
+typedef std::function<void(std::shared_ptr<Session>, const short& msgId, const std::string& msgData)> CallBakcFun;
+class TaskSystem : public Singleton<TaskSystem>
+{
+	friend class Singleton<TaskSystem>;
+
+public:
+	~TaskSystem();
+	void PostMsg(std::shared_ptr<TaskNode> taskNode);
+
+private:
+	TaskSystem();
+	void LoginHandler(std::shared_ptr<Session> session, const short& msgId, const std::string& msgData);
+	void RegisterEvent();
+	void ProcessMsg();
+
+private:
+	std::unordered_map<short, CallBakcFun> m_Handler;
+	std::queue<std::shared_ptr<TaskNode>> m_MsgQueue;
+	std::mutex m_Mutex;
+	std::condition_variable m_Con;
+	std::thread m_WorkThread;
+	bool m_bStop;
+};
+
+
