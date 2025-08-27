@@ -18,7 +18,7 @@ namespace http = beast::http;
 using tcp = net::ip::tcp;
 
 
-enum class ErrorCodes {
+enum ErrorCodes {
 	Success = 0,
 	Error_Json = 1001,
 	Error_RPC = 1002,
@@ -42,4 +42,17 @@ private:
 	std::function<void(void)> m_func;
 };
 
+enum MSG_IDS
+{
+	MSG_CHAT_LOGIN = 1005,
+	MSG_CHAT_LOGIN_RSP = 1006
+};
+
+#define MAX_LEN 2048
+#define HEAD_MAX_LEN 4
+#define HEAD_ID_LEN 2
+#define HEAD_DATA_LEN 2
+#define MAX_SEND_QUEUE 1000
+
+#define LOGIN_NUMBER "loginnumber"
 #define UTOKENPREFIX "utoken_";

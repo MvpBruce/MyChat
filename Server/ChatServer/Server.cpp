@@ -2,6 +2,7 @@
 #include <iostream>
 #include "Session.h"
 #include "AsioServicePool.h"
+#include "UserMgr.h"
 
 CServer::CServer(net::io_context& ioc, unsigned short nPort):
 	m_ioc(ioc), m_acceptor(ioc, tcp::endpoint(tcp::v4(), nPort))
@@ -43,7 +44,7 @@ void CServer::ClearSession(std::string uuid)
 {
 	if (m_Sessions.find(uuid) != m_Sessions.end())
 	{
-		//remove from usermgr, todo
+		UserMgr::GetInstance()->DelSession(m_Sessions[uuid]->GetUserId());
 	}
 
 	{

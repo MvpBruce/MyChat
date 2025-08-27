@@ -2,6 +2,9 @@
 #include "Session.h"
 #include "StatusGrpcClient.h"
 #include "MsgData.h"
+#include "UserMgr.h"
+#include "RedisMgr.h"
+#include "ConfigMgr.h"
 
 TaskSystem::TaskSystem(): m_bStop(false)
 {
@@ -38,16 +41,46 @@ void TaskSystem::LoginHandler(std::shared_ptr<Session> session, const short& msg
 		session->Send(retValue.toStyledString(), static_cast<short>(MSG_IDS::MSG_CHAT_LOGIN_RSP));
 	});
 
-	retValue["error"] = rsp.error();
-	if (rsp.error() != static_cast<int>(ErrorCodes::Success))
+	//Get token from redis
+	std::string strUid = std::to_string(uid);
+	std::string strTokenKey = UTOKENPREFIX;
+	strTokenKey += strUid;
+	std::string strValue = "";
+	bool bRet = CRedisMgr::GetInstance()->Get(strTokenKey, strValue);
+	if (!bRet)
+	{
+		retValue["error"] = ErrorCodes::Uid_Invalid;
 		return;
+	}
 
-	//Check user info, 1.redis, 2. mysql, todo
+	if (strValue != token)
+	{
+		retValue["error"] = ErrorCodes::Token_Invalid;
+		return;
+	}
+
+	retValue["error"] = ErrorCodes::Success;
+
+	//Check user base info.  redis and mysql, todo
+	//getbaserinfo()
 
 
 	retValue["uid"] = uid;
 	retValue["token"] = rsp.token();
 	//retValue["name"] = userin.name
+
+	//
+	auto serverName = ConfigMgr::GetInstance()["CurrentServer"]["name"];
+	bRet = CRedisMgr::GetInstance()->HGet(LOGIN_NUMBER, serverName, strValue);
+	int nLoginNumber = 0;
+	if (bRet && !strValue.empty())
+		nLoginNumber = std::stoi(strValue);
+
+	nLoginNumber++;
+	std::string strNumber = std::to_string(nLoginNumber);
+	CRedisMgr::GetInstance()->HSet(LOGIN_NUMBER, serverName, strNumber);
+	session->SetUserId(uid);
+	UserMgr::GetInstance()->SetSession(uid, session);
 }
 
 void TaskSystem::PostMsg(std::shared_ptr<TaskNode> taskNode)

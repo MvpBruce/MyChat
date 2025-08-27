@@ -20,7 +20,7 @@ namespace http = beast::http;
 using tcp = net::ip::tcp;
 
 
-enum class ErrorCodes {
+enum ErrorCodes {
 	Success = 0,
 	Error_Json = 1001,
 	Error_RPC = 1002,
@@ -29,7 +29,9 @@ enum class ErrorCodes {
 	User_Existed = 1005,
 	Email_Not_Matched = 1006,
 	Password_Update_Failed = 1007,
-	Password_Invalid = 1008
+	Password_Invalid = 1008,
+	Uid_Invalid = 1009,
+	Token_Invalid = 1010
 };
 
 class Defer
@@ -55,3 +57,4 @@ enum class MSG_IDS
 #define MAX_SEND_QUEUE 1000
 
 #define LOGIN_NUMBER "loginnumber"
+#define UTOKENPREFIX "utoken_";

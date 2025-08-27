@@ -25,8 +25,12 @@ public:
 	Status Login(ServerContext* context, const LoginReq* request, LoginRsp* response) override;
 
 private:
+	ChatServer GetChatServer();
+
+private:
 	void InsertToken(int uid, std::string token);
 	std::vector<ChatServer> m_Servers;
 	int m_nServerIndex;
+	std::mutex m_Mutex;
 };
 

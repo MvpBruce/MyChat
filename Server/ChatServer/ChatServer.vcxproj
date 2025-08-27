@@ -137,6 +137,7 @@
     <ClCompile Include="Session.cpp" />
     <ClCompile Include="StatusGrpcClient.cpp" />
     <ClCompile Include="TaskSystem.cpp" />
+    <ClCompile Include="UserMgr.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AsioServicePool.h" />
@@ -153,6 +154,7 @@
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="StatusGrpcClient.h" />
     <ClInclude Include="TaskSystem.h" />
+    <ClInclude Include="UserMgr.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>

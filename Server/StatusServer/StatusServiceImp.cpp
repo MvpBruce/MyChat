@@ -72,3 +72,10 @@ Status StatusServiceImp::Login(ServerContext* context, const LoginReq* request, 
 	response->set_token(token);
 	return Status::OK;
 }
+
+ChatServer StatusServiceImp::GetChatServer()
+{
+	std::lock_guard<std::mutex> lock(m_Mutex);
+	
+	return ChatServer();
+}

@@ -15,6 +15,8 @@ public:
 	std::string& GetSessionId();
 	void Close();
 	void Send(std::string msg, short msgId);
+	int GetUserId();
+	void SetUserId(int nId);
 
 private:
 	//read
@@ -39,6 +41,7 @@ private:
 	std::shared_ptr<RecvData> m_recvData;
 	std::queue<std::shared_ptr<SendData>> m_sendQueue;
 	std::mutex m_mutex;
+	int m_nUserId;
 };
 
 class TaskNode {

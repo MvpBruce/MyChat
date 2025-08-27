@@ -6,7 +6,7 @@
 #include "MsgData.h"
 
 Session::Session(net::io_context& ioc, CServer* pServer):
-m_socket(ioc), m_timer(ioc, std::chrono::seconds(60)), m_pServer(pServer), m_headData(std::make_shared<MsgData>(HEAD_MAX_LEN)), m_recvData(nullptr)
+m_socket(ioc), m_timer(ioc, std::chrono::seconds(60)), m_pServer(pServer), m_headData(std::make_shared<MsgData>(HEAD_MAX_LEN)), m_recvData(nullptr), m_nUserId(0)
 {
 	boost::uuids::uuid uid = boost::uuids::random_generator()();
 	m_SessionID = to_string(uid);
@@ -177,6 +177,16 @@ void Session::Send(std::string msg, short msgId)
 	auto& msgNode = m_sendQueue.front();
 	boost::asio::async_write(m_socket, boost::asio::buffer(msgNode->m_pData, msgNode->m_totalLen), 
 		std::bind(&Session::ProcessWrite, this, std::placeholders::_1, std::placeholders::_2, shared_from_this()));
+}
+
+int Session::GetUserId()
+{
+	return m_nUserId;
+}
+
+void Session::SetUserId(int nId)
+{
+	m_nUserId = nId;
 }
 
 void Session::ProcessWrite(boost::system::error_code ec, size_t nSize, std::shared_ptr<Session> session)
