@@ -15,5 +15,9 @@
 		<file>../assets/image/loading.gif</file>
 		<file>../assets/image/chat_normal.png</file>
 		<file>../assets/image/chat_press.png</file>
+		<file>../assets/image/chat_hover.png</file>
+		<file>../assets/image/contact_list.png</file>
+		<file>../assets/image/contact_list_hover.png</file>
+		<file>../assets/image/contact_list_press.png</file>
     </qresource>
 </RCC>

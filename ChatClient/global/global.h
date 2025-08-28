@@ -17,14 +17,14 @@ enum class RequstID {
     CHAT_LOGIN_RSP = 1006//resopnse from chat server
 };
 
-enum class ErrorCodes
+enum ErrorCodes
 {
     SUCCESS = 0,
     JSON,
     NEWTORK
 };
 
-enum class Modules
+enum Modules
 {
     REGISTER = 0,
     RESET,
@@ -47,6 +47,12 @@ enum Role
 {
     Self,
     Other
+};
+
+enum WidgetState
+{
+    Normal = 0,
+    Selected = 1
 };
 
 #endif // GLOBAL_H

@@ -79,8 +79,15 @@ ChatDialog::ChatDialog(QWidget *parent)
     ui->head_lable->setScaledContents(true);
 
     //Set contacts icon
+    ui->chat_lable->setProperty("state", "normal");
+    ui->chat_lable->SetState("normal","hover","pressed","selected_normal","selected_hover","selected_pressed");
+    ui->contacts_lable->SetState("normal","hover","pressed","selected_normal","selected_hover","selected_pressed");
 
-    addChatUserList();
+    m_listWidget.push_back(ui->chat_lable);
+    m_listWidget.push_back(ui->contacts_lable);
+    connect(ui->chat_lable, &StateWidget::clicked, this, &ChatDialog::slot_clicked_chat);
+    connect(ui->contacts_lable, &StateWidget::clicked, this, &ChatDialog::slot_clicked_contact);
+    AddChatUserList();
 }
 
 ChatDialog::~ChatDialog()
@@ -88,7 +95,7 @@ ChatDialog::~ChatDialog()
     delete ui;
 }
 
-void ChatDialog::addChatUserList()
+void ChatDialog::AddChatUserList()
 {
     for(int i = 0; i < 13; i++){
         int randomValue = QRandomGenerator::global()->bounded(100);
@@ -105,6 +112,17 @@ void ChatDialog::addChatUserList()
     }
 }
 
+void ChatDialog::ClearSideBarState(StateWidget *pWidget)
+{
+    for (auto& pItem : m_listWidget)
+    {
+        if (pItem == pWidget)
+            continue;
+
+        pItem->ClearState();
+    }
+}
+
 void ChatDialog::slot_load_more_users()
 {
     if (m_bLoading)
@@ -114,7 +132,20 @@ void ChatDialog::slot_load_more_users()
     LoadingDlg* dlg = new LoadingDlg(this);
     dlg->setModal(true);
     dlg->show();
-    addChatUserList();
+    AddChatUserList();
     dlg->deleteLater();
     m_bLoading = false;
+}
+
+void ChatDialog::slot_clicked_chat()
+{
+    ClearSideBarState(ui->chat_lable);
+    ui->stackedWidget->setCurrentWidget(ui->chat_page);
+    //set curmode, todo
+    //show search, todo
+}
+
+void ChatDialog::slot_clicked_contact()
+{
+    ClearSideBarState(ui->contacts_lable);
 }
