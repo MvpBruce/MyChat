@@ -4,6 +4,7 @@
 #include <QTcpSocket>
 #include <QObject>
 
+class SearchInfo;
 class TcpMgr : public QObject, public Singleton<TcpMgr>, public std::enable_shared_from_this<TcpMgr>
 {
 Q_OBJECT
@@ -20,6 +21,7 @@ signals:
     void sig_send_data(RequstID reqId, QByteArray data);
     void sig_login_failed(int nError);
     void sig_switch_chatDialog();
+    void sig_user_search(std::shared_ptr<SearchInfo>);
 
 private:
     TcpMgr();

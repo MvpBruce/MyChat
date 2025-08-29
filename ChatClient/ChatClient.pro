@@ -13,8 +13,10 @@ SOURCES += \
     buttons/timebutton.cpp \
     core/HttpMgr.cpp \
     core/TcpMgr.cpp \
+    core/userdata.cpp \
     global/global.cpp \
     core/usermgr.cpp \
+    widgets/adduseritem.cpp \
     widgets/bubbleframebase.cpp \
     widgets/chatdialog.cpp \
     widgets/chatmsgbaseitem.cpp \
@@ -29,6 +31,7 @@ SOURCES += \
     widgets/registerdialog.cpp \
     widgets/resetdialog.cpp \
     widgets/searchlineedit.cpp \
+    widgets/searchlist.cpp \
     widgets/statewidget.cpp \
     widgets/textbubble.cpp \
     widgets/userchatitem.cpp \
@@ -40,8 +43,10 @@ HEADERS += \
     core/HttpMgr.h \
     core/Singleton.h \
     core/TcpMgr.h \
+    core/userdata.h \
     global/global.h \
     core/usermgr.h \
+    widgets/adduseritem.h \
     widgets/bubbleframebase.h \
     widgets/chatdialog.h \
     widgets/chatmsgbaseitem.h \
@@ -55,6 +60,7 @@ HEADERS += \
     widgets/registerdialog.h \
     widgets/resetdialog.h \
     widgets/searchlineedit.h \
+    widgets/searchlist.h \
     widgets/statewidget.h \
     widgets/textbubble.h \
     widgets/userchatitem.h \
@@ -68,7 +74,8 @@ FORMS += \
     ui/chatdialog.ui \
     ui/userchatitem.ui \
     ui/chatpage.ui \
-    ui/loadingdlg.ui
+    ui/loadingdlg.ui \
+    ui/adduseritem.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
