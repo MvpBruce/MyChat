@@ -35,7 +35,8 @@ SOURCES += \
     widgets/statewidget.cpp \
     widgets/textbubble.cpp \
     widgets/userchatitem.cpp \
-    widgets/userchatlist.cpp
+    widgets/userchatlist.cpp \
+    widgets/userfounddlg.cpp
 
 HEADERS += \
     buttons/statebtn.h \
@@ -64,7 +65,8 @@ HEADERS += \
     widgets/statewidget.h \
     widgets/textbubble.h \
     widgets/userchatitem.h \
-    widgets/userchatlist.h
+    widgets/userchatlist.h \
+    widgets/userfounddlg.h
 
 FORMS += \
     ui/logindialog.ui \
@@ -75,7 +77,8 @@ FORMS += \
     ui/userchatitem.ui \
     ui/chatpage.ui \
     ui/loadingdlg.ui \
-    ui/adduseritem.ui
+    ui/adduseritem.ui \
+    ui/userfounddlg.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
