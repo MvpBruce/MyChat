@@ -97,6 +97,7 @@ void TcpMgr::slot_send_data(RequstID reqId, QByteArray data)
 void TcpMgr::initHandlers()
 {
     m_handlers.insert(RequstID::CHAT_LOGIN_RSP, [this](RequstID id, int len, QByteArray data){
+        Q_UNUSED(len)
         qDebug() << "Request id: " << static_cast<int>(id) <<", data: " << data;
         QJsonDocument jsonDoc = QJsonDocument::fromJson(data);
         if (jsonDoc.isNull())

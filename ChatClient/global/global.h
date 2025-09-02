@@ -56,4 +56,11 @@ enum WidgetState
     Selected = 1
 };
 
+enum SideBarMode
+{
+    Search,
+    Chat,
+    Contact
+};
+
 #endif // GLOBAL_H

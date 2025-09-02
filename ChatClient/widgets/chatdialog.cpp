@@ -34,7 +34,7 @@ std::vector<QString> names = {
 
 ChatDialog::ChatDialog(QWidget *parent)
     : QDialog(parent)
-    , ui(new Ui::ChatDialog), m_bLoading(false)
+    , ui(new Ui::ChatDialog), m_bLoading(false), m_Mode(SideBarMode::Chat), m_State(SideBarMode::Chat)
 {
     ui->setupUi(this);
 
@@ -62,6 +62,7 @@ ChatDialog::ChatDialog(QWidget *parent)
         ui->search_edit->clear();
         pClear->setIcon(QIcon(":/assets/image/search_transparent.png"));
         ui->search_edit->clearFocus();
+        this->SwitchMode(false);
     });
 
     ui->search_edit->setMaxLength(15);
@@ -87,6 +88,8 @@ ChatDialog::ChatDialog(QWidget *parent)
     m_listWidget.push_back(ui->contacts_lable);
     connect(ui->chat_lable, &StateWidget::clicked, this, &ChatDialog::slot_clicked_chat);
     connect(ui->contacts_lable, &StateWidget::clicked, this, &ChatDialog::slot_clicked_contact);
+
+    connect(ui->search_edit, &QLineEdit::textChanged, this, &ChatDialog::slot_text_changed);
     AddChatUserList();
 }
 
@@ -148,4 +151,39 @@ void ChatDialog::slot_clicked_chat()
 void ChatDialog::slot_clicked_contact()
 {
     ClearSideBarState(ui->contacts_lable);
+}
+
+void ChatDialog::slot_text_changed(const QString &text)
+{
+    if (!text.isEmpty())
+        SwitchMode(true);
+}
+
+void ChatDialog::SwitchMode(bool bSearch)
+{
+    if (bSearch)
+    {
+        ui->user_chat_list->hide();
+        //todo, hide contact list
+        ui->search_chat_list->show();
+        m_Mode = SideBarMode::Search;
+    }
+    else if (m_State == SideBarMode::Chat)
+    {
+        //todo, hide contact list
+        ui->search_chat_list->hide();
+        ui->user_chat_list->show();
+        ui->search_edit->clear();
+        ui->search_edit->clearFocus();
+        m_Mode = SideBarMode::Chat;
+    }
+    else if (m_State == SideBarMode::Contact)
+    {
+        ui->user_chat_list->hide();
+        ui->search_chat_list->hide();
+        //todo, show contact list
+        ui->search_edit->clear();
+        ui->search_edit->clearFocus();
+        m_Mode = SideBarMode::Contact;
+    }
 }

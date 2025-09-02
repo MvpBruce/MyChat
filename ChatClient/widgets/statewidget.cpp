@@ -74,6 +74,7 @@ void StateWidget::ShowRedPoint(bool bShow)
 
 void StateWidget::paintEvent(QPaintEvent *event)
 {
+    Q_UNUSED(event)
     QStyleOption opt;
     opt.initFrom(this);
     QPainter pt(this);

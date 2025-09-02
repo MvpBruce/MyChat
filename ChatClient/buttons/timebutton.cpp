@@ -2,7 +2,7 @@
 #include <QMouseEvent>
 
 TimeButton::TimeButton(QWidget *parent)
-    : m_nCount(0)
+    : QPushButton(parent), m_nCount(0)
 {
     m_pTimer = new QTimer(this);
     connect(m_pTimer, &QTimer::timeout, [this]() {

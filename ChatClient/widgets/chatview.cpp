@@ -64,6 +64,8 @@ bool ChatView::eventFilter(QObject *o, QEvent *e)
 
 void ChatView::onVScrollChanged(int min, int max)
 {
+    Q_UNUSED(min)
+    Q_UNUSED(max)
     if (m_bAppended)
     {
         QScrollBar* pScrollBar = m_pScrollArea->verticalScrollBar();

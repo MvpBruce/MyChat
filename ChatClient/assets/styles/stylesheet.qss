@@ -51,6 +51,20 @@ QDialog#LoginDialog{
     border: none;
 }
 
+#add_tip {
+	border-image: url(:/assets/image/add_tip.png);
+}
+
+#right_tip {
+	border-image: url(:/assets/image/right_tip.png);
+}
+
+#message_tip{
+  text-align: center;
+  font-family: "Microsoft YaHei";
+  font-size: 12pt;
+}
+
 /*end*/
 
 #user_chat_list {

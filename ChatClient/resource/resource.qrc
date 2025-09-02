@@ -19,5 +19,7 @@
 		<file>../assets/image/contact_list.png</file>
 		<file>../assets/image/contact_list_hover.png</file>
 		<file>../assets/image/contact_list_press.png</file>
+		<file>../assets/image/add_tip.png</file>
+		<file>../assets/image/right_tip.png</file>
     </qresource>
 </RCC>

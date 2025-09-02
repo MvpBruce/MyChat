@@ -24,6 +24,7 @@ private:
 private:
     std::shared_ptr<QDialog> m_pFindDlg;
     QWidget* m_pSearchEdit;
+    bool m_bPending;
 
 private slots:
     void slot_item_clicked(QListWidgetItem* pItem);
