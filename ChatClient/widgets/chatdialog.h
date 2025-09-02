@@ -27,8 +27,12 @@ public slots:
     void slot_clicked_contact();
     void slot_text_changed(const QString& text);
 
+protected:
+    bool eventFilter(QObject *watched, QEvent *event);
+
 private:
     void SwitchMode(bool bSearch = false);
+    void HandleMousePress(QMouseEvent* event);
 
 private:
     Ui::ChatDialog *ui;

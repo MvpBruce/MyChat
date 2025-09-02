@@ -1,9 +1,9 @@
 #include "chatdialog.h"
 #include "ui_chatdialog.h"
 #include "loadingdlg.h"
-
 #include <QRandomGenerator>
 #include "userchatitem.h"
+#include <QMouseEvent>
 
 //test
 std::vector<QString>  strs ={"hello world !",
@@ -91,6 +91,9 @@ ChatDialog::ChatDialog(QWidget *parent)
 
     connect(ui->search_edit, &QLineEdit::textChanged, this, &ChatDialog::slot_text_changed);
     AddChatUserList();
+
+    ui->chat_lable->SetSelected(true);
+    this->installEventFilter(this);
 }
 
 ChatDialog::~ChatDialog()
@@ -159,6 +162,17 @@ void ChatDialog::slot_text_changed(const QString &text)
         SwitchMode(true);
 }
 
+bool ChatDialog::eventFilter(QObject *watched, QEvent *event)
+{
+    if (event->type() == QEvent::MouseButtonPress)
+    {
+        QMouseEvent* pMouseEvent = static_cast<QMouseEvent*>(event);
+        HandleMousePress(pMouseEvent);
+    }
+
+    return QDialog::eventFilter(watched, event);
+}
+
 void ChatDialog::SwitchMode(bool bSearch)
 {
     if (bSearch)
@@ -185,5 +199,18 @@ void ChatDialog::SwitchMode(bool bSearch)
         ui->search_edit->clear();
         ui->search_edit->clearFocus();
         m_Mode = SideBarMode::Contact;
+    }
+}
+
+void ChatDialog::HandleMousePress(QMouseEvent *event)
+{
+    if (m_Mode != SideBarMode::Search)
+        return;
+
+    QPoint posClick = ui->search_chat_list->mapToGlobal(event->globalPosition()).toPoint();
+    if (!ui->search_chat_list->rect().contains(posClick))
+    {
+        ui->search_edit->clear();
+        SwitchMode(false);
     }
 }
