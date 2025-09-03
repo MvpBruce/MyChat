@@ -12,7 +12,7 @@ public:
     explicit StateWidget(QWidget *parent = nullptr);
     void SetState(QString normal, QString hover, QString press, QString select, QString selectHover, QString selectPress);
 
-    WidgetState GetState();
+    ClickState GetState();
     void ClearState();
 
     void SetSelected(bool bSelected);
@@ -35,7 +35,7 @@ private:
     QString m_strSelectedHover;
     QString m_strSelectedPress;
 
-    WidgetState m_curState;
+    ClickState m_curState;
     QLabel* m_pReadPopint;
 
 signals:

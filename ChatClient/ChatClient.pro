@@ -32,8 +32,10 @@ SOURCES += \
     widgets/resetdialog.cpp \
     widgets/searchlineedit.cpp \
     widgets/searchlist.cpp \
+    widgets/statelabel.cpp \
     widgets/statewidget.cpp \
     widgets/textbubble.cpp \
+    widgets/tiplabel.cpp \
     widgets/userchatitem.cpp \
     widgets/userchatlist.cpp \
     widgets/userfounddlg.cpp
@@ -62,8 +64,10 @@ HEADERS += \
     widgets/resetdialog.h \
     widgets/searchlineedit.h \
     widgets/searchlist.h \
+    widgets/statelabel.h \
     widgets/statewidget.h \
     widgets/textbubble.h \
+    widgets/tiplabel.h \
     widgets/userchatitem.h \
     widgets/userchatlist.h \
     widgets/userfounddlg.h

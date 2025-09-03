@@ -51,7 +51,7 @@ enum Role
     Other
 };
 
-enum WidgetState
+enum ClickState
 {
     Normal = 0,
     Selected = 1

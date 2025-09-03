@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <QPushButton>
-//#include <QEvent>
 
 class StateBtn : public QPushButton
 {

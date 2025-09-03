@@ -5,7 +5,7 @@
 #include <QMouseEvent>
 
 StateWidget::StateWidget(QWidget *parent)
-    : QWidget{parent}, m_curState(WidgetState::Normal)
+    : QWidget{parent}, m_curState(ClickState::Normal)
 {
     setCursor(Qt::PointingHandCursor);
     AddRedPoint();
@@ -25,14 +25,14 @@ void StateWidget::SetState(QString normal, QString hover, QString press, QString
     resetStyle(this);
 }
 
-WidgetState StateWidget::GetState()
+ClickState StateWidget::GetState()
 {
     return m_curState;
 }
 
 void StateWidget::ClearState()
 {
-    m_curState = WidgetState::Normal;
+    m_curState = ClickState::Normal;
     setProperty("state", m_strNormal);
     resetStyle(this);
     update();
@@ -42,14 +42,14 @@ void StateWidget::SetSelected(bool bSelected)
 {
     if (bSelected)
     {
-        m_curState = WidgetState::Selected;
+        m_curState = ClickState::Selected;
         setProperty("state", m_strSelected);
         resetStyle(this);
         update();
         return;
     }
 
-    m_curState = WidgetState::Normal;
+    m_curState = ClickState::Normal;
     setProperty("state", m_strNormal);
     resetStyle(this);
     update();
@@ -85,15 +85,15 @@ void StateWidget::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton)
     {
-        if (m_curState == WidgetState::Selected)
+        if (m_curState == ClickState::Selected)
         {
             QWidget::mousePressEvent(event);
             return;
         }
 
-        if (m_curState == WidgetState::Normal)
+        if (m_curState == ClickState::Normal)
         {
-            m_curState = WidgetState::Selected;
+            m_curState = ClickState::Selected;
             setProperty("state", m_strSelectedPress);
             resetStyle(this);
             update();
@@ -109,7 +109,7 @@ void StateWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton)
     {
-        if (m_curState == WidgetState::Normal)
+        if (m_curState == ClickState::Normal)
         {
             setProperty("state", m_strNormalHover);
             resetStyle(this);
@@ -131,7 +131,7 @@ void StateWidget::mouseReleaseEvent(QMouseEvent *event)
 
 void StateWidget::enterEvent(QEnterEvent *event)
 {
-    if (m_curState == WidgetState::Normal)
+    if (m_curState == ClickState::Normal)
     {
         setProperty("state", m_strNormalHover);
         resetStyle(this);
@@ -149,7 +149,7 @@ void StateWidget::enterEvent(QEnterEvent *event)
 
 void StateWidget::leaveEvent(QEvent *event)
 {
-    if (m_curState == WidgetState::Normal)
+    if (m_curState == ClickState::Normal)
     {
         setProperty("state", m_strNormal);
         resetStyle(this);
