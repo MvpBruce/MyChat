@@ -12,4 +12,9 @@ public:
     int m_nGender;
 };
 
+struct UserInfo
+{
+
+};
+
 #endif // USERDATA_H

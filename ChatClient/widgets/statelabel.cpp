@@ -49,6 +49,7 @@ void StateLabel::mouseReleaseEvent(QMouseEvent *ev)
             update();
         }
 
+        emit clicked(this->text(), m_curState);
         return;
     }
 

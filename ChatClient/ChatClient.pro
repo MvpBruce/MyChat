@@ -17,11 +17,13 @@ SOURCES += \
     global/global.cpp \
     core/usermgr.cpp \
     widgets/adduseritem.cpp \
+    widgets/applyfriend.cpp \
     widgets/bubbleframebase.cpp \
     widgets/chatdialog.cpp \
     widgets/chatmsgbaseitem.cpp \
     widgets/chatpage.cpp \
     widgets/chatview.cpp \
+    widgets/contactlist.cpp \
     widgets/imagebubble.cpp \
     widgets/listitembase.cpp \
     widgets/loadingdlg.cpp \
@@ -38,6 +40,7 @@ SOURCES += \
     widgets/tiplabel.cpp \
     widgets/userchatitem.cpp \
     widgets/userchatlist.cpp \
+    widgets/usercontactitem.cpp \
     widgets/userfounddlg.cpp
 
 HEADERS += \
@@ -50,11 +53,13 @@ HEADERS += \
     global/global.h \
     core/usermgr.h \
     widgets/adduseritem.h \
+    widgets/applyfriend.h \
     widgets/bubbleframebase.h \
     widgets/chatdialog.h \
     widgets/chatmsgbaseitem.h \
     widgets/chatpage.h \
     widgets/chatview.h \
+    widgets/contactlist.h \
     widgets/imagebubble.h \
     widgets/listitembase.h \
     widgets/loadingdlg.h \
@@ -70,6 +75,7 @@ HEADERS += \
     widgets/tiplabel.h \
     widgets/userchatitem.h \
     widgets/userchatlist.h \
+    widgets/usercontactitem.h \
     widgets/userfounddlg.h
 
 FORMS += \
@@ -82,7 +88,9 @@ FORMS += \
     ui/chatpage.ui \
     ui/loadingdlg.ui \
     ui/adduseritem.ui \
-    ui/userfounddlg.ui
+    ui/userfounddlg.ui \
+    ui/applyfriend.ui \
+    ui/usercontactitem.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

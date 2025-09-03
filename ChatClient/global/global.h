@@ -42,7 +42,8 @@ struct ServerInfo
 enum ListItemType {
     CHAT_USER_ITEM,
     ADD_USER_TIP_ITEM,
-    INVALID_ITEM
+    INVALID_ITEM,
+    CONTACT_USER_ITEM
 };
 
 enum Role
