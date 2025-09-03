@@ -67,7 +67,7 @@ ChatDialog::ChatDialog(QWidget *parent)
 
     ui->search_edit->setMaxLength(15);
 
-    ui->add_btn->ChangeState("normal","hover","press");
+    ui->add_btn->SetState("normal","hover","press");
 
     ui->search_chat_list->hide();
     connect(ui->user_chat_list, &UserChatList::sig_load_more_users, this, &ChatDialog::slot_load_more_users);

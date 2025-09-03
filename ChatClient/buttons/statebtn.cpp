@@ -11,7 +11,7 @@ StateBtn::~StateBtn()
 
 }
 
-void StateBtn::ChangeState(QString normal, QString hover, QString press)
+void StateBtn::SetState(QString normal, QString hover, QString press)
 {
     m_strNormal = normal;
     m_strHover = hover;

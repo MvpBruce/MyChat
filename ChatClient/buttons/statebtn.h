@@ -11,7 +11,7 @@ class StateBtn : public QPushButton
 public:
     StateBtn(QWidget* parent = nullptr);
     ~StateBtn();
-    void ChangeState(QString normal, QString hover, QString press);
+    void SetState(QString normal, QString hover, QString press);
 
 protected:
     virtual void enterEvent(QEnterEvent *event) override;

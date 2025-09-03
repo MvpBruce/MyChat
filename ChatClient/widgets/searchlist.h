@@ -6,6 +6,7 @@
 #include <QWidget>
 
 class SearchInfo;
+class QDialog;
 class SearchList : public QListWidget
 {
     Q_OBJECT

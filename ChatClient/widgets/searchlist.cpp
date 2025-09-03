@@ -4,6 +4,8 @@
 #include <QEvent>
 #include <QWheelEvent>
 #include <QScrollBar>
+#include "userfounddlg.h"
+#include "core/userdata.h"
 
 SearchList::SearchList(QWidget *parent)
     : QListWidget(parent), m_pFindDlg(nullptr), m_pSearchEdit(nullptr), m_bPending(false)
@@ -18,7 +20,11 @@ SearchList::SearchList(QWidget *parent)
 
 void SearchList::CloseFindDlg()
 {
-
+    if (m_pFindDlg)
+    {
+        m_pFindDlg->hide();
+        m_pFindDlg = nullptr;
+    }
 }
 
 void SearchList::SetSearchEdit(QWidget *edit)
@@ -71,7 +77,27 @@ void SearchList::WaitPending(bool bPending)
 
 void SearchList::slot_item_clicked(QListWidgetItem *pItem)
 {
+    QWidget* pWidget = this->itemWidget(pItem);
+    if (!pWidget)
+        return;
 
+    ListItemBase* pBaseItem = qobject_cast<ListItemBase*>(pWidget);
+    if (!pBaseItem)
+        return;
+
+    auto nType = pBaseItem->GetItemType();
+    if (nType == ListItemType::INVALID_ITEM)
+        return;
+
+    if (nType == ListItemType::ADD_USER_TIP_ITEM)
+    {
+        m_pFindDlg = std::make_shared<UserFoundDlg>(this);
+        auto info = std::make_shared<SearchInfo>(0, "test", "test", "hello world", 0);
+        (dynamic_cast<UserFoundDlg*>(m_pFindDlg.get()))->SetSearchInfo(info);
+        m_pFindDlg->show();
+    }
+
+    //CloseFindDlg();
 }
 
 void SearchList::slot_user_search(std::shared_ptr<SearchInfo> pSearchInfo)

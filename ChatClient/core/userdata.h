@@ -9,7 +9,7 @@ public:
     QString m_strName;
     QString m_strNick;
     QString m_strDesc;
-    int m_nSex;
+    int m_nGender;
 };
 
 #endif // USERDATA_H
