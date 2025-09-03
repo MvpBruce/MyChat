@@ -14,7 +14,12 @@ public:
 
 struct UserInfo
 {
-
+    int m_nUID;
+    QString m_strName;
+    QString m_strNick;
+    QString m_strIcon;
+    QString m_strLastMsg;
+    int m_nGender;
 };
 
 #endif // USERDATA_H
