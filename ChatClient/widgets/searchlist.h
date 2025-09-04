@@ -13,7 +13,7 @@ class SearchList : public QListWidget
 public:
     SearchList(QWidget* parent = nullptr);
     void CloseFindDlg();
-    void SetSearchEdit(QWidget* edit);
+    void SetSearchEdit(QWidget* pEdit);
 
 protected:
     bool eventFilter(QObject *object, QEvent *event) override;
@@ -30,7 +30,6 @@ private:
 private slots:
     void slot_item_clicked(QListWidgetItem* pItem);
     void slot_user_search(std::shared_ptr<SearchInfo> pSearchInfo);
-
 };
 
 #endif // SEARCHLIST_H

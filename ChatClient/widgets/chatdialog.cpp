@@ -90,6 +90,8 @@ ChatDialog::ChatDialog(QWidget *parent)
     connect(ui->contacts_lable, &StateWidget::clicked, this, &ChatDialog::slot_clicked_contact);
 
     connect(ui->search_edit, &QLineEdit::textChanged, this, &ChatDialog::slot_text_changed);
+
+    ui->search_chat_list->SetSearchEdit(ui->search_edit);
     AddChatUserList();
 
     SwitchMode(false);

@@ -6,6 +6,8 @@
 #include <QScrollBar>
 #include "userfounddlg.h"
 #include "core/userdata.h"
+#include "searchlineedit.h"
+#include <QJsonObject>
 
 SearchList::SearchList(QWidget *parent)
     : QListWidget(parent), m_pFindDlg(nullptr), m_pSearchEdit(nullptr), m_bPending(false)
@@ -27,9 +29,9 @@ void SearchList::CloseFindDlg()
     }
 }
 
-void SearchList::SetSearchEdit(QWidget *edit)
+void SearchList::SetSearchEdit(QWidget *pEdit)
 {
-
+    m_pSearchEdit = pEdit;
 }
 
 bool SearchList::eventFilter(QObject *object, QEvent *event)
@@ -91,10 +93,18 @@ void SearchList::slot_item_clicked(QListWidgetItem *pItem)
 
     if (nType == ListItemType::ADD_USER_TIP_ITEM)
     {
-        m_pFindDlg = std::make_shared<UserFoundDlg>(this);
-        auto info = std::make_shared<SearchInfo>(0, "test", "test", "hello world", 0);
-        (dynamic_cast<UserFoundDlg*>(m_pFindDlg.get()))->SetSearchInfo(info);
-        m_pFindDlg->show();
+        if (!m_pSearchEdit)
+            return;
+
+        auto pSearchEdit = dynamic_cast<SearchLineEdit*>(m_pSearchEdit);
+        auto strUid = pSearchEdit->text();
+        QJsonObject jObj;
+        jObj["uid"] = strUid;
+
+        QJsonDocument doc(jObj);
+        QByteArray jsonData = doc.toJson(QJsonDocument::Compact);
+        emit TcpMgr::GetInstance()->sig_send_data(RequstID::SEARCH_USER_REQ, jsonData);
+        return;
     }
 
     //CloseFindDlg();
@@ -102,5 +112,16 @@ void SearchList::slot_item_clicked(QListWidgetItem *pItem)
 
 void SearchList::slot_user_search(std::shared_ptr<SearchInfo> pSearchInfo)
 {
+    if (pSearchInfo == nullptr)
+    {
+        //todo, create a fail dialog
+        //m_pFindDlg = std::make_shared<UserFoundDlg>(this);
+    }
+    else
+    {
+        m_pFindDlg = std::make_shared<UserFoundDlg>(this);
+        std::dynamic_pointer_cast<UserFoundDlg>(m_pFindDlg)->SetSearchInfo(pSearchInfo);
+    }
 
+    m_pFindDlg->show();
 }

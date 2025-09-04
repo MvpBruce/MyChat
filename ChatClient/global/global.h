@@ -8,13 +8,15 @@
 extern std::function<void(QWidget*)> resetStyle;
 extern QString strGateServerURL;
 
-enum class RequstID {
+enum RequstID {
     GET_VERIFY_CODE = 1001,
     REGISTER_USER = 1002,
     RESET_PWD = 1003,
     LOGIN_USER = 1004,//user login
     CHAT_LOGIN = 1005,//login to chat server
-    CHAT_LOGIN_RSP = 1006//resopnse from chat server
+    CHAT_LOGIN_RSP = 1006,//resopnse from chat server
+    SEARCH_USER_REQ, //request searching user
+    SEARCH_USER_RSP,// response from chat server
 };
 
 enum ErrorCodes

@@ -31,6 +31,7 @@ void UserFoundDlg::SetSearchInfo(std::shared_ptr<SearchInfo> info)
 
 void UserFoundDlg::on_add_to_contact_clicked()
 {
-    //todo
+    this->hide();
+    //todo, pop up apply friend ui and show
 }
 

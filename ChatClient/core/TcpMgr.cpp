@@ -2,6 +2,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include "core/usermgr.h"
+#include "core/userdata.h"
 
 TcpMgr::~TcpMgr()
 {
@@ -97,7 +98,7 @@ void TcpMgr::slot_send_data(RequstID reqId, QByteArray data)
 void TcpMgr::initHandlers()
 {
     m_handlers.insert(RequstID::CHAT_LOGIN_RSP, [this](RequstID id, int len, QByteArray data){
-        Q_UNUSED(len)
+        Q_UNUSED(len);
         qDebug() << "Request id: " << static_cast<int>(id) <<", data: " << data;
         QJsonDocument jsonDoc = QJsonDocument::fromJson(data);
         if (jsonDoc.isNull())
@@ -129,6 +130,36 @@ void TcpMgr::initHandlers()
         UserMgr::GetInstance()->setUId(jsonObj["token"].toInt());
         //todo
         emit sig_switch_chatDialog();
+    });
+
+    m_handlers.insert(RequstID::SEARCH_USER_RSP, [this](RequstID id, int len, QByteArray data){
+        Q_UNUSED(len);
+        qDebug() << "id: " << id << "data: " << data;
+        QJsonDocument jDoc = QJsonDocument::fromJson(data);
+        if (jDoc.isNull())
+        {
+            qDebug() << "Failed to create json document";
+            return;
+        }
+
+        QJsonObject jObj = jDoc.object();
+        if (!jObj.contains("error"))
+        {
+            qDebug() << "Failed to parse json, no error in json";
+            emit sig_login_failed(ErrorCodes::JSON);
+            return;
+        }
+
+        int nError = jObj["error"].toInt();
+        if (nError != ErrorCodes::SUCCESS)
+        {
+            qDebug() << "Failed to search, error: " << nError;
+            emit sig_login_failed(nError);
+            return;
+        }
+
+        auto pSearchInfo = std::make_shared<SearchInfo>(jObj["uid"].toInt(), jObj["name"].toString(), jObj["nick"].toString(), jObj["desc"].toString(), jObj["gender"].toInt(), jObj["icon"].toString());
+        emit sig_user_search(pSearchInfo);
     });
 }
 
