@@ -3,6 +3,7 @@
 
 #include <QListWidget>
 
+class UserContactItem;
 class ContactList : public QListWidget
 {
     Q_OBJECT
@@ -23,7 +24,7 @@ signals:
     void sig_load_contacts();
 
 private:
-
+    UserContactItem* m_pContactItem;
 };
 
 #endif // CONTACTLIST_H

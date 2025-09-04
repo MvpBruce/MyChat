@@ -25,6 +25,10 @@ void UserContactItem::SetInfo(int nUid, QString strName, QString strIcon)
 {
     //todo
     m_pUserInfo = std::make_shared<UserInfo>();
+    QPixmap pixMap(strIcon);
+    ui->icon_lb->setPixmap(pixMap.scaled(ui->icon_lb->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->icon_lb->setScaledContents(true);
+    ui->contact_name_lb->setText(strName);
 }
 
 void UserContactItem::ShowRedPoint(bool bShow)

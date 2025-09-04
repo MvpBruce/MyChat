@@ -92,6 +92,7 @@ ChatDialog::ChatDialog(QWidget *parent)
     connect(ui->search_edit, &QLineEdit::textChanged, this, &ChatDialog::slot_text_changed);
     AddChatUserList();
 
+    SwitchMode(false);
     ui->chat_lable->SetSelected(true);
     this->installEventFilter(this);
 }
@@ -147,13 +148,15 @@ void ChatDialog::slot_clicked_chat()
 {
     ClearSideBarState(ui->chat_lable);
     ui->stackedWidget->setCurrentWidget(ui->chat_page);
-    //set curmode, todo
-    //show search, todo
+    m_State = SideBarMode::Chat;
+    SwitchMode(false);
 }
 
 void ChatDialog::slot_clicked_contact()
 {
     ClearSideBarState(ui->contacts_lable);
+    m_State = SideBarMode::Contact;
+    SwitchMode(false);
 }
 
 void ChatDialog::slot_text_changed(const QString &text)
@@ -178,15 +181,15 @@ void ChatDialog::SwitchMode(bool bSearch)
     if (bSearch)
     {
         ui->user_chat_list->hide();
-        //todo, hide contact list
         ui->search_chat_list->show();
+        ui->user_con_list->hide();
         m_Mode = SideBarMode::Search;
     }
     else if (m_State == SideBarMode::Chat)
     {
-        //todo, hide contact list
         ui->search_chat_list->hide();
         ui->user_chat_list->show();
+        ui->user_con_list->hide();
         ui->search_edit->clear();
         ui->search_edit->clearFocus();
         m_Mode = SideBarMode::Chat;
@@ -195,7 +198,7 @@ void ChatDialog::SwitchMode(bool bSearch)
     {
         ui->user_chat_list->hide();
         ui->search_chat_list->hide();
-        //todo, show contact list
+        ui->user_con_list->show();
         ui->search_edit->clear();
         ui->search_edit->clearFocus();
         m_Mode = SideBarMode::Contact;
