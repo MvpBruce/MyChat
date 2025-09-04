@@ -5,6 +5,7 @@
 #include "UserMgr.h"
 #include "RedisMgr.h"
 #include "ConfigMgr.h"
+#include "UserData.h"
 
 TaskSystem::TaskSystem(): m_bStop(false)
 {
@@ -61,15 +62,29 @@ void TaskSystem::LoginHandler(std::shared_ptr<Session> session, const short& msg
 
 	retValue["error"] = ErrorCodes::Success;
 
+	auto pUserInfo = std::make_shared<UserInfo>();
+	std::string strBaseInfo = USERBASEINFO;
+	strBaseInfo += strUid;
+
 	//Check user base info.  redis and mysql, todo
 	//getbaserinfo()
-
+	if (false)
+	{
+		retValue["error"] = ErrorCodes::Uid_Invalid;
+		return;
+	}
 
 	retValue["uid"] = uid;
-	retValue["token"] = rsp.token();
-	//retValue["name"] = userin.name
+	retValue["pwd"] = pUserInfo->pwd;
+	retValue["name"] = pUserInfo->name;
+	retValue["email"] = pUserInfo->email;
+	retValue["nick"] = pUserInfo->nick;
+	retValue["desc"] = pUserInfo->desc;
+	retValue["gender"] = pUserInfo->gender;
+	retValue["icon"] = pUserInfo->icon;
 
-	//
+	//todo, get apply list from mysql
+	//todo, get contact list
 	auto serverName = ConfigMgr::GetInstance()["CurrentServer"]["name"];
 	bRet = CRedisMgr::GetInstance()->HGet(LOGIN_NUMBER, serverName, strValue);
 	int nLoginNumber = 0;
@@ -80,6 +95,10 @@ void TaskSystem::LoginHandler(std::shared_ptr<Session> session, const short& msg
 	std::string strNumber = std::to_string(nLoginNumber);
 	CRedisMgr::GetInstance()->HSet(LOGIN_NUMBER, serverName, strNumber);
 	session->SetUserId(uid);
+	//bind uid and server name
+	std::string strIpKey = USERIPPREFIX;
+	strIpKey += strUid;
+	CRedisMgr::GetInstance()->Set(strIpKey, serverName);
 	UserMgr::GetInstance()->SetSession(uid, session);
 }
 

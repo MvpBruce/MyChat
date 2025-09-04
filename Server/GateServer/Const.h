@@ -57,3 +57,4 @@ enum MSG_IDS
 
 #define LOGIN_NUMBER "loginnumber"
 #define UTOKENPREFIX "utoken_";
+#define USERIPPREFIX "uip_"

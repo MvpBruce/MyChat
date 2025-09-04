@@ -154,6 +154,7 @@
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="StatusGrpcClient.h" />
     <ClInclude Include="TaskSystem.h" />
+    <ClInclude Include="UserData.h" />
     <ClInclude Include="UserMgr.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>

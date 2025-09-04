@@ -107,6 +107,9 @@
     <ClInclude Include="UserMgr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="UserData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="message.proto" />
