@@ -61,3 +61,4 @@ enum MSG_IDS
 #define UTOKENPREFIX "utoken_";
 #define USERIPPREFIX "uip_";
 #define USERBASEINFO "userbaseinfo_"
+#define NAMEINFO  "nameinfo_"

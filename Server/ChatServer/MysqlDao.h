@@ -13,6 +13,7 @@ public:
 	bool UpdatePassowrd(const std::string& user, const std::string& password);
 	bool CheckPassword(const std::string& user, const std::string& password, UserInfo& userInfo);
 	std::shared_ptr<UserInfo> GetUserInfo(int nUid);
+	std::shared_ptr<UserInfo> GetUserInfo(const std::string& name);
 
 private:
 	std::unique_ptr<MySqlPool> m_pool;

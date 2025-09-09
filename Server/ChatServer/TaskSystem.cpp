@@ -176,14 +176,9 @@ void TaskSystem::SearchInfoHandler(std::shared_ptr<Session> session, const short
 
 	bool bDigit = std::all_of(strUid.begin(), strUid.end(), [](unsigned char ch) {return std::isdigit(ch); });
 	if (bDigit)
-	{
 		GetUserInfoByID(strUid, retValue);
-	}
 	else
-	{
-		//todo, not implement yet
 		GetUserInfoByName(strUid, retValue);
-	}
 }
 
 void TaskSystem::GetUserInfoByID(const std::string& strUid, Json::Value& retValue)
@@ -239,9 +234,58 @@ void TaskSystem::GetUserInfoByID(const std::string& strUid, Json::Value& retValu
 	retValue["desc"] = pUserInfo->desc;
 	retValue["gender"] = pUserInfo->gender;
 	retValue["icon"] = pUserInfo->icon;
-
 }
 
 void TaskSystem::GetUserInfoByName(const std::string& name, Json::Value& retValue)
 {
+	retValue["error"] = ErrorCodes::Success;
+	std::string nameInfo = NAMEINFO;
+	nameInfo += name;
+	std::string strValue = "";
+	Json::Reader reader;
+	Json::Value root;
+	bool bRet = CRedisMgr::GetInstance()->Get(nameInfo, strValue);
+	if (bRet)
+	{
+		reader.parse(strValue, root);
+		retValue["uid"] = root["uid"];
+		retValue["name"] = root["name"];
+		retValue["pwd"] = root["pwd"];
+		retValue["email"] = root["email"];
+		retValue["nick"] = root["nick"];
+		retValue["desc"] = root["desc"];
+		retValue["gender"] = root["gender"];
+		retValue["icon"] = root["icon"];
+		return;
+	}
+
+	//Get user info from mysql
+	std::shared_ptr<UserInfo> pUserInfo = MySqlMgr::GetInstance()->GetUserInfo(name);
+	if (pUserInfo == nullptr)
+	{
+		retValue["error"] = ErrorCodes::Uid_Invalid;
+		return;
+	}
+
+	//Save to redis
+	root["uid"] = pUserInfo->uid;
+	root["name"] = pUserInfo->name;
+	root["pwd"] = pUserInfo->pwd;
+	root["email"] = pUserInfo->email;
+	root["nick"] = pUserInfo->nick;
+	root["desc"] = pUserInfo->desc;
+	root["gender"] = pUserInfo->gender;
+	root["icon"] = pUserInfo->icon;
+
+	CRedisMgr::GetInstance()->Set(nameInfo, root.toStyledString());
+
+	//Save to return value
+	retValue["uid"] = pUserInfo->uid;
+	retValue["name"] = pUserInfo->name;
+	retValue["pwd"] = pUserInfo->pwd;
+	retValue["email"] = pUserInfo->email;
+	retValue["nick"] = pUserInfo->nick;
+	retValue["desc"] = pUserInfo->desc;
+	retValue["gender"] = pUserInfo->gender;
+	retValue["icon"] = pUserInfo->icon;
 }
