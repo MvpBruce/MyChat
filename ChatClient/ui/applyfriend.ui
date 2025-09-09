@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>361</width>
-    <height>621</height>
+    <height>596</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -250,6 +250,12 @@
                   <width>108</width>
                   <height>35</height>
                  </rect>
+                </property>
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
                 </property>
                 <property name="minimumSize">
                  <size>

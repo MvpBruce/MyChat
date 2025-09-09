@@ -5,6 +5,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QLineEdit>
+#include <QRandomGenerator>
 
 RegisterDialog::RegisterDialog(QWidget *parent)
     : QDialog(parent)
@@ -215,6 +216,12 @@ void RegisterDialog::on_btn_ok_clicked()
     jsonObj["email"] = ui->lineEdit_Email->text();
     jsonObj["password"] = ui->lineEdit_Pwd->text();
     jsonObj["verifycode"] = ui->lineEdit_Code->text();
+    jsonObj["nick"] = ui->lineEdit_User->text();
+    jsonObj["gender"] = 0;
+
+    int randomValue = QRandomGenerator::global()->bounded(100);
+    int head_i = randomValue % heads.size();
+    jsonObj["icon"] = heads[head_i];
 
     HttpMgr::GetInstance()->PostHttpRequst(QUrl(strGateServerURL + "/register"), jsonObj, RequstID::REGISTER_USER, Modules::REGISTER);
 }

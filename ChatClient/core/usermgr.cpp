@@ -10,17 +10,22 @@ UserMgr::~UserMgr()
 
 }
 
-void UserMgr::setName(QString name)
+void UserMgr::SetName(QString name)
 {
     m_Name = name;
 }
 
-void UserMgr::setUId(int uid)
+void UserMgr::SetUId(int uid)
 {
     m_UId = uid;
 }
 
-void UserMgr::setToken(QString token)
+void UserMgr::SetToken(QString token)
 {
     m_Token = token;
+}
+
+QString& UserMgr::GetName()
+{
+    return m_Name;
 }

@@ -125,9 +125,9 @@ void TcpMgr::initHandlers()
             return;
         }
 
-        UserMgr::GetInstance()->setUId(jsonObj["uid"].toInt());
-        UserMgr::GetInstance()->setUId(jsonObj["name"].toInt());
-        UserMgr::GetInstance()->setUId(jsonObj["token"].toInt());
+        UserMgr::GetInstance()->SetUId(jsonObj["uid"].toInt());
+        UserMgr::GetInstance()->SetUId(jsonObj["name"].toInt());
+        UserMgr::GetInstance()->SetUId(jsonObj["token"].toInt());
         //todo
         emit sig_switch_chatDialog();
     });

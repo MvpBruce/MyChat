@@ -5,33 +5,6 @@
 #include "userchatitem.h"
 #include <QMouseEvent>
 
-//test
-std::vector<QString>  strs ={"hello world !",
-                             "nice to meet u",
-                             "New year，new life",
-                             "You have to love yourself",
-                             "My love is written in the wind ever since the whole world is you"};
-
-std::vector<QString> heads = {
-    ":/assets/image/head_1.jpg",
-    ":/assets/image/head_2.jpg",
-    ":/assets/image/head_3.jpg",
-    ":/assets/image/head_4.jpg",
-    ":/assets/image/head_5.jpg"
-};
-
-std::vector<QString> names = {
-    "llfc",
-    "zack",
-    "golang",
-    "cpp",
-    "java",
-    "nodejs",
-    "python",
-    "rust"
-};
-//end
-
 ChatDialog::ChatDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::ChatDialog), m_bLoading(false), m_Mode(SideBarMode::Chat), m_State(SideBarMode::Chat)
