@@ -5,6 +5,8 @@
 #include "UserMgr.h"
 #include "RedisMgr.h"
 #include "ConfigMgr.h"
+#include "UserData.h"
+#include "MySqlMgr.h"
 
 TaskSystem::TaskSystem(): m_bStop(false)
 {
@@ -21,7 +23,8 @@ TaskSystem::~TaskSystem()
 
 void TaskSystem::RegisterEvent()
 {
-	m_Handler[static_cast<short>(MSG_IDS::MSG_CHAT_LOGIN)] = std::bind(&TaskSystem::LoginHandler, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+	m_Handler[MSG_IDS::MSG_CHAT_LOGIN] = std::bind(&TaskSystem::LoginHandler, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+	m_Handler[SEARCH_USER_REQ] = std::bind(&TaskSystem::SearchInfoHandler, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
 }
 
 void TaskSystem::LoginHandler(std::shared_ptr<Session> session, const short& msgId, const std::string& msgData)
@@ -61,15 +64,29 @@ void TaskSystem::LoginHandler(std::shared_ptr<Session> session, const short& msg
 
 	retValue["error"] = ErrorCodes::Success;
 
+	auto pUserInfo = std::make_shared<UserInfo>();
+	std::string strBaseInfo = USERBASEINFO;
+	strBaseInfo += strUid;
+
 	//Check user base info.  redis and mysql, todo
 	//getbaserinfo()
-
+	if (false)
+	{
+		retValue["error"] = ErrorCodes::Uid_Invalid;
+		return;
+	}
 
 	retValue["uid"] = uid;
-	retValue["token"] = rsp.token();
-	//retValue["name"] = userin.name
+	retValue["pwd"] = pUserInfo->pwd;
+	retValue["name"] = pUserInfo->name;
+	retValue["email"] = pUserInfo->email;
+	retValue["nick"] = pUserInfo->nick;
+	retValue["desc"] = pUserInfo->desc;
+	retValue["gender"] = pUserInfo->gender;
+	retValue["icon"] = pUserInfo->icon;
 
-	//
+	//todo, get apply list from mysql
+	//todo, get contact list
 	auto serverName = ConfigMgr::GetInstance()["CurrentServer"]["name"];
 	bRet = CRedisMgr::GetInstance()->HGet(LOGIN_NUMBER, serverName, strValue);
 	int nLoginNumber = 0;
@@ -80,6 +97,10 @@ void TaskSystem::LoginHandler(std::shared_ptr<Session> session, const short& msg
 	std::string strNumber = std::to_string(nLoginNumber);
 	CRedisMgr::GetInstance()->HSet(LOGIN_NUMBER, serverName, strNumber);
 	session->SetUserId(uid);
+	//bind uid and server name
+	std::string strIpKey = USERIPPREFIX;
+	strIpKey += strUid;
+	CRedisMgr::GetInstance()->Set(strIpKey, serverName);
 	UserMgr::GetInstance()->SetSession(uid, session);
 }
 
@@ -138,4 +159,133 @@ void TaskSystem::ProcessMsg()
 		it->second(msgNode->m_Session, msgNode->m_RecvData->m_msgId, msgNode->m_RecvData->m_pData);
 		m_MsgQueue.pop();
 	}
+}
+
+void TaskSystem::SearchInfoHandler(std::shared_ptr<Session> session, const short& msgId, const std::string& msgData)
+{
+	Json::Reader reader;
+	Json::Value root;
+	reader.parse(msgData, root);
+	auto strUid = root["uid"].asString();
+	std::cout << "User search uid: " << strUid << std::endl;
+
+	Json::Value retValue;
+	Defer defer([this, &retValue, session]() {
+		session->Send(retValue.toStyledString(), MSG_IDS::SEARCH_USER_RSP);
+	});
+
+	bool bDigit = std::all_of(strUid.begin(), strUid.end(), [](unsigned char ch) {return std::isdigit(ch); });
+	if (bDigit)
+		GetUserInfoByID(strUid, retValue);
+	else
+		GetUserInfoByName(strUid, retValue);
+}
+
+void TaskSystem::GetUserInfoByID(const std::string& strUid, Json::Value& retValue)
+{
+	retValue["error"] = ErrorCodes::Success;
+	std::string baseInfo = USERBASEINFO;
+	baseInfo += strUid;
+	std::string strValue = "";
+	Json::Reader reader;
+	Json::Value root;
+	bool bRet = CRedisMgr::GetInstance()->Get(baseInfo, strValue);
+	if (bRet)
+	{
+		reader.parse(strValue, root);
+		retValue["uid"] = root["uid"];
+		retValue["name"] = root["name"];
+		retValue["pwd"] = root["pwd"];
+		retValue["email"] = root["email"];
+		retValue["nick"] = root["nick"];
+		retValue["desc"] = root["desc"];
+		retValue["gender"] = root["gender"];
+		retValue["icon"] = root["icon"];
+		return;
+	}
+
+	//Get user info from mysql
+	auto uid = atoi(strUid.c_str());
+	std::shared_ptr<UserInfo> pUserInfo = MySqlMgr::GetInstance()->GetUserInfo(uid);
+	if (pUserInfo == nullptr)
+	{
+		retValue["error"] = ErrorCodes::Uid_Invalid;
+		return;
+	}
+	
+	//Save to redis
+	root["uid"] = pUserInfo->uid;
+	root["name"] = pUserInfo->name;
+	root["pwd"] = pUserInfo->pwd;
+	root["email"] = pUserInfo->email;
+	root["nick"] = pUserInfo->nick;
+	root["desc"] = pUserInfo->desc;
+	root["gender"] = pUserInfo->gender;
+	root["icon"] = pUserInfo->icon;
+
+	CRedisMgr::GetInstance()->Set(baseInfo, root.toStyledString());
+
+	//Save to return value
+	retValue["uid"] = pUserInfo->uid;
+	retValue["name"] = pUserInfo->name;
+	retValue["pwd"] = pUserInfo->pwd;
+	retValue["email"] = pUserInfo->email;
+	retValue["nick"] = pUserInfo->nick;
+	retValue["desc"] = pUserInfo->desc;
+	retValue["gender"] = pUserInfo->gender;
+	retValue["icon"] = pUserInfo->icon;
+}
+
+void TaskSystem::GetUserInfoByName(const std::string& name, Json::Value& retValue)
+{
+	retValue["error"] = ErrorCodes::Success;
+	std::string nameInfo = NAMEINFO;
+	nameInfo += name;
+	std::string strValue = "";
+	Json::Reader reader;
+	Json::Value root;
+	bool bRet = CRedisMgr::GetInstance()->Get(nameInfo, strValue);
+	if (bRet)
+	{
+		reader.parse(strValue, root);
+		retValue["uid"] = root["uid"];
+		retValue["name"] = root["name"];
+		retValue["pwd"] = root["pwd"];
+		retValue["email"] = root["email"];
+		retValue["nick"] = root["nick"];
+		retValue["desc"] = root["desc"];
+		retValue["gender"] = root["gender"];
+		retValue["icon"] = root["icon"];
+		return;
+	}
+
+	//Get user info from mysql
+	std::shared_ptr<UserInfo> pUserInfo = MySqlMgr::GetInstance()->GetUserInfo(name);
+	if (pUserInfo == nullptr)
+	{
+		retValue["error"] = ErrorCodes::Uid_Invalid;
+		return;
+	}
+
+	//Save to redis
+	root["uid"] = pUserInfo->uid;
+	root["name"] = pUserInfo->name;
+	root["pwd"] = pUserInfo->pwd;
+	root["email"] = pUserInfo->email;
+	root["nick"] = pUserInfo->nick;
+	root["desc"] = pUserInfo->desc;
+	root["gender"] = pUserInfo->gender;
+	root["icon"] = pUserInfo->icon;
+
+	CRedisMgr::GetInstance()->Set(nameInfo, root.toStyledString());
+
+	//Save to return value
+	retValue["uid"] = pUserInfo->uid;
+	retValue["name"] = pUserInfo->name;
+	retValue["pwd"] = pUserInfo->pwd;
+	retValue["email"] = pUserInfo->email;
+	retValue["nick"] = pUserInfo->nick;
+	retValue["desc"] = pUserInfo->desc;
+	retValue["gender"] = pUserInfo->gender;
+	retValue["icon"] = pUserInfo->icon;
 }

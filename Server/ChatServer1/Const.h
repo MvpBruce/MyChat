@@ -46,7 +46,9 @@ private:
 enum MSG_IDS
 {
 	MSG_CHAT_LOGIN = 1005,
-	MSG_CHAT_LOGIN_RSP = 1006
+	MSG_CHAT_LOGIN_RSP = 1006,
+	SEARCH_USER_REQ = 1007,
+	SEARCH_USER_RSP = 1008
 };
 
 #define MAX_LEN 2048
@@ -57,3 +59,6 @@ enum MSG_IDS
 
 #define LOGIN_NUMBER "loginnumber"
 #define UTOKENPREFIX "utoken_";
+#define USERIPPREFIX "uip_";
+#define USERBASEINFO "userbaseinfo_"
+#define NAMEINFO  "nameinfo_"
