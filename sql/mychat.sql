@@ -11,16 +11,23 @@ CREATE TABLE `user`  (
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   `pwd` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `nick` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `desc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `gender` int NOT NULL DEFAULT 0,
+  `icon` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uid`(`uid` ASC) USING BTREE,
-  INDEX `name`(`name` ASC) USING BTREE,
-  UNIQUE INDEX `email`(`email` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+  UNIQUE INDEX `email`(`email` ASC) USING BTREE,
+  INDEX `name`(`name` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (2, 1001, 'bruce', '300200@qq.com', '123456');
+INSERT INTO `user` VALUES (3, 1002, 'dell', '300200@qq.com', '123456', 'dell', '', 0, ':/assets/image/head_1.jpg');
+INSERT INTO `user` VALUES (4, 1003, 'bruce', 'bruce@qq.com', '123456', 'bruce', '', 0, ':/assets/image/head_1.jpg');
+INSERT INTO `user` VALUES (5, 1004, 'yuanweihua', '1456188862@qq.com', '}kyn;89>?<', 'yuanweihua', '', 0, ':/assets/image/head_1.jpg');
+INSERT INTO `user` VALUES (6, 1005, 'test', '2022202210033@whu.edu.cn', '}kyn;89>?<', 'test', '', 0, ':/assets/image/head_1.jpg');
 
 -- ----------------------------
 -- Table structure for user_id
@@ -34,7 +41,7 @@ CREATE TABLE `user_id`  (
 -- ----------------------------
 -- Records of user_id
 -- ----------------------------
-INSERT INTO `user_id` VALUES (1001);
+INSERT INTO `user_id` VALUES (1005);
 
 -- ----------------------------
 -- Procedure structure for reg_user
