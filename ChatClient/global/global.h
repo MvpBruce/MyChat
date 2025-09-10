@@ -15,9 +15,11 @@ enum RequstID {
     LOGIN_USER = 1004,//user login
     CHAT_LOGIN = 1005,//login to chat server
     CHAT_LOGIN_RSP = 1006,//resopnse from chat server
-    SEARCH_USER_REQ, //request searching user
-    SEARCH_USER_RSP,// response from chat server
-    ADD_FRIEND_REQ,//request adding friend
+    SEARCH_USER_REQ = 1007, //request searching user
+    SEARCH_USER_RSP = 1008,// response from chat server
+    ADD_FRIEND_REQ = 1009,//request adding friend
+    ADD_FRIEND_RSP = 1010,
+    ADD_FRIEND_NOTIFY = 1011
 };
 
 enum ErrorCodes

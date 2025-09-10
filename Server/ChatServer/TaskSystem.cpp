@@ -5,7 +5,6 @@
 #include "UserMgr.h"
 #include "RedisMgr.h"
 #include "ConfigMgr.h"
-#include "UserData.h"
 #include "MySqlMgr.h"
 
 TaskSystem::TaskSystem(): m_bStop(false)
@@ -24,7 +23,8 @@ TaskSystem::~TaskSystem()
 void TaskSystem::RegisterEvent()
 {
 	m_Handler[MSG_IDS::MSG_CHAT_LOGIN] = std::bind(&TaskSystem::LoginHandler, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
-	m_Handler[SEARCH_USER_REQ] = std::bind(&TaskSystem::SearchInfoHandler, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+	m_Handler[MSG_IDS::SEARCH_USER_REQ] = std::bind(&TaskSystem::SearchInfoHandler, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+	m_Handler[MSG_IDS::ADD_FRIEND_REQ] = std::bind(&TaskSystem::AddFriendApply, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
 }
 
 void TaskSystem::LoginHandler(std::shared_ptr<Session> session, const short& msgId, const std::string& msgData)
@@ -67,10 +67,8 @@ void TaskSystem::LoginHandler(std::shared_ptr<Session> session, const short& msg
 	auto pUserInfo = std::make_shared<UserInfo>();
 	std::string strBaseInfo = USERBASEINFO;
 	strBaseInfo += strUid;
-
-	//Check user base info.  redis and mysql, todo
-	//getbaserinfo()
-	if (false)
+	bRet = GetBaseInfo(strBaseInfo, uid, pUserInfo);
+	if (!bRet)
 	{
 		retValue["error"] = ErrorCodes::Uid_Invalid;
 		return;
@@ -179,6 +177,109 @@ void TaskSystem::SearchInfoHandler(std::shared_ptr<Session> session, const short
 		GetUserInfoByID(strUid, retValue);
 	else
 		GetUserInfoByName(strUid, retValue);
+}
+
+void TaskSystem::AddFriendApply(std::shared_ptr<Session> session, const short& msgId, const std::string& msgData)
+{
+	Json::Reader reader;
+	Json::Value root;
+	reader.parse(msgData, root);
+	auto uid = root["uid"].asInt();
+	auto applyname = root["applyname"].asString();
+	auto bakname = root["bakname"].asString();
+	auto touid = root["touid"].asInt();
+	std::cout << "uid: " << uid << " applyname: "
+		<< applyname << " bakname: " << bakname << " touid: " << touid << std::endl;
+
+	Json::Value retValue;
+	retValue["error"] = ErrorCodes::Success;
+	Defer defer([this, &retValue, session]() {
+		session->Send(retValue.toStyledString(), MSG_IDS::ADD_FRIEND_RSP);
+	});
+
+	//Add to mysql
+	MySqlMgr::GetInstance()->AddFriendApply(uid, touid);
+
+	//Get to_uid's server from redis
+	std::string toIpKey = USERIPPREFIX;
+	toIpKey += std::to_string(touid);
+	std::string toServerName = "";
+	bool bRet = CRedisMgr::GetInstance()->Get(toIpKey, toServerName);
+	if (!bRet)
+		return;
+
+	auto cfg = ConfigMgr::GetInstance();
+	auto selfName = cfg["CurrentServer"]["name"];
+	std::string strBaseKey = USERBASEINFO;
+	strBaseKey += std::to_string(uid);
+	auto pInfo = std::make_shared<UserInfo>();
+	bRet = GetBaseInfo(strBaseKey, uid, pInfo);
+	if (selfName == toServerName)
+	{
+		auto session = UserMgr::GetInstance()->GetSession(touid);
+		if (session)
+		{
+			Json::Value notifyValue;
+			notifyValue["error"] = ErrorCodes::Success;
+			notifyValue["applyuid"] = uid;
+			notifyValue["name"] = applyname;
+			notifyValue["desc"] = "";
+			if (bRet)
+			{
+				notifyValue["icon"] = pInfo->icon;
+				notifyValue["gender"] = pInfo->gender;
+				notifyValue["nick"] = pInfo->nick;
+			}
+
+			//Send to target user's client
+			session->Send(notifyValue.toStyledString(), MSG_IDS::ADD_FRIEND_NOTIFY);
+		}
+
+		return;
+	}
+
+	//Users are in different chat server, need to use grpc
+
+}
+
+bool TaskSystem::GetBaseInfo(std::string strKey, int uid, std::shared_ptr<UserInfo>& pUserInfo)
+{
+	std::string strInfo = "";
+	bool bRet = CRedisMgr::GetInstance()->Get(strKey, strInfo);
+	if (bRet)
+	{
+		Json::Reader reader;
+		Json::Value root;
+		reader.parse(strInfo, root);
+		pUserInfo->uid = root["uid"].asInt();
+		pUserInfo->name = root["name"].asString();
+		pUserInfo->pwd = root["pwd"].asString();
+		pUserInfo->email = root["email"].asString();
+		pUserInfo->nick = root["nick"].asString();
+		pUserInfo->desc = root["desc"].asString();
+		pUserInfo->gender = root["gender"].asInt();
+		pUserInfo->icon = root["icon"].asString();
+	}
+	else
+	{
+		pUserInfo = MySqlMgr::GetInstance()->GetUserInfo(uid);
+		if (pUserInfo == nullptr)
+			return false;
+
+		Json::Value redisRoot;
+		redisRoot["uid"] = uid;
+		redisRoot["name"] = pUserInfo->name;
+		redisRoot["pwd"] = pUserInfo->pwd;
+		redisRoot["email"] = pUserInfo->email;
+		redisRoot["nick"] = pUserInfo->nick;
+		redisRoot["desc"] = pUserInfo->desc;
+		redisRoot["gender"] = pUserInfo->gender;
+		redisRoot["icon"] = pUserInfo->icon;
+
+		CRedisMgr::GetInstance()->Set(strKey, redisRoot.toStyledString());
+	}
+
+	return true;
 }
 
 void TaskSystem::GetUserInfoByID(const std::string& strUid, Json::Value& retValue)

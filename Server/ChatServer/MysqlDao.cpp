@@ -216,7 +216,7 @@ std::shared_ptr<UserInfo> MysqlDao::GetUserInfo(const std::string& name)
 
 	Defer defer([this, &con]() {
 		m_pool->ReturnConnection(std::move(con));
-		});
+	});
 
 	try {
 		std::unique_ptr<sql::PreparedStatement> st(con->prepareStatement("SELECT * from user WHERE name = ?"));
@@ -246,5 +246,34 @@ std::shared_ptr<UserInfo> MysqlDao::GetUserInfo(const std::string& name)
 		std::cerr << " (MySQL error code: " << e.getErrorCode();
 		std::cerr << ", SQLState: " << e.getSQLState() << " )" << std::endl;
 		return nullptr;
+	}
+}
+
+bool MysqlDao::AddFriendApply(const int& from, const int& to)
+{
+	auto con = m_pool->GetConnection();
+	if (!con)
+		return false;
+
+	Defer defer([this, &con]() {
+		m_pool->ReturnConnection(std::move(con));
+	});
+
+	try 
+	{
+		std::unique_ptr<sql::PreparedStatement> st(con->prepareStatement("INSERT INTO friend_apply(from_id, to_id) VALUES(?, ?) ON DUPLICATE KEY UPDATE from_id = from_id, to_id = to_id"));
+		st->setInt(1, from);
+		st->setInt(2, to);
+		if (st->executeUpdate() < 0)
+			return false;
+		
+		return true;
+	}
+	catch (sql::SQLException& e)
+	{
+		std::cerr << "SQLException: " << e.what();
+		std::cerr << " (MySQL error code: " << e.getErrorCode();
+		std::cerr << ", SQLState: " << e.getSQLState() << " )" << std::endl;
+		return false;
 	}
 }

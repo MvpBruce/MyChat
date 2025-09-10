@@ -27,4 +27,19 @@ struct UserInfo
     int m_nGender;
 };
 
+class AddFriendInfo {
+public:
+    AddFriendInfo(int from_uid, QString name, QString desc, QString icon, QString nick, int gender)
+        : m_nFromUId(from_uid), m_strName(name), m_strDesc(desc), m_strIcon(icon), m_strNick(nick), m_nGender(gender)
+    {}
+
+public:
+    int m_nFromUId;
+    QString m_strName;
+    QString m_strDesc;
+    QString m_strIcon;
+    QString m_strNick;
+    int m_nGender;
+};
+
 #endif // USERDATA_H

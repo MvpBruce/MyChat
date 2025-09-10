@@ -161,6 +161,34 @@ void TcpMgr::initHandlers()
         auto pSearchInfo = std::make_shared<SearchInfo>(jObj["uid"].toInt(), jObj["name"].toString(), jObj["nick"].toString(), jObj["desc"].toString(), jObj["gender"].toInt(), jObj["icon"].toString());
         emit sig_user_search(pSearchInfo);
     });
+
+    m_handlers.insert(RequstID::ADD_FRIEND_NOTIFY, [this](RequstID id, int len, QByteArray data) {
+        Q_UNUSED(len);
+        qDebug() << "id: " << id << "data: " << data;
+
+        QJsonDocument jsonDoc = QJsonDocument::fromJson(data);
+        if (jsonDoc.isNull()) {
+            qDebug() << "Failed to create QJsonDocument.";
+            return;
+        }
+
+        QJsonObject jsonObj = jsonDoc.object();
+        if (!jsonObj.contains("error")) {
+            qDebug() << "Failed to parse json, no error in json";
+            emit sig_user_search(nullptr);
+            return;
+        }
+
+        int nFromUId = jsonObj["applyuid"].toInt();
+        QString strName = jsonObj["name"].toString();
+        QString strDesc = jsonObj["desc"].toString();
+        QString strIcon = jsonObj["icon"].toString();
+        QString strNick = jsonObj["nick"].toString();
+        int nGender = jsonObj["gender"].toInt();
+
+        auto addFriendInfo = std::make_shared<AddFriendInfo>(nFromUId, strName, strDesc, strIcon, strNick, nGender);
+        emit sig_friend_apply(addFriendInfo);
+    });
 }
 
 void TcpMgr::processMsg(RequstID id, int len, QByteArray data)
