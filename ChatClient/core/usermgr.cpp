@@ -29,3 +29,8 @@ QString& UserMgr::GetName()
 {
     return m_Name;
 }
+
+int UserMgr::GetUId()
+{
+    return m_UId;
+}

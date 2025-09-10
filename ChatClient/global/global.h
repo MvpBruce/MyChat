@@ -17,6 +17,7 @@ enum RequstID {
     CHAT_LOGIN_RSP = 1006,//resopnse from chat server
     SEARCH_USER_REQ, //request searching user
     SEARCH_USER_RSP,// response from chat server
+    ADD_FRIEND_REQ,//request adding friend
 };
 
 enum ErrorCodes
@@ -45,7 +46,8 @@ enum ListItemType {
     CHAT_USER_ITEM,
     ADD_USER_TIP_ITEM,
     INVALID_ITEM,
-    CONTACT_USER_ITEM
+    CONTACT_USER_ITEM,
+    APPLY_FRIEND_ITEM
 };
 
 enum Role

@@ -4,6 +4,7 @@
 #include <QListWidget>
 
 class UserContactItem;
+class UserInfo;
 class ContactList : public QListWidget
 {
     Q_OBJECT
@@ -22,6 +23,7 @@ public slots:
 
 signals:
     void sig_load_contacts();
+    void sig_switch_friend_info_page(std::shared_ptr<UserInfo> user_info);
 
 private:
     UserContactItem* m_pContactItem;

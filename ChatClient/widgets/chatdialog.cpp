@@ -63,7 +63,7 @@ ChatDialog::ChatDialog(QWidget *parent)
     connect(ui->contacts_lable, &StateWidget::clicked, this, &ChatDialog::slot_clicked_contact);
 
     connect(ui->search_edit, &QLineEdit::textChanged, this, &ChatDialog::slot_text_changed);
-
+    connect(ui->user_con_list, &ContactList::sig_switch_friend_info_page, this, &ChatDialog::slot_friend_info_page);
     ui->search_chat_list->SetSearchEdit(ui->search_edit);
     AddChatUserList();
 
@@ -138,6 +138,14 @@ void ChatDialog::slot_text_changed(const QString &text)
 {
     if (!text.isEmpty())
         SwitchMode(true);
+}
+
+void ChatDialog::slot_friend_info_page(std::shared_ptr<UserInfo> pUserInfo)
+{
+    //todo set friend info page
+    //ui->stackedWidget->setCurrentWidget(ui->friend)
+    //ui->friendInfoPage->setInfo(pUserInfo);
+    qDebug() << "ChatDialog::slot_friend_info_page";
 }
 
 bool ChatDialog::eventFilter(QObject *watched, QEvent *event)

@@ -18,6 +18,7 @@ public:
     QSize sizeHint() const override;
     void SetInfo(int nUid, QString strName, QString strIcon);
     void ShowRedPoint(bool bShow = false);
+    std::shared_ptr<UserInfo> GetInfo();
 
 private:
     Ui::UserContactItem *ui;

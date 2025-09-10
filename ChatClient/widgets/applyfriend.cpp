@@ -5,6 +5,8 @@
 #include <QFontMetrics>
 #include <QScrollBar>
 #include "core/usermgr.h"
+#include <QJsonObject>
+#include "core/TcpMgr.h"
 
 const int g_tipHOffset = 5;
 const int g_tipVOffset = 15;
@@ -120,6 +122,24 @@ void ApplyFriend::slot_change_tip(QString text, ClickState state)
 
 void ApplyFriend::slot_apply_ok()
 {
+    //todo
+    QJsonObject jObj;
+    auto uid = UserMgr::GetInstance()->GetUId();
+    jObj["uid"] = uid;
+    auto name = ui->nameEdit->text();
+    if (name.isEmpty())
+        name = ui->nameEdit->placeholderText();
+
+    jObj["applyname"] = name;
+    auto nickName = ui->nickNameEdit->text();
+    if (nickName.isEmpty())
+        nickName = ui->nickNameEdit->placeholderText();
+    jObj["backname"] = nickName;
+    jObj["touid"] = m_pSearchInfo->m_nUID;
+
+    QJsonDocument jDoc(jObj);
+    QByteArray jsonData = jDoc.toJson(QJsonDocument::Compact);
+    emit TcpMgr::GetInstance()->sig_send_data(RequstID::ADD_FRIEND_REQ, jsonData);
     this->hide();
     deleteLater();
 }

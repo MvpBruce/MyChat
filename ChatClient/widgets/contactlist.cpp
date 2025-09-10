@@ -94,6 +94,20 @@ void ContactList::slot_item_clicked(QListWidgetItem *item)
         return;
     }
 
+    if (nType == ListItemType::APPLY_FRIEND_ITEM)
+    {
+        qDebug() << "Invalid Item";
+        return;
+    }
+
+    if (nType == ListItemType::CONTACT_USER_ITEM)
+    {
+        auto contactItem = qobject_cast<UserContactItem*>(pBase);
+        auto pUserInfo = contactItem->GetInfo();
+        emit sig_switch_friend_info_page(pUserInfo);
+        return;
+    }
+
     //todo
     //1.friend info page
     //2.other, likes apply page

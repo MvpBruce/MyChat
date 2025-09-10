@@ -9,7 +9,7 @@ class ChatDialog;
 }
 
 class StateWidget;
-
+class UserInfo;
 class ChatDialog : public QDialog
 {
     Q_OBJECT
@@ -26,6 +26,7 @@ public slots:
     void slot_clicked_chat();
     void slot_clicked_contact();
     void slot_text_changed(const QString& text);
+    void slot_friend_info_page(std::shared_ptr<UserInfo> pUserInfo);
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event);

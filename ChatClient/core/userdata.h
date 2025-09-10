@@ -16,6 +16,9 @@ public:
 
 struct UserInfo
 {
+    UserInfo(int uid, QString name, QString nick, QString icon, int gender, QString msg = "")
+        : m_nUID(uid), m_strName(name), m_strNick(nick), m_strIcon(icon), m_strLastMsg(msg), m_nGender(gender)
+    {}
     int m_nUID;
     QString m_strName;
     QString m_strNick;

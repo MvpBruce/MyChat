@@ -23,8 +23,7 @@ QSize UserContactItem::sizeHint() const
 
 void UserContactItem::SetInfo(int nUid, QString strName, QString strIcon)
 {
-    //todo
-    m_pUserInfo = std::make_shared<UserInfo>();
+    m_pUserInfo = std::make_shared<UserInfo>(nUid, strName, strName, strIcon, 0);
     QPixmap pixMap(strIcon);
     ui->icon_lb->setPixmap(pixMap.scaled(ui->icon_lb->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
     ui->icon_lb->setScaledContents(true);
@@ -37,4 +36,9 @@ void UserContactItem::ShowRedPoint(bool bShow)
         ui->red_piont->show();
     else
         ui->red_piont->hide();
+}
+
+std::shared_ptr<UserInfo> UserContactItem::GetInfo()
+{
+    return m_pUserInfo;
 }
