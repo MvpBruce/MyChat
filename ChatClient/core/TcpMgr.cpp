@@ -212,6 +212,14 @@ void TcpMgr::initHandlers()
             return;
         }
 
+        int nError = jsonObj["error"].toInt();
+        if (nError != ErrorCodes::SUCCESS)
+        {
+            qDebug() << "Failed to notify add friend, error: " << nError;
+            emit sig_user_search(nullptr);
+            return;
+        }
+
         int nFromUId = jsonObj["applyuid"].toInt();
         QString strName = jsonObj["name"].toString();
         QString strDesc = jsonObj["desc"].toString();

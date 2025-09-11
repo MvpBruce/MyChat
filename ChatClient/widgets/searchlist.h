@@ -7,6 +7,7 @@
 
 class SearchInfo;
 class QDialog;
+class LoadingDlg;
 class SearchList : public QListWidget
 {
     Q_OBJECT
@@ -20,12 +21,13 @@ protected:
 
 private:
     void AddTipItem();
-    void WaitPending(bool bPending = true);
+    void ShowLoading(bool bPending = true);
 
 private:
     std::shared_ptr<QDialog> m_pFindDlg;
     QWidget* m_pSearchEdit;
     bool m_bPending;
+    LoadingDlg* m_pLoadingDlg;
 
 private slots:
     void slot_item_clicked(QListWidgetItem* pItem);

@@ -1,7 +1,7 @@
 #include "searchlineedit.h"
 
 SearchLineEdit::SearchLineEdit(QWidget* parent)
-    :QLineEdit(parent), m_MaxLen(0)
+    :QLineEdit(parent), m_MaxLen(256)
 {
     connect(this, &QLineEdit::textChanged, this, &SearchLineEdit::limitTextLength);
 }

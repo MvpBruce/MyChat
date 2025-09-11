@@ -134,6 +134,7 @@ void ApplyFriend::slot_apply_ok()
     auto nickName = ui->nickNameEdit->text();
     if (nickName.isEmpty())
         nickName = ui->nickNameEdit->placeholderText();
+
     jObj["backname"] = nickName;
     jObj["touid"] = m_pSearchInfo->m_nUID;
 

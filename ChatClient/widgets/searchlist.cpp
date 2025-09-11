@@ -8,9 +8,11 @@
 #include "core/userdata.h"
 #include "searchlineedit.h"
 #include <QJsonObject>
+#include "loadingdlg.h"
+#include "core/usermgr.h"
 
 SearchList::SearchList(QWidget *parent)
-    : QListWidget(parent), m_pFindDlg(nullptr), m_pSearchEdit(nullptr), m_bPending(false)
+    : QListWidget(parent), m_pFindDlg(nullptr), m_pSearchEdit(nullptr), m_bPending(false), m_pLoadingDlg(nullptr)
 {
     this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -72,9 +74,21 @@ void SearchList::AddTipItem()
     this->setItemWidget(pItem, pUserItem);
 }
 
-void SearchList::WaitPending(bool bPending)
+void SearchList::ShowLoading(bool bPending)
 {
+    if (m_bPending)
+    {
+        m_pLoadingDlg = new LoadingDlg(this);
+        m_pLoadingDlg->setModal(true);
+        m_pLoadingDlg->show();
+    }
+    else
+    {
+        m_pLoadingDlg->hide();
+        m_pLoadingDlg->deleteLater();
+    }
 
+    m_bPending = bPending;
 }
 
 void SearchList::slot_item_clicked(QListWidgetItem *pItem)
@@ -93,9 +107,13 @@ void SearchList::slot_item_clicked(QListWidgetItem *pItem)
 
     if (nType == ListItemType::ADD_USER_TIP_ITEM)
     {
+        if (m_bPending)
+            return;
+
         if (!m_pSearchEdit)
             return;
 
+        this->ShowLoading(true);
         auto pSearchEdit = dynamic_cast<SearchLineEdit*>(m_pSearchEdit);
         auto strUid = pSearchEdit->text();
         QJsonObject jObj;
@@ -112,6 +130,7 @@ void SearchList::slot_item_clicked(QListWidgetItem *pItem)
 
 void SearchList::slot_user_search(std::shared_ptr<SearchInfo> pSearchInfo)
 {
+    ShowLoading(false);
     if (pSearchInfo == nullptr)
     {
         //todo, create a fail dialog
@@ -119,6 +138,11 @@ void SearchList::slot_user_search(std::shared_ptr<SearchInfo> pSearchInfo)
     }
     else
     {
+        auto uid = UserMgr::GetInstance()->GetUId();
+        //look for self, return
+        if (uid == pSearchInfo->m_nUID)
+            return;
+
         m_pFindDlg = std::make_shared<UserFoundDlg>(this);
         std::dynamic_pointer_cast<UserFoundDlg>(m_pFindDlg)->SetSearchInfo(pSearchInfo);
     }

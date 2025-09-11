@@ -98,7 +98,7 @@
           </size>
          </property>
          <property name="text">
-          <string>Apply to friend</string>
+          <string>Apply friend</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignmentFlag::AlignCenter</set>

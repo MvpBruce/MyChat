@@ -22,5 +22,6 @@
         <file>../assets/image/add_tip.png</file>
         <file>../assets/image/right_tip.png</file>
         <file>../assets/image/red_point.png</file>
+        <file>../assets/image/arrowdown.png</file>
     </qresource>
 </RCC>

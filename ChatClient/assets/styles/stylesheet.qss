@@ -23,7 +23,7 @@ QDialog#LoginDialog{
     border: 2px solid #f1f1f1;
 }
 
-/*search list*/
+/*****search list******/
 #search_chat_list {
 	background-color: rgb(247, 247, 248);
 	border: none;
@@ -65,7 +65,7 @@ QDialog#LoginDialog{
   font-size: 12pt;
 }
 
-/*end*/
+/******end******/
 
 #user_chat_list {
 	background-color:rgb(247, 247, 247);
@@ -182,6 +182,159 @@ UserChatItem {
 #redPoint {
     border-image: url(:/assets/image/red_point.png);
 }
+
+/****** Apply friend dialog ******/
+
+#applyFriend {
+	border: 2px solid #f1f1f1;
+    font-size: 14px;
+    background: #f7f7f8;
+}
+
+#scrollArea {
+	background: #f7f7f8;
+    border: none;
+}
+
+#scrollAreaWidgetContents {
+	background: #f7f7f8;
+}
+
+#scrollAreaWidgetContents #applyLb {
+    font-family: "Microsoft YaHei";
+    font-size: 16px;
+    font-weight: normal;
+}
+
+#applyWid QLabel{
+    color:rgb(140,140,140);
+    font-size: 14px;
+    font-family: "Microsoft YaHei";
+    height: 25px;
+}
+
+#applyWid #nameEdit, #applyWid #nickNameEdit {
+	border: 1px solid #f7f7f8;
+    font-size: 14px;
+    font-family: "Microsoft YaHei";
+}
+
+#applyWid #labelEdit{
+    border: none;
+    font-size: 14px;
+    font-family: "Microsoft YaHei";
+}
+
+#applyWid #moreLb{
+    border-image: url(::/assets/image/arrowdown.png);
+}
+
+#applyWid #tipslb[state='normal'] {
+    padding: 2px;
+    background: #e1e1e1;
+    color: #1e1e1e;
+    border-radius: 10px;
+}
+
+#applyWid #tipslb[state='hover'] {
+    padding: 2px;
+    background: #e1e1e1;
+    color: #1e1e1e;
+    border-radius: 10px;
+}
+
+#applyWid #tipslb[state='pressed'] {
+    padding: 2px;
+    background: #e1e1e1;
+    color: #48bf56;
+    border-radius: 10px;
+}
+
+#applyWid #tipslb[state='selected_normal'] {
+    padding: 2px;
+    background: #e1e1e1;
+    color: #48bf56;
+    border-radius: 10px;
+}
+
+#applyWid #tipslb[state='selected_hover'] {
+    padding: 2px;
+    background: #e1e1e1;
+    color: #48bf56;
+    border-radius: 10px;
+}
+
+#applyWid #tipslb[state='selected_pressed'] {
+    padding: 2px;
+    background: #e1e1e1;
+    color: #1e1e1e;
+    border-radius: 10px;
+}
+
+#inputTipWid {
+    background: #d3eaf8;
+}
+
+#applyWid #tipLb {
+    padding-left: 2px;
+    color:rgb(153,153,153);
+    font-size: 14px;
+    font-family: "Microsoft YaHei";
+}
+
+#gridWidget {
+   background: #fdfdfd;
+}
+
+#applyConfirmWid #okBtn[state='normal'] {
+	background: #f0f0f0;
+	color: #2cb46e;
+	font-size: 16px;
+	font-family: "Microsoft YaHei";
+	border-radius: 20px;
+}
+
+#applyConfirmWid #okBtn[state='hover'] {
+	background: #d2d2d2;
+	color: #2cb46e;
+	font-size: 16px;
+	font-family: "Microsoft YaHei";
+	border-radius: 20px;
+}
+
+#applyConfirmWid #okBtn[state='press'] {
+	background: #c6c6c6;
+	color: #2cb46e;
+	font-size: 16px;
+	font-family: "Microsoft YaHei";
+	border-radius: 20px;
+}
+
+#applyConfirmWid #cancelBtn[state='normal'] {
+	background: #f0f0f0;
+	color: #2cb46e;
+	font-size: 16px;
+	font-family: "Microsoft YaHei";
+	border-radius: 20px;
+}
+
+#applyConfirmWid #cancelBtn[state='hover'] {
+	background: #d2d2d2;
+	color: #2cb46e;
+	font-size: 16px;
+	font-family: "Microsoft YaHei";
+	border-radius: 20px;
+}
+
+#applyConfirmWid #cancelBtn[state='press'] {
+	background: #c6c6c6;
+	color: #2cb46e;
+	font-size: 16px;
+	font-family: "Microsoft YaHei";
+	border-radius: 20px;
+}
+
+/****** end ******/
 
 
 
