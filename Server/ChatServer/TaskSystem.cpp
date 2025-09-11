@@ -36,7 +36,7 @@ void TaskSystem::LoginHandler(std::shared_ptr<Session> session, const short& msg
 	auto token = root["token"].asString();
 	std::cout << "User login uid: " << uid  << ", token: " << token << std::endl;
 
-	//Get token from status server and check
+	//Verify token from status server
 	auto rsp = StatusGrpcClient::GetInstance()->Login(uid, token);
 
 	Json::Value retValue;
@@ -82,6 +82,7 @@ void TaskSystem::LoginHandler(std::shared_ptr<Session> session, const short& msg
 	retValue["desc"] = pUserInfo->desc;
 	retValue["gender"] = pUserInfo->gender;
 	retValue["icon"] = pUserInfo->icon;
+	retValue["token"] = token;
 
 	//todo, get apply list from mysql
 	//todo, get contact list

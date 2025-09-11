@@ -13,6 +13,7 @@ public:
 	bool CheckPassword(const std::string& user, const std::string& password, UserInfo& userInfo);
 	std::shared_ptr<UserInfo> GetUserInfo(int uUid);
 	std::shared_ptr<UserInfo> GetUserInfo(const std::string& name);
+	bool AddFriendApply(const int& from, const int& to);
 
 private:
 	MySqlMgr();
