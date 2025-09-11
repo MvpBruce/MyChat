@@ -1,6 +1,7 @@
 #include "userfounddlg.h"
 #include "ui_userfounddlg.h"
 #include "core/userdata.h"
+#include "applyfriend.h"
 
 UserFoundDlg::UserFoundDlg(QWidget *parent)
     : QDialog(parent)
@@ -32,6 +33,9 @@ void UserFoundDlg::SetSearchInfo(std::shared_ptr<SearchInfo> info)
 void UserFoundDlg::on_add_to_contact_clicked()
 {
     this->hide();
-    //todo, pop up apply friend ui and show
+    auto pApplyFriend = new ApplyFriend(this);
+    pApplyFriend->SetSearchInfo(m_pSearchInfo);
+    pApplyFriend->setModal(true);
+    pApplyFriend->show();
 }
 

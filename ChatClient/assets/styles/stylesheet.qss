@@ -179,6 +179,10 @@ UserChatItem {
 	border-image: url(:/assets/image/contact_list_press.png);
 }
 
+#redPoint {
+    border-image: url(:/assets/image/red_point.png);
+}
+
 
 
 

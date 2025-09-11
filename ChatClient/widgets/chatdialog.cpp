@@ -67,7 +67,6 @@ ChatDialog::ChatDialog(QWidget *parent)
     connect(ui->user_con_list, &ContactList::sig_switch_friend_info_page, this, &ChatDialog::slot_friend_info_page);
     connect(TcpMgr::GetInstance().get(), &TcpMgr::sig_friend_apply, this, &ChatDialog::slot_apply_friend);
 
-
     ui->search_chat_list->SetSearchEdit(ui->search_edit);
     AddChatUserList();
 
@@ -155,10 +154,9 @@ void ChatDialog::slot_friend_info_page(std::shared_ptr<UserInfo> pUserInfo)
 void ChatDialog::slot_apply_friend(std::shared_ptr<AddFriendInfo> pInfo)
 {
     //todo, need to check friend request already sent
-
-    //toto, add to apply list
     ui->contacts_lable->ShowRedPoint(true);
     ui->user_con_list->ShowRedPoint(true);
+    //todo, add to apply list
 }
 
 bool ChatDialog::eventFilter(QObject *watched, QEvent *event)

@@ -1,6 +1,8 @@
 #include "usermgr.h"
+#include "core/userdata.h"
 
 UserMgr::UserMgr()
+    : m_pUserInfo(nullptr)
 {
 
 }
@@ -10,14 +12,9 @@ UserMgr::~UserMgr()
 
 }
 
-void UserMgr::SetName(QString name)
+void UserMgr::SetUserInfo(std::shared_ptr<UserInfo> pUserInfo)
 {
-    m_Name = name;
-}
-
-void UserMgr::SetUId(int uid)
-{
-    m_UId = uid;
+    m_pUserInfo = pUserInfo;
 }
 
 void UserMgr::SetToken(QString token)
@@ -27,10 +24,15 @@ void UserMgr::SetToken(QString token)
 
 QString& UserMgr::GetName()
 {
-    return m_Name;
+    return m_pUserInfo->m_strName;
 }
 
 int UserMgr::GetUId()
 {
-    return m_UId;
+    return m_pUserInfo->m_nUID;
+}
+
+QString &UserMgr::GetIcon()
+{
+    return m_pUserInfo->m_strIcon;
 }

@@ -111,7 +111,6 @@ void TcpMgr::initHandlers()
         if (!jsonObj.contains("error"))
         {
             qDebug() << "No error key in Json";
-            //todo
             emit sig_login_failed(static_cast<int>(ErrorCodes::JSON));
             return;
         }
@@ -120,15 +119,22 @@ void TcpMgr::initHandlers()
         if (nError != static_cast<int>(ErrorCodes::SUCCESS))
         {
             qDebug() << "Login failed: " << nError;
-            //todo
             emit sig_login_failed(nError);
             return;
         }
 
-        UserMgr::GetInstance()->SetUId(jsonObj["uid"].toInt());
-        UserMgr::GetInstance()->SetUId(jsonObj["name"].toInt());
-        UserMgr::GetInstance()->SetUId(jsonObj["token"].toInt());
-        //todo
+        auto uid = jsonObj["uid"].toInt();
+        auto name = jsonObj["name"].toString();
+        auto nick = jsonObj["nick"].toString();
+        auto icon = jsonObj["icon"].toString();
+        auto gender = jsonObj["gender"].toInt();
+        auto pUserInfo = std::make_shared<UserInfo>(uid, name, nick, icon, gender);
+        UserMgr::GetInstance()->SetUserInfo(pUserInfo);
+        UserMgr::GetInstance()->SetToken(jsonObj["token"].toString());
+        //todo,
+        //1.load apply list
+
+        //2.get friend list from json
         emit sig_switch_chatDialog();
     });
 
@@ -160,6 +166,33 @@ void TcpMgr::initHandlers()
 
         auto pSearchInfo = std::make_shared<SearchInfo>(jObj["uid"].toInt(), jObj["name"].toString(), jObj["nick"].toString(), jObj["desc"].toString(), jObj["gender"].toInt(), jObj["icon"].toString());
         emit sig_user_search(pSearchInfo);
+    });
+
+    m_handlers.insert(RequstID::ADD_FRIEND_RSP, [this](RequstID id, int len, QByteArray data) {
+        Q_UNUSED(len);
+        qDebug() << "Requst id: " << id << " data: " << data;
+        QJsonDocument jsonDoc = QJsonDocument::fromJson(data);
+        if (jsonDoc.isNull())
+        {
+            qDebug() << "Failed to create QJsonDocument.";
+            return;
+        }
+
+        QJsonObject jsonObj = jsonDoc.object();
+        if (!jsonObj.contains("error"))
+        {
+            qDebug() << "Failed to parse json, no error in json";
+            return;
+        }
+
+        int nError = jsonObj["error"].toInt();
+        if (nError != ErrorCodes::SUCCESS)
+        {
+            qDebug() << "Failed to search, error: " << nError;
+            return;
+        }
+
+        qDebug() << "Success to add friend" ;
     });
 
     m_handlers.insert(RequstID::ADD_FRIEND_NOTIFY, [this](RequstID id, int len, QByteArray data) {

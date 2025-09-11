@@ -6,7 +6,7 @@
 #include <QRandomGenerator>
 
 ContactList::ContactList(QWidget* parent)
-    : QListWidget(parent)
+    : QListWidget(parent), m_pAddFriendItem(nullptr)
 {
     this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -21,7 +21,7 @@ ContactList::ContactList(QWidget* parent)
 
 void ContactList::ShowRedPoint(bool bShow)
 {
-
+    m_pAddFriendItem->ShowRedPoint(bShow);
 }
 
 bool ContactList::eventFilter(QObject *object, QEvent *event)
@@ -55,11 +55,22 @@ bool ContactList::eventFilter(QObject *object, QEvent *event)
 
 void ContactList::AddContactList()
 {
-    //add contact
+    //add addfrienditem
+    m_pAddFriendItem = new UserContactItem();
+    m_pAddFriendItem->setObjectName("addFriendItem");
+    m_pAddFriendItem->SetInfo(0, "New friend", ":/assets/image/add_friend.png");
+    m_pAddFriendItem->SetItemType(ListItemType::APPLY_FRIEND_ITEM);
+    auto pAddItem = new QListWidgetItem();
+    pAddItem->setSizeHint(m_pAddFriendItem->sizeHint());
+    this->addItem(pAddItem);
+    this->setItemWidget(pAddItem, m_pAddFriendItem);
+    this->setCurrentItem(pAddItem);
+
+    //add contacts
     for(int i = 0; i < 13; i++)
     {
         int randomValue = QRandomGenerator::global()->bounded(100);
-        int str_i = randomValue % strs.size();
+        //int str_i = randomValue % strs.size();
         int head_i = randomValue % heads.size();
         int name_i = randomValue % names.size();
         auto* pContactItem = new UserContactItem();
@@ -111,5 +122,4 @@ void ContactList::slot_item_clicked(QListWidgetItem *item)
     //todo
     //1.friend info page
     //2.other, likes apply page
-
 }

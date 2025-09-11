@@ -26,7 +26,7 @@ signals:
     void sig_switch_friend_info_page(std::shared_ptr<UserInfo> user_info);
 
 private:
-    UserContactItem* m_pContactItem;
+    UserContactItem* m_pAddFriendItem;
 };
 
 #endif // CONTACTLIST_H
