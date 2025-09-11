@@ -84,8 +84,43 @@ void TaskSystem::LoginHandler(std::shared_ptr<Session> session, const short& msg
 	retValue["icon"] = pUserInfo->icon;
 	retValue["token"] = token;
 
-	//todo, get apply list from mysql
-	//todo, get contact list
+	//get apply list from mysql
+	std::vector<std::shared_ptr<ApplyInfo>> vecApplyInfo;
+	bRet = MySqlMgr::GetInstance()->GetApplyList(uid, vecApplyInfo, 0, 10);
+	if (bRet)
+	{
+		for (auto& apply : vecApplyInfo)
+		{
+			Json::Value applyObj;
+			applyObj["name"] = apply->name;
+			applyObj["uid"] = apply->uid;
+			applyObj["icon"] = apply->icon;
+			applyObj["nick"] = apply->nick;
+			applyObj["gender"] = apply->gender;
+			applyObj["desc"] = apply->desc;
+			applyObj["status"] = apply->status;
+			retValue["apply_list"].append(applyObj);
+		}
+	}
+
+	//get contact list
+	std::vector<std::shared_ptr<UserInfo>> vecFriendInfo;
+	bRet = MySqlMgr::GetInstance()->GetFriendList(uid, vecFriendInfo);
+	if (bRet)
+	{
+		for (auto& friendInfo : vecFriendInfo) {
+			Json::Value obj;
+			obj["name"] = friendInfo->name;
+			obj["uid"] = friendInfo->uid;
+			obj["icon"] = friendInfo->icon;
+			obj["nick"] = friendInfo->nick;
+			obj["sex"] = friendInfo->gender;
+			obj["desc"] = friendInfo->desc;
+			//obj["back"] = friendInfo->back;
+			retValue["friend_list"].append(obj);
+		}
+	}
+
 	auto serverName = ConfigMgr::GetInstance()["CurrentServer"]["name"];
 	bRet = CRedisMgr::GetInstance()->HGet(LOGIN_NUMBER, serverName, strValue);
 	int nLoginNumber = 0;
@@ -240,7 +275,7 @@ void TaskSystem::AddFriendApply(std::shared_ptr<Session> session, const short& m
 	}
 
 	//Users are in different chat server, need to use grpc
-
+	
 }
 
 bool TaskSystem::GetBaseInfo(std::string strKey, int uid, std::shared_ptr<UserInfo>& pUserInfo)
