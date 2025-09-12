@@ -7,10 +7,10 @@
 
 int main()
 {
+	auto& cfg = ConfigMgr::GetInstance();
+	auto serverName = cfg["CurrentServer"]["name"];
 	try
 	{
-		auto& cfg = ConfigMgr::GetInstance();
-		auto serverName = cfg["CurrentServer"]["name"];
 		std::string serverAddress(cfg["CurrentServer"]["host"] + ":" + cfg["CurrentServer"]["port"]);
 		//Set login number
 		CRedisMgr::GetInstance()->HSet(LOGIN_NUMBER, serverName, "0");
@@ -48,6 +48,7 @@ int main()
 	}
 	catch (const std::exception& e)
 	{
+		CRedisMgr::GetInstance()->HDel(LOGIN_NUMBER, serverName);
 		std::cerr << "Exception: " << e.what() << std::endl;
 	}
 }

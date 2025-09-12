@@ -14,6 +14,8 @@ public:
 	std::shared_ptr<UserInfo> GetUserInfo(int uUid);
 	std::shared_ptr<UserInfo> GetUserInfo(const std::string& name);
 	bool AddFriendApply(const int& from, const int& to);
+	bool GetApplyList(int toUId, std::vector<std::shared_ptr<ApplyInfo>>& vecApplyInfo, int offset, int limit);
+	bool GetFriendList(int uid, std::vector<std::shared_ptr<UserInfo> >& vUserInfo);
 
 private:
 	MySqlMgr();

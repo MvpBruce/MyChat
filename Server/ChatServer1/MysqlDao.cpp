@@ -277,3 +277,83 @@ bool MysqlDao::AddFriendApply(const int& from, const int& to)
 		return false;
 	}
 }
+
+bool MysqlDao::GetApplyList(int toUId, std::vector<std::shared_ptr<ApplyInfo>>& vecApplyInfo, int offset, int limit)
+{
+	auto con = m_pool->GetConnection();
+	if (!con)
+		return false;
+
+	Defer defer([this, &con]() {
+		m_pool->ReturnConnection(std::move(con));
+	});
+
+	try
+	{
+		std::unique_ptr<sql::PreparedStatement> st(con->prepareStatement("SELECT apply.from_uid, apply.status, user.name, "
+		"user.nick, user.gender from friend_apply as apply join user on apply.from_uid = user.uid where apply.to_uid = ? "
+		"and apply.id > ? order by apply.id ASC LIMIT ?"));
+		st->setInt(1, toUId);
+		st->setInt(2, offset);
+		st->setInt(3, limit);
+		std::unique_ptr<sql::ResultSet> res(st->executeQuery());
+		while (res->next())
+		{
+			auto name = res->getString("name");
+			auto uid = res->getInt("from_uid");
+			auto status = res->getInt("status");
+			auto nick = res->getString("nick");
+			auto gender = res->getInt("gender");
+
+			auto pResult = std::make_shared<ApplyInfo>(uid, gender, name, "", "", nick, status);
+			vecApplyInfo.push_back(pResult);
+		}
+			
+		return true;
+	}
+	catch (sql::SQLException& e)
+	{
+		std::cerr << "SQLException: " << e.what();
+		std::cerr << " (MySQL error code: " << e.getErrorCode();
+		std::cerr << ", SQLState: " << e.getSQLState() << " )" << std::endl;
+		return false;
+	}
+}
+
+bool MysqlDao::GetFriendList(int uid, std::vector<std::shared_ptr<UserInfo>>& user_info)
+{
+	auto con = m_pool->GetConnection();
+	if (!con)
+		return false;
+
+	Defer defer([this, &con]() {
+		m_pool->ReturnConnection(std::move(con));
+	});
+
+	try
+	{
+		std::unique_ptr<sql::PreparedStatement> st(con->prepareStatement("select * from friend where self_id = ? "));
+		st->setInt(1, uid);
+		std::unique_ptr<sql::ResultSet> res(st->executeQuery());
+		while (res->next())
+		{
+			auto friendId = res->getInt("friend_id");
+			auto back = res->getString("back");
+			auto pUserInfo = GetUserInfo(friendId);
+			if (pUserInfo == nullptr)
+				continue;
+
+			pUserInfo->nick = pUserInfo->name;
+			user_info.push_back(pUserInfo);
+		}
+
+		return true;
+	}
+	catch (sql::SQLException& e)
+	{
+		std::cerr << "SQLException: " << e.what();
+		std::cerr << " (MySQL error code: " << e.getErrorCode();
+		std::cerr << ", SQLState: " << e.getSQLState() << " )" << std::endl;
+		return false;
+	}
+}
