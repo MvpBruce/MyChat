@@ -85,6 +85,7 @@ HEADERS += \
     widgets/userfounddlg.h
 
 FORMS += \
+    ui/applyfrienditem.ui \
     ui/logindialog.ui \
     ui/mainwindow.ui \
     ui/registerdialog.ui \
