@@ -122,7 +122,6 @@ void ApplyFriend::slot_change_tip(QString text, ClickState state)
 
 void ApplyFriend::slot_apply_ok()
 {
-    //todo
     QJsonObject jObj;
     auto uid = UserMgr::GetInstance()->GetUId();
     jObj["uid"] = uid;
@@ -140,6 +139,7 @@ void ApplyFriend::slot_apply_ok()
 
     QJsonDocument jDoc(jObj);
     QByteArray jsonData = jDoc.toJson(QJsonDocument::Compact);
+    //send request to chat server
     emit TcpMgr::GetInstance()->sig_send_data(RequstID::ADD_FRIEND_REQ, jsonData);
     this->hide();
     deleteLater();

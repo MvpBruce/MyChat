@@ -18,6 +18,9 @@ SOURCES += \
     core/usermgr.cpp \
     widgets/adduseritem.cpp \
     widgets/applyfriend.cpp \
+    widgets/applyfrienditem.cpp \
+    widgets/applyfriendlist.cpp \
+    widgets/applyfriendpage.cpp \
     widgets/bubbleframebase.cpp \
     widgets/chatdialog.cpp \
     widgets/chatmsgbaseitem.cpp \
@@ -54,6 +57,9 @@ HEADERS += \
     core/usermgr.h \
     widgets/adduseritem.h \
     widgets/applyfriend.h \
+    widgets/applyfrienditem.h \
+    widgets/applyfriendlist.h \
+    widgets/applyfriendpage.h \
     widgets/bubbleframebase.h \
     widgets/chatdialog.h \
     widgets/chatmsgbaseitem.h \
@@ -90,7 +96,8 @@ FORMS += \
     ui/adduseritem.ui \
     ui/userfounddlg.ui \
     ui/applyfriend.ui \
-    ui/usercontactitem.ui
+    ui/usercontactitem.ui \
+    ui/applyfriendpage.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

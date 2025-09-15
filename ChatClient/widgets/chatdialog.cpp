@@ -157,6 +157,7 @@ void ChatDialog::slot_apply_friend(std::shared_ptr<AddFriendInfo> pInfo)
     ui->contacts_lable->ShowRedPoint(true);
     ui->user_con_list->ShowRedPoint(true);
     //todo, add to apply list
+    //ui->applyFriendPage->
 }
 
 bool ChatDialog::eventFilter(QObject *watched, QEvent *event)

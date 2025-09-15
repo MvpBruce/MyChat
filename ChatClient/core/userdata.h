@@ -42,4 +42,33 @@ public:
     int m_nGender;
 };
 
+struct ApplyInfo
+{
+
+    int m_nUID;
+    QString m_strName;
+    QString m_strDesc;
+    QString m_strIcon;
+    QString m_strNick;
+    int m_nGender;
+    int m_nStatus;
+
+public:
+    ApplyInfo(int nUID, QString strName, QString strDesc,
+              QString strIcon, QString strNick, int nGender,
+              int nStatus)
+        : m_nUID(nUID), m_strName(std::move(strName)),
+        m_strDesc(std::move(strDesc)), m_strIcon(std::move(strIcon)),
+        m_strNick(std::move(strNick)), m_nGender(nGender),
+        m_nStatus(nStatus) {}
+
+    ApplyInfo(std::shared_ptr<AddFriendInfo> pInfo)
+    : m_nUID(pInfo->m_nFromUId), m_strName(std::move(pInfo->m_strName)),
+        m_strDesc(std::move(pInfo->m_strDesc)), m_strIcon(std::move(pInfo->m_strIcon)),
+        m_strNick(std::move(pInfo->m_strIcon)), m_nGender(pInfo->m_nGender),
+        m_nStatus(0) {}
+
+    void SetInfo(QString strHead) { m_strIcon = strHead;}
+};
+
 #endif // USERDATA_H
