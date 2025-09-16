@@ -13,6 +13,7 @@ ApplyFriendPage::ApplyFriendPage(QWidget *parent)
     , ui(new Ui::ApplyFriendPage)
 {
     ui->setupUi(this);
+    connect(TcpMgr::GetInstance().get(), &TcpMgr::sig_auth_rsp, this, &ApplyFriendPage::slot_auth_rsp);
 }
 
 ApplyFriendPage::~ApplyFriendPage()
@@ -59,6 +60,15 @@ void ApplyFriendPage::AddNewApplication(std::shared_ptr<AddFriendInfo> pInfo)
         //deleteLater();
     });
 
+}
+
+void ApplyFriendPage::slot_auth_rsp(std::shared_ptr<AuthRsp> pInfo)
+{
+    auto it = m_mapAuthItems.find(pInfo->m_nUID);
+    if (it == m_mapAuthItems.end())
+        return;
+
+    it.value()->ShowAddBtn(false);
 }
 
 void ApplyFriendPage::LoadApplicationList()

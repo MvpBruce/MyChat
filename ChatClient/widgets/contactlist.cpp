@@ -20,6 +20,7 @@ ContactList::ContactList(QWidget* parent)
 
     connect(this, &QListWidget::itemClicked, this, &ContactList::slot_item_clicked);
     connect(TcpMgr::GetInstance().get(), &TcpMgr::sig_add_auth_friend, this, &ContactList::slot_add_auth_friend);
+    connect(TcpMgr::GetInstance().get(), &TcpMgr::sig_auth_rsp, this, &ContactList::slot_auth_rsp);
 }
 
 void ContactList::ShowRedPoint(bool bShow)
@@ -149,4 +150,17 @@ void ContactList::slot_add_auth_friend(std::shared_ptr<AuthInfo> pInfo)
     this->insertItem(nIndex + 1, pItem);
     this->setItemWidget(pItem, pUserItem);
 
+}
+
+void ContactList::slot_auth_rsp(std::shared_ptr<AuthRsp> pInfo)
+{
+    //todo, check if they are aleady friend
+    auto pUserItem = new UserContactItem();
+    pUserItem->SetInfo(pInfo->m_nUID, pInfo->m_strName, pInfo->m_strIcon);
+    QListWidgetItem* pItem = new QListWidgetItem();
+    pItem->setSizeHint(pUserItem->sizeHint());
+
+    int nIndex = this->row(m_pGroupItem);
+    this->insertItem(nIndex + 1, pItem);
+    this->setItemWidget(pItem, pUserItem);
 }

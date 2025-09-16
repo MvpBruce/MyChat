@@ -67,6 +67,9 @@ ChatDialog::ChatDialog(QWidget *parent)
     connect(ui->user_con_list, &ContactList::sig_switch_friend_info_page, this, &ChatDialog::slot_friend_info_page);
     connect(TcpMgr::GetInstance().get(), &TcpMgr::sig_friend_apply, this, &ChatDialog::slot_apply_friend);
 
+    connect(TcpMgr::GetInstance().get(), &TcpMgr::sig_add_auth_friend, this, &ChatDialog::slot_add_auth_friend);
+    connect(TcpMgr::GetInstance().get(), &TcpMgr::sig_auth_rsp, this, &ChatDialog::slot_auth_rsp);
+
     ui->search_chat_list->SetSearchEdit(ui->search_edit);
     AddChatUserList();
 
@@ -157,6 +160,35 @@ void ChatDialog::slot_apply_friend(std::shared_ptr<AddFriendInfo> pInfo)
     ui->contacts_lable->ShowRedPoint(true);
     ui->user_con_list->ShowRedPoint(true);
     ui->applyFriendPage->AddNewApplication(pInfo);
+}
+
+void ChatDialog::slot_add_auth_friend(std::shared_ptr<AuthInfo> pInfo)
+{
+    //todo, check if they are already friend
+    //if not, add to usermgr
+
+    auto pChatItem = new UserChatItem();
+    auto pUserInfo = std::make_shared<UserInfo>(pInfo);
+    pChatItem->SetInfo(pUserInfo);
+    QListWidgetItem* pItem = new QListWidgetItem();
+    pItem->setSizeHint(pChatItem->sizeHint());
+    ui->user_chat_list->insertItem(0, pItem);
+    ui->user_chat_list->setItemWidget(pItem, pChatItem);
+    m_mapUidToItem.insert(pUserInfo->m_nUID, pItem);
+}
+
+void ChatDialog::slot_auth_rsp(std::shared_ptr<AuthRsp> pInfo)
+{
+    //todo, check if they are already friend
+    //if not, add to usermgr
+    auto pChatItem = new UserChatItem();
+    auto pUserInfo = std::make_shared<UserInfo>(pInfo);
+    pChatItem->SetInfo(pUserInfo);
+    QListWidgetItem* pItem = new QListWidgetItem();
+    pItem->setSizeHint(pChatItem->sizeHint());
+    ui->user_chat_list->insertItem(0, pItem);
+    ui->user_chat_list->setItemWidget(pItem, pChatItem);
+    m_mapUidToItem.insert(pUserInfo->m_nUID, pItem);
 }
 
 bool ChatDialog::eventFilter(QObject *watched, QEvent *event)

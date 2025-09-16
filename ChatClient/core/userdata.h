@@ -74,6 +74,23 @@ public:
     int m_nGender;
 };
 
+class AuthRsp
+{
+public:
+    AuthRsp(int nUID, QString strName, QString strNick, QString strIcon,
+            int nGender)
+        : m_nUID(nUID), m_strName(std::move(strName)),
+        m_strNick(std::move(strNick)), m_strIcon(std::move(strIcon)),
+        m_nGender(nGender) {}
+
+public:
+    int m_nUID;
+    QString m_strName;
+    QString m_strNick;
+    QString m_strIcon;
+    int m_nGender;
+};
+
 class UserInfo
 {
 public:
@@ -84,6 +101,10 @@ public:
     UserInfo(std::shared_ptr<AuthInfo> pInfo)
         : m_nUID(pInfo->m_nUID), m_strName(pInfo->m_strName), m_strNick(pInfo->m_strNick), m_strIcon(pInfo->m_strIcon), m_strLastMsg(""), m_nGender(pInfo->m_nGender)
     {}
+
+    UserInfo(std::shared_ptr<AuthRsp> pInfo)
+        : m_nUID(pInfo->m_nUID), m_strName(pInfo->m_strName), m_strNick(pInfo->m_strNick), m_strIcon(pInfo->m_strIcon), m_strLastMsg(""), m_nGender(pInfo->m_nGender)
+    {}
     int m_nUID;
     QString m_strName;
     QString m_strNick;
@@ -91,5 +112,4 @@ public:
     QString m_strLastMsg;
     int m_nGender;
 };
-
 #endif // USERDATA_H

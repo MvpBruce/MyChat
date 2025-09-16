@@ -21,6 +21,7 @@ private:
 public slots:
     void slot_item_clicked(QListWidgetItem* item);
     void slot_add_auth_friend(std::shared_ptr<AuthInfo> pInfo);
+    void slot_auth_rsp(std::shared_ptr<AuthRsp> pInfo);
 
 signals:
     void sig_load_contacts();

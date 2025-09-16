@@ -4,7 +4,7 @@
 
 UserChatItem::UserChatItem(QWidget *parent)
     : ListItemBase(parent)
-    , ui(new Ui::UserChatItem)
+    , ui(new Ui::UserChatItem), m_pInfo(nullptr)
 {
     ui->setupUi(this);
     SetItemType(ListItemType::CHAT_USER_ITEM);
@@ -33,4 +33,16 @@ void UserChatItem::SetInfo(QString name, QString head, QString msg)
 
     ui->user_name_lb->setText(m_Name);
     ui->user_chat_lb->setText(m_Msg);
+}
+
+void UserChatItem::SetInfo(std::shared_ptr<UserInfo> pInfo)
+{
+    m_pInfo = pInfo;
+    QPixmap pixMap(m_pInfo->m_strIcon);
+
+    ui->icon_lb->setPixmap(pixMap.scaled(ui->icon_lb->size()));
+    ui->icon_lb->setScaledContents(true);
+
+    ui->user_name_lb->setText(m_pInfo->m_strName);
+    ui->user_chat_lb->setText(m_pInfo->m_strLastMsg);
 }
