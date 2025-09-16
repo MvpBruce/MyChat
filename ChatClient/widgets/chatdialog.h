@@ -3,14 +3,13 @@
 
 #include <QDialog>
 #include "global/global.h"
+#include "core/userdata.h"
 
 namespace Ui {
 class ChatDialog;
 }
 
 class StateWidget;
-class UserInfo;
-class AddFriendInfo;
 class ChatDialog : public QDialog
 {
     Q_OBJECT

@@ -6,6 +6,7 @@
 
 class SearchInfo;
 class AddFriendInfo;
+class AuthInfo;
 class TcpMgr : public QObject, public Singleton<TcpMgr>, public std::enable_shared_from_this<TcpMgr>
 {
 Q_OBJECT
@@ -24,6 +25,7 @@ signals:
     void sig_switch_chatDialog();
     void sig_user_search(std::shared_ptr<SearchInfo>);
     void sig_friend_apply(std::shared_ptr<AddFriendInfo>);
+    void sig_add_auth_friend(std::shared_ptr<AuthInfo>);
 
 private:
     TcpMgr();

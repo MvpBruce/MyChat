@@ -318,7 +318,52 @@ void TaskSystem::AuthFriendApply(std::shared_ptr<Session> session, const short& 
 	//change apply friend status
 	MySqlMgr::GetInstance()->AuthFriendApply(uid, touid);
 
-	//todo, add friend to sql.
+	//add friend to sql.
+	MySqlMgr::GetInstance()->AddFriend(uid, touid, back_name);
+
+	//find touid's server ip in redis
+	std::string strToKey = USERIPPREFIX;
+	strToKey += std::to_string(touid);
+	std::string strToIpValue = "";
+	bRet = CRedisMgr::GetInstance()->Get(strToKey, strToIpValue);
+	if (!bRet)
+		return;
+
+	auto& cfg = ConfigMgr::GetInstance();
+	auto selfName = cfg["CurrentServer"]["name"];
+	if (selfName == strToIpValue)
+	{
+		auto session = UserMgr::GetInstance()->GetSession(touid);
+		if (session)
+		{
+			Json::Value jNotify;
+			jNotify["error"] = ErrorCodes::Success;
+			jNotify["fromuid"] = uid;
+			jNotify["touid"] = touid;
+			strKey = USERBASEINFO;
+			strKey += std::to_string(uid);
+			auto pInfo = std::make_shared<UserInfo>();
+			bRet = GetBaseInfo(strKey, uid, pInfo);
+			if (bRet)
+			{
+				jNotify["name"] = pInfo->name;
+				jNotify["nick"] = pInfo->nick;
+				jNotify["icon"] = pInfo->icon;
+				jNotify["gender"] = pInfo->gender;
+			}
+			else
+			{
+				jNotify["error"] = ErrorCodes::Uid_Invalid;
+			}
+
+			session->Send(jNotify.toStyledString(), MSG_IDS::AUTH_FRIEND_NOTIFY);
+		}
+
+		return;
+	}
+
+	//Not in same server, use grpc to notify
+
 }
 
 bool TaskSystem::GetBaseInfo(std::string strKey, int uid, std::shared_ptr<UserInfo>& pUserInfo)

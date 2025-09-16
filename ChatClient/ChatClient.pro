@@ -27,6 +27,7 @@ SOURCES += \
     widgets/chatpage.cpp \
     widgets/chatview.cpp \
     widgets/contactlist.cpp \
+    widgets/groupitem.cpp \
     widgets/imagebubble.cpp \
     widgets/listitembase.cpp \
     widgets/loadingdlg.cpp \
@@ -66,6 +67,7 @@ HEADERS += \
     widgets/chatpage.h \
     widgets/chatview.h \
     widgets/contactlist.h \
+    widgets/groupitem.h \
     widgets/imagebubble.h \
     widgets/listitembase.h \
     widgets/loadingdlg.h \
@@ -98,7 +100,8 @@ FORMS += \
     ui/userfounddlg.ui \
     ui/applyfriend.ui \
     ui/usercontactitem.ui \
-    ui/applyfriendpage.ui
+    ui/applyfriendpage.ui \
+    ui/groupitem.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

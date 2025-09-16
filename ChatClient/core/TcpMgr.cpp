@@ -230,6 +230,39 @@ void TcpMgr::initHandlers()
         auto addFriendInfo = std::make_shared<AddFriendInfo>(nFromUId, strName, strDesc, strIcon, strNick, nGender);
         emit sig_friend_apply(addFriendInfo);
     });
+
+    m_handlers.insert(RequstID::AUTH_FRIEND_NOTIFY, [this](RequstID id, int len, QByteArray data) {
+        Q_UNUSED(len);
+        qDebug() << "id: " << id << "data: " << data;
+
+        QJsonDocument jsonDoc = QJsonDocument::fromJson(data);
+        if (jsonDoc.isNull()) {
+            qDebug() << "Failed to create QJsonDocument.";
+            return;
+        }
+
+        QJsonObject jsonObj = jsonDoc.object();
+        if (!jsonObj.contains("error")) {
+            qDebug() << "Failed to parse json, no error in json";
+            return;
+        }
+
+        int nError = jsonObj["error"].toInt();
+        if (nError != ErrorCodes::SUCCESS)
+        {
+            qDebug() << "Failed to notify auth friend, error: " << nError;
+            return;
+        }
+
+        int nFromUId = jsonObj["fromuid"].toInt();
+        QString strName = jsonObj["name"].toString();
+        QString strIcon = jsonObj["icon"].toString();
+        QString strNick = jsonObj["nick"].toString();
+        int nGender = jsonObj["gender"].toInt();
+
+        auto pInfo = std::make_shared<AuthInfo>(nFromUId, strName, strNick, strIcon, nGender);
+        emit sig_add_auth_friend(pInfo);
+    });
 }
 
 void TcpMgr::processMsg(RequstID id, int len, QByteArray data)

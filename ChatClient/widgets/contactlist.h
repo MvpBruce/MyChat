@@ -2,9 +2,9 @@
 #define CONTACTLIST_H
 
 #include <QListWidget>
+#include "core/userdata.h"
 
 class UserContactItem;
-class UserInfo;
 class ContactList : public QListWidget
 {
     Q_OBJECT
@@ -20,13 +20,16 @@ private:
 
 public slots:
     void slot_item_clicked(QListWidgetItem* item);
+    void slot_add_auth_friend(std::shared_ptr<AuthInfo> pInfo);
 
 signals:
     void sig_load_contacts();
     void sig_switch_friend_info_page(std::shared_ptr<UserInfo> user_info);
 
+
 private:
     UserContactItem* m_pAddFriendItem;
+    QListWidgetItem* m_pGroupItem;
 };
 
 #endif // CONTACTLIST_H

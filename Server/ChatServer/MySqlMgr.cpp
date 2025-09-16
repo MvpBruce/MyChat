@@ -60,3 +60,8 @@ bool MySqlMgr::AuthFriendApply(const int& from_uid, const int& to_uid)
 	return m_mySqlDao.AuthFriendApply(from_uid, to_uid);
 }
 
+bool MySqlMgr::AddFriend(const int& from_uid, const int& to_uid, const std::string& strBackName)
+{
+	return m_mySqlDao.AddFriend(from_uid, to_uid, strBackName);
+}
+

@@ -387,3 +387,53 @@ bool MysqlDao::AuthFriendApply(const int& from_uid, const int& to_uid)
 		return false;
 	}
 }
+
+bool MysqlDao::AddFriend(const int& from_uid, const int& to_uid, const std::string& strBackName)
+{
+	auto con = m_pool->GetConnection();
+	if (!con)
+		return false;
+
+	Defer defer([this, &con]() {
+		m_pool->ReturnConnection(std::move(con));
+	});
+
+	try
+	{
+		con->setAutoCommit(false);
+		std::unique_ptr<sql::PreparedStatement> st(con->prepareStatement("INSERT IGNORE INTO friend(self_id, friend_id, back) VALUES(?, ?, ?)"));
+		st->setInt(1, from_uid);
+		st->setInt(2, to_uid);
+		st->setString(3, strBackName);
+		int nRow = st->executeUpdate();
+		if (nRow < 0)
+		{
+			con->rollback();
+			return false;
+		}
+			
+		std::unique_ptr<sql::PreparedStatement> st1(con->prepareStatement("INSERT IGNORE INTO friend(self_id, friend_id, back) VALUES(?, ?, ?)"));
+		st1->setInt(1, to_uid);
+		st1->setInt(2, from_uid);
+		st1->setString(3, "");
+		nRow = st->executeUpdate();
+		if (nRow < 0)
+		{
+			con->rollback();
+			return false;
+		}
+
+		con->commit();
+		return true;
+	}
+	catch (sql::SQLException& e)
+	{
+		if (con)
+			con->rollback();
+
+		std::cerr << "SQLException: " << e.what();
+		std::cerr << " (MySQL error code: " << e.getErrorCode();
+		std::cerr << ", SQLState: " << e.getSQLState() << " )" << std::endl;
+		return false;
+	}
+}

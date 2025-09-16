@@ -8,6 +8,7 @@ class UserContactItem;
 }
 
 class UserInfo;
+class AuthInfo;
 class UserContactItem : public ListItemBase
 {
     Q_OBJECT
@@ -17,6 +18,7 @@ public:
     ~UserContactItem();
     QSize sizeHint() const override;
     void SetInfo(int nUid, QString strName, QString strIcon);
+    void SetInfo(std::shared_ptr<AuthInfo> pInfo);
     void ShowRedPoint(bool bShow = false);
     std::shared_ptr<UserInfo> GetInfo();
 

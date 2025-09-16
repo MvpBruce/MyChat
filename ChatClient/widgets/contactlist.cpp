@@ -4,9 +4,11 @@
 #include <QScrollBar>
 #include "usercontactitem.h"
 #include <QRandomGenerator>
+#include "core/TcpMgr.h"
+#include "groupitem.h"
 
 ContactList::ContactList(QWidget* parent)
-    : QListWidget(parent), m_pAddFriendItem(nullptr)
+    : QListWidget(parent), m_pAddFriendItem(nullptr), m_pGroupItem(nullptr)
 {
     this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -17,6 +19,7 @@ ContactList::ContactList(QWidget* parent)
     AddContactList();
 
     connect(this, &QListWidget::itemClicked, this, &ContactList::slot_item_clicked);
+    connect(TcpMgr::GetInstance().get(), &TcpMgr::sig_add_auth_friend, this, &ContactList::slot_add_auth_friend);
 }
 
 void ContactList::ShowRedPoint(bool bShow)
@@ -55,7 +58,7 @@ bool ContactList::eventFilter(QObject *object, QEvent *event)
 
 void ContactList::AddContactList()
 {
-    //add addfrienditem
+    //add addfriend item
     m_pAddFriendItem = new UserContactItem();
     m_pAddFriendItem->setObjectName("addFriendItem");
     m_pAddFriendItem->SetInfo(0, "New friend", ":/assets/image/add_friend.png");
@@ -66,7 +69,15 @@ void ContactList::AddContactList()
     this->setItemWidget(pAddItem, m_pAddFriendItem);
     this->setCurrentItem(pAddItem);
 
-    //add contacts
+    //add group item
+    m_pGroupItem = new QListWidgetItem();
+    auto pGroupItem = new GroupItem();
+    m_pGroupItem->setSizeHint(pGroupItem->sizeHint());
+    this->addItem(m_pGroupItem);
+    this->setItemWidget(m_pGroupItem, pGroupItem);
+    m_pGroupItem->setFlags(m_pGroupItem->flags() &~ Qt::ItemIsSelectable);
+
+    //add contacts, todo, need to get data from server
     for(int i = 0; i < 13; i++)
     {
         int randomValue = QRandomGenerator::global()->bounded(100);
@@ -122,4 +133,20 @@ void ContactList::slot_item_clicked(QListWidgetItem *item)
     //todo
     //1.friend info page
     //2.other, likes apply page
+}
+
+void ContactList::slot_add_auth_friend(std::shared_ptr<AuthInfo> pInfo)
+{
+    //todo, check if they are aleady friend
+
+    //insert after group item
+    auto pUserItem = new UserContactItem();
+    pUserItem->SetInfo(pInfo);
+    QListWidgetItem* pItem = new QListWidgetItem();
+    pItem->setSizeHint(pUserItem->sizeHint());
+
+    int nIndex = this->row(m_pGroupItem);
+    this->insertItem(nIndex + 1, pItem);
+    this->setItemWidget(pItem, pUserItem);
+
 }
