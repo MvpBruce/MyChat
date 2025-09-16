@@ -146,8 +146,8 @@ void ChatDialog::slot_text_changed(const QString &text)
 void ChatDialog::slot_friend_info_page(std::shared_ptr<UserInfo> pUserInfo)
 {
     //todo set friend info page
-    //ui->stackedWidget->setCurrentWidget(ui->friend)
-    //ui->friendInfoPage->setInfo(pUserInfo);
+    //ui->stackedWidget->setCurrentWidget();
+    //ui->->setInfo(pUserInfo);
     qDebug() << "ChatDialog::slot_friend_info_page";
 }
 
@@ -156,8 +156,7 @@ void ChatDialog::slot_apply_friend(std::shared_ptr<AddFriendInfo> pInfo)
     //todo, need to check friend request already sent
     ui->contacts_lable->ShowRedPoint(true);
     ui->user_con_list->ShowRedPoint(true);
-    //todo, add to apply list
-    //ui->applyFriendPage->
+    ui->applyFriendPage->AddNewApplication(pInfo);
 }
 
 bool ChatDialog::eventFilter(QObject *watched, QEvent *event)

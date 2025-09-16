@@ -5,6 +5,11 @@
 #include "listitembase.h"
 #include "core/userdata.h"
 
+namespace Ui {
+class ApplyFriendItem;
+}
+
+
 class ApplyFriendItem : public ListItemBase
 {
     Q_OBJECT
@@ -17,7 +22,12 @@ public:
     int GetUid();
 
 private:
+    Ui::ApplyFriendItem* ui;
     std::shared_ptr<ApplyInfo> m_pApplyInfo;
+    bool m_bAdded;
+
+signals:
+    void sig_auth_friend(std::shared_ptr<ApplyInfo> pInfo);
 };
 
 #endif // APPLYFRIENDITEM_H

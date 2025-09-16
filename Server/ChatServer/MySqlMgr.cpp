@@ -54,3 +54,9 @@ bool MySqlMgr::GetFriendList(int uid, std::vector<std::shared_ptr<UserInfo>>& us
 {
 	return false;
 }
+
+bool MySqlMgr::AuthFriendApply(const int& from_uid, const int& to_uid)
+{
+	return m_mySqlDao.AuthFriendApply(from_uid, to_uid);
+}
+

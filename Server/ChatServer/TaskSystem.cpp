@@ -25,6 +25,8 @@ void TaskSystem::RegisterEvent()
 	m_Handler[MSG_IDS::MSG_CHAT_LOGIN] = std::bind(&TaskSystem::LoginHandler, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
 	m_Handler[MSG_IDS::SEARCH_USER_REQ] = std::bind(&TaskSystem::SearchInfoHandler, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
 	m_Handler[MSG_IDS::ADD_FRIEND_REQ] = std::bind(&TaskSystem::AddFriendApply, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+	m_Handler[MSG_IDS::AUTH_FRIEND_REQ] = std::bind(&TaskSystem::AuthFriendApply, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+
 }
 
 void TaskSystem::LoginHandler(std::shared_ptr<Session> session, const short& msgId, const std::string& msgData)
@@ -276,6 +278,47 @@ void TaskSystem::AddFriendApply(std::shared_ptr<Session> session, const short& m
 
 	//Users are in different chat server, need to use grpc
 	
+}
+
+void TaskSystem::AuthFriendApply(std::shared_ptr<Session> session, const short& msgId, const std::string& msgData)
+{
+	Json::Reader reader;
+	Json::Value root;
+	reader.parse(msgData, root);
+
+	auto uid = root["fromuid"].asInt();
+	auto touid = root["touid"].asInt();
+	auto back_name = root["back"].asString();
+	std::cout << "from " << uid << " auth friend to " << touid << std::endl;
+
+	Json::Value retValue;
+	retValue["error"] = ErrorCodes::Success;
+	auto pUserInfo = std::make_shared<UserInfo>();
+	
+	std::string strKey = USERBASEINFO;
+	strKey += std::to_string(touid);
+	bool bRet = GetBaseInfo(strKey, touid, pUserInfo);
+	if (bRet)
+	{
+		retValue["uid"] = touid;
+		retValue["name"] = pUserInfo->name;
+		retValue["nick"] = pUserInfo->nick;
+		retValue["icon"] = pUserInfo->name;
+		retValue["gender"] = pUserInfo->gender;
+	}
+	else
+	{
+		retValue["error"] = ErrorCodes::Uid_Invalid;
+	}
+
+	Defer defer([this, &retValue, session]() {
+		session->Send(retValue.toStyledString(), MSG_IDS::AUTH_FRIEND_RSP);
+	});
+
+	//change apply friend status
+	MySqlMgr::GetInstance()->AuthFriendApply(uid, touid);
+
+	//todo, add friend to sql.
 }
 
 bool TaskSystem::GetBaseInfo(std::string strKey, int uid, std::shared_ptr<UserInfo>& pUserInfo)

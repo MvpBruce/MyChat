@@ -76,6 +76,7 @@ void SearchList::AddTipItem()
 
 void SearchList::ShowLoading(bool bPending)
 {
+    m_bPending = bPending;
     if (m_bPending)
     {
         m_pLoadingDlg = new LoadingDlg(this);
@@ -87,8 +88,6 @@ void SearchList::ShowLoading(bool bPending)
         m_pLoadingDlg->hide();
         m_pLoadingDlg->deleteLater();
     }
-
-    m_bPending = bPending;
 }
 
 void SearchList::slot_item_clicked(QListWidgetItem *pItem)

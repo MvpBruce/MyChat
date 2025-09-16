@@ -357,3 +357,33 @@ bool MysqlDao::GetFriendList(int uid, std::vector<std::shared_ptr<UserInfo>>& us
 		return false;
 	}
 }
+
+bool MysqlDao::AuthFriendApply(const int& from_uid, const int& to_uid)
+{
+	auto con = m_pool->GetConnection();
+	if (!con)
+		return false;
+
+	Defer defer([this, &con]() {
+		m_pool->ReturnConnection(std::move(con));
+	});
+
+	try
+	{
+		std::unique_ptr<sql::PreparedStatement> st(con->prepareStatement("UPDATE friend_apply SET status = 1 WHERE from_uid = ? AND to_uid = ?"));
+		st->setInt(1, to_uid);
+		st->setInt(2, from_uid);
+		int nRow = st->executeUpdate();
+		if (nRow < 0)
+			return false;
+
+		return true;
+	}
+	catch (sql::SQLException& e)
+	{
+		std::cerr << "SQLException: " << e.what();
+		std::cerr << " (MySQL error code: " << e.getErrorCode();
+		std::cerr << ", SQLState: " << e.getSQLState() << " )" << std::endl;
+		return false;
+	}
+}

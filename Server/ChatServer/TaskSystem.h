@@ -20,6 +20,7 @@ private:
 	void ProcessMsg();
 	void SearchInfoHandler(std::shared_ptr<Session> session, const short& msgId, const std::string& msgData);
 	void AddFriendApply(std::shared_ptr<Session> session, const short& msgId, const std::string& msgData);
+	void AuthFriendApply(std::shared_ptr<Session> session, const short& msgId, const std::string& msgData);
 
 	bool GetBaseInfo(std::string strKey, int uid, std::shared_ptr<UserInfo>& pUserInfo);
 	void GetUserInfoByID(const std::string& strUid, Json::Value& retValue);

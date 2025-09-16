@@ -19,7 +19,9 @@ enum RequstID {
     SEARCH_USER_RSP = 1008,// response from chat server
     ADD_FRIEND_REQ = 1009,//request adding friend
     ADD_FRIEND_RSP = 1010,
-    ADD_FRIEND_NOTIFY = 1011
+    ADD_FRIEND_NOTIFY = 1011,
+    AUTH_FRIEND_REQ = 1012,
+    AUTH_FRIEND_RSP = 1013
 };
 
 enum ErrorCodes

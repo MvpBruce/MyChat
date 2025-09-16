@@ -66,6 +66,19 @@ INSERT INTO `friend_apply` VALUES (63, 1019, 1002, 1);
 INSERT INTO `friend_apply` VALUES (64, 1032, 1035, 0);
 
 -- ----------------------------
+-- Table structure for friend
+-- ----------------------------
+DROP TABLE IF EXISTS `friend`;
+CREATE TABLE `friend`  (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `self_id` int NOT NULL,
+  `friend_id` int NOT NULL,
+  `back` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `self_friend`(`self_id` ASC, `friend_id` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 89 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
 -- Procedure structure for reg_user
 -- ----------------------------
 DROP PROCEDURE IF EXISTS `reg_user`;

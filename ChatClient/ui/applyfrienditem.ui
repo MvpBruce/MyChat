@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>ApplyFriendItem</class>
+ <widget class="QWidget" name="ApplyFriendItem">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>450</width>
+    <width>536</width>
     <height>80</height>
    </rect>
   </property>
@@ -151,7 +151,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton">
+          <widget class="StateBtn" name="addBtn">
            <property name="minimumSize">
             <size>
              <width>80</width>
@@ -173,13 +173,13 @@
           <widget class="QLabel" name="alreadyAddLabel">
            <property name="minimumSize">
             <size>
-             <width>40</width>
+             <width>50</width>
              <height>0</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>40</width>
+             <width>50</width>
              <height>16777215</height>
             </size>
            </property>
@@ -212,6 +212,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>StateBtn</class>
+   <extends>QPushButton</extends>
+   <header location="global">buttons/statebtn.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -14,8 +14,9 @@ public:
     QString m_strIcon;
 };
 
-struct UserInfo
+class UserInfo
 {
+public:
     UserInfo(int uid, QString name, QString nick, QString icon, int gender, QString msg = "")
         : m_nUID(uid), m_strName(name), m_strNick(nick), m_strIcon(icon), m_strLastMsg(msg), m_nGender(gender)
     {}
@@ -42,17 +43,8 @@ public:
     int m_nGender;
 };
 
-struct ApplyInfo
+class ApplyInfo
 {
-
-    int m_nUID;
-    QString m_strName;
-    QString m_strDesc;
-    QString m_strIcon;
-    QString m_strNick;
-    int m_nGender;
-    int m_nStatus;
-
 public:
     ApplyInfo(int nUID, QString strName, QString strDesc,
               QString strIcon, QString strNick, int nGender,
@@ -69,6 +61,14 @@ public:
         m_nStatus(0) {}
 
     void SetInfo(QString strHead) { m_strIcon = strHead;}
+public:
+    int m_nUID;
+    QString m_strName;
+    QString m_strDesc;
+    QString m_strIcon;
+    QString m_strNick;
+    int m_nGender;
+    int m_nStatus;
 };
 
 #endif // USERDATA_H
