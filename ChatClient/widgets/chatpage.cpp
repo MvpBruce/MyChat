@@ -4,10 +4,11 @@
 #include "chatmsgbaseitem.h"
 #include "textbubble.h"
 #include "imagebubble.h"
+#include "core/usermgr.h"
 
 ChatPage::ChatPage(QWidget *parent)
     : QWidget(parent)
-    , ui(new Ui::ChatPage)
+    , ui(new Ui::ChatPage), m_pUserInfo(nullptr)
 {
     ui->setupUi(this);
 }
@@ -19,10 +20,17 @@ ChatPage::~ChatPage()
 
 void ChatPage::on_send_btn_clicked()
 {
-    //auto textEdit = ui->chat_text_edit;
+    if (m_pUserInfo == nullptr)
+    {
+        qDebug() << "Friend list is empty";
+        return;
+    }
+
+    auto pUserInfo = UserMgr::GetInstance()->GetUserInfo();
+    auto pTextEdit = ui->chat_text_edit;
     Role role = Role::Self;
-    QString userName = "test user";
-    QString userIcon = ":/assets/image/head_1.jpg";
+    QString userName = pUserInfo->m_strName;
+    QString userIcon = pUserInfo->m_strIcon;
     ChatMsgBaseItem* pChatItem = new ChatMsgBaseItem(role);
     pChatItem->setIcon(QPixmap(userIcon));
     pChatItem->setNmae(userName);

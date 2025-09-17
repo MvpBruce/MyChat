@@ -2,6 +2,7 @@
 #define CHATPAGE_H
 
 #include <QWidget>
+#include "core/userdata.h"
 
 namespace Ui {
 class ChatPage;
@@ -20,6 +21,7 @@ private slots:
 
 private:
     Ui::ChatPage *ui;
+    std::shared_ptr<UserInfo> m_pUserInfo;
 };
 
 #endif // CHATPAGE_H

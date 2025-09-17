@@ -43,7 +43,6 @@ void ApplyFriendPage::AddNewApplication(std::shared_ptr<AddFriendInfo> pInfo)
         //show
         qDebug() << "Show authenticate friend page";
         qDebug() << "Slot Apply Sure ";
-        //添加发送逻辑
         QJsonObject jsonObj;
         auto uid = UserMgr::GetInstance()->GetUId();
         jsonObj["fromuid"] = uid;
@@ -52,8 +51,6 @@ void ApplyFriendPage::AddNewApplication(std::shared_ptr<AddFriendInfo> pInfo)
 
         QJsonDocument doc(jsonObj);
         QByteArray jsonData = doc.toJson(QJsonDocument::Compact);
-
-        //发送tcp请求给chat server
         emit TcpMgr::GetInstance()->sig_send_data(RequstID::AUTH_FRIEND_REQ, jsonData);
 
         //this->hide();

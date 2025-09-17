@@ -75,6 +75,13 @@ enum SideBarMode
     Contact
 };
 
+struct MsgInfo
+{
+    QString msgType;
+    QString content;
+    QString pixMap;
+};
+
 const std::vector<QString>  strs ={"hello world !",
                                    "nice to meet u",
                                    "New year，new life",

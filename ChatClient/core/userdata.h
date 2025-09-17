@@ -91,6 +91,28 @@ public:
     int m_nGender;
 };
 
+class FriendInfo
+{
+public:
+    FriendInfo(int nUID, QString strName, QString strNick,
+               QString strIcon, int nGender, QString strDesc,
+               QString strBack, QString strLastMsg = "")
+        : m_nUID(nUID), m_strName(std::move(strName)),
+        m_strNick(std::move(strNick)), m_strIcon(std::move(strIcon)),
+        m_nGender(nGender), m_strDesc(std::move(strDesc)),
+        m_strBack(std::move(strBack)), m_strLastMsg(std::move(strLastMsg)) {
+    }
+
+    int m_nUID;
+    QString m_strName;
+    QString m_strNick;
+    QString m_strIcon;
+    int m_nGender;
+    QString m_strDesc;
+    QString m_strBack;
+    QString m_strLastMsg;
+};
+
 class UserInfo
 {
 public:

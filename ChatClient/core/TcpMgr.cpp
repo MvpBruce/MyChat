@@ -3,6 +3,7 @@
 #include <QJsonObject>
 #include "core/usermgr.h"
 #include "core/userdata.h"
+#include <QJsonArray>
 
 TcpMgr::~TcpMgr()
 {
@@ -131,10 +132,14 @@ void TcpMgr::initHandlers()
         auto pUserInfo = std::make_shared<UserInfo>(uid, name, nick, icon, gender);
         UserMgr::GetInstance()->SetUserInfo(pUserInfo);
         UserMgr::GetInstance()->SetToken(jsonObj["token"].toString());
-        //todo,
         //1.load apply list
+        if (jsonObj.contains("apply_list"))
+            UserMgr::GetInstance()->AppendApplyList(jsonObj["apply_list"].toArray());
 
         //2.get friend list from json
+        if (jsonObj.contains("friend_list"))
+            UserMgr::GetInstance()->AppendFriendList(jsonObj["friend_list"].toArray());
+
         emit sig_switch_chatDialog();
     });
 
