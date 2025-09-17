@@ -320,7 +320,7 @@ bool MysqlDao::GetApplyList(int toUId, std::vector<std::shared_ptr<ApplyInfo>>& 
 	}
 }
 
-bool MysqlDao::GetFriendList(int uid, std::vector<std::shared_ptr<UserInfo>>& user_info)
+bool MysqlDao::GetFriendList(int uid, std::vector<std::shared_ptr<UserInfo>>& vUserInfo)
 {
 	auto con = m_pool->GetConnection();
 	if (!con)
@@ -343,8 +343,8 @@ bool MysqlDao::GetFriendList(int uid, std::vector<std::shared_ptr<UserInfo>>& us
 			if (pUserInfo == nullptr)
 				continue;
 
-			pUserInfo->nick = pUserInfo->name;
-			user_info.push_back(pUserInfo);
+			pUserInfo->back = pUserInfo->name;
+			vUserInfo.push_back(pUserInfo);
 		}
 
 		return true;

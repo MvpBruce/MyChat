@@ -26,6 +26,7 @@ void TaskSystem::RegisterEvent()
 	m_Handler[MSG_IDS::SEARCH_USER_REQ] = std::bind(&TaskSystem::SearchInfoHandler, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
 	m_Handler[MSG_IDS::ADD_FRIEND_REQ] = std::bind(&TaskSystem::AddFriendApply, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
 	m_Handler[MSG_IDS::AUTH_FRIEND_REQ] = std::bind(&TaskSystem::AuthFriendApply, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+	m_Handler[MSG_IDS::TEXT_CHAT_MSG_REQ] = std::bind(&TaskSystem::ProcessChatTextMsg, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
 }
 
 void TaskSystem::LoginHandler(std::shared_ptr<Session> session, const short& msgId, const std::string& msgData)
@@ -38,7 +39,7 @@ void TaskSystem::LoginHandler(std::shared_ptr<Session> session, const short& msg
 	std::cout << "User login uid: " << uid  << ", token: " << token << std::endl;
 
 	//Verify token from status server
-	auto rsp = StatusGrpcClient::GetInstance()->Login(uid, token);
+	//auto rsp = StatusGrpcClient::GetInstance()->Login(uid, token);
 
 	Json::Value retValue;
 	Defer defer([this, session, &retValue]() {
@@ -105,19 +106,19 @@ void TaskSystem::LoginHandler(std::shared_ptr<Session> session, const short& msg
 	}
 
 	//get contact list
-	std::vector<std::shared_ptr<UserInfo>> vecFriendInfo;
-	bRet = MySqlMgr::GetInstance()->GetFriendList(uid, vecFriendInfo);
+	std::vector<std::shared_ptr<UserInfo>> vecUserInfo;
+	bRet = MySqlMgr::GetInstance()->GetFriendList(uid, vecUserInfo);
 	if (bRet)
 	{
-		for (auto& friendInfo : vecFriendInfo) {
+		for (auto& friendInfo : vecUserInfo) {
 			Json::Value obj;
 			obj["name"] = friendInfo->name;
 			obj["uid"] = friendInfo->uid;
 			obj["icon"] = friendInfo->icon;
 			obj["nick"] = friendInfo->nick;
-			obj["sex"] = friendInfo->gender;
+			obj["gender"] = friendInfo->gender;
 			obj["desc"] = friendInfo->desc;
-			//obj["back"] = friendInfo->back;
+			obj["status"] = friendInfo->back;
 			retValue["friend_list"].append(obj);
 		}
 	}
@@ -363,6 +364,13 @@ void TaskSystem::AuthFriendApply(std::shared_ptr<Session> session, const short& 
 
 	//Not in same server, use grpc to notify
 
+}
+
+void TaskSystem::ProcessChatTextMsg(std::shared_ptr<Session> session, const short& msgId, const std::string& msgData)
+{
+	Json::Reader reader;
+	Json::Value root;
+	reader.parse(msgData, root);
 }
 
 bool TaskSystem::GetBaseInfo(std::string strKey, int uid, std::shared_ptr<UserInfo>& pUserInfo)

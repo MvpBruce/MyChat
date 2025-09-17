@@ -19,9 +19,12 @@ public:
 private slots:
     void on_send_btn_clicked();
 
+signals:
+    void sig_append_chat_msg(std::shared_ptr<ChatTextData>);
+
 private:
     Ui::ChatPage *ui;
-    std::shared_ptr<UserInfo> m_pUserInfo;
+    std::shared_ptr<UserInfo> m_pPeerUserInfo;//peer user
 };
 
 #endif // CHATPAGE_H

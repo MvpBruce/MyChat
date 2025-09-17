@@ -50,9 +50,9 @@ bool MySqlMgr::GetApplyList(int toUId, std::vector<std::shared_ptr<ApplyInfo>>& 
 	return m_mySqlDao.GetApplyList(toUId, vecApplyInfo, offset, limit);
 }
 
-bool MySqlMgr::GetFriendList(int uid, std::vector<std::shared_ptr<UserInfo>>& user_info)
+bool MySqlMgr::GetFriendList(int uid, std::vector<std::shared_ptr<UserInfo>>& vUserInfo)
 {
-	return false;
+	return m_mySqlDao.GetFriendList(uid, vUserInfo);
 }
 
 bool MySqlMgr::AuthFriendApply(const int& from_uid, const int& to_uid)

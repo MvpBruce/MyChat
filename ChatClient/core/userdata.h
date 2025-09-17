@@ -134,4 +134,20 @@ public:
     QString m_strLastMsg;
     int m_nGender;
 };
+
+class ChatTextData
+{
+public:
+    ChatTextData(QString strMsgID, QString strContent, int nFromUid,
+                 int nToUid)
+        : m_strMsgID(std::move(strMsgID)),
+        m_strContent(std::move(strContent)), m_nFromUid(nFromUid),
+        m_nToUid(nToUid) {}
+
+    QString m_strMsgID;
+    QString m_strContent;
+    int m_nFromUid;
+    int m_nToUid;
+};
+
 #endif // USERDATA_H

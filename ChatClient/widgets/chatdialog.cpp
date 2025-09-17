@@ -76,6 +76,8 @@ ChatDialog::ChatDialog(QWidget *parent)
     SwitchMode(false);
     ui->chat_lable->SetSelected(true);
     this->installEventFilter(this);
+
+    connect(ui->chat_page, &ChatPage::sig_append_chat_msg, this, &ChatDialog::slot_append_chat_msg);
 }
 
 ChatDialog::~ChatDialog()
@@ -189,6 +191,11 @@ void ChatDialog::slot_auth_rsp(std::shared_ptr<AuthRsp> pInfo)
     ui->user_chat_list->insertItem(0, pItem);
     ui->user_chat_list->setItemWidget(pItem, pChatItem);
     m_mapUidToItem.insert(pUserInfo->m_nUID, pItem);
+}
+
+void ChatDialog::slot_append_chat_msg(std::shared_ptr<ChatTextData> pData)
+{
+
 }
 
 bool ChatDialog::eventFilter(QObject *watched, QEvent *event)

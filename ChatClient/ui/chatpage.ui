@@ -48,7 +48,7 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QWidget" name="title_wid" native="true">
+       <widget class="QWidget" name="titleWid" native="true">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -98,7 +98,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QWidget" name="tool_wid" native="true">
+       <widget class="QWidget" name="toolWid" native="true">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -128,7 +128,23 @@
           <number>2</number>
          </property>
          <item>
-          <widget class="QLabel" name="emo_lb">
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Policy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>5</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="StateLabel" name="emoLabel">
            <property name="minimumSize">
             <size>
              <width>25</width>
@@ -142,12 +158,28 @@
             </size>
            </property>
            <property name="text">
-            <string>emo</string>
+            <string/>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="file_lb">
+          <spacer name="horizontalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Policy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>5</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="StateLabel" name="fileLabel">
            <property name="minimumSize">
             <size>
              <width>30</width>
@@ -161,7 +193,7 @@
             </size>
            </property>
            <property name="text">
-            <string>file</string>
+            <string/>
            </property>
           </widget>
          </item>
@@ -170,9 +202,12 @@
            <property name="orientation">
             <enum>Qt::Orientation::Horizontal</enum>
            </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Policy::Fixed</enum>
+           </property>
            <property name="sizeHint" stdset="0">
             <size>
-             <width>40</width>
+             <width>5</width>
              <height>20</height>
             </size>
            </property>
@@ -182,7 +217,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QTextEdit" name="chat_text_edit">
+       <widget class="MessageTextEdit" name="chat_text_edit">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -198,19 +233,31 @@
        </widget>
       </item>
       <item>
-       <widget class="QWidget" name="send_wid" native="true">
+       <widget class="QWidget" name="sendWid" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>40</height>
+         </size>
+        </property>
         <layout class="QHBoxLayout" name="horizontalLayout_4">
          <property name="spacing">
-          <number>2</number>
+          <number>0</number>
          </property>
          <property name="leftMargin">
-          <number>2</number>
+          <number>0</number>
          </property>
          <property name="topMargin">
           <number>2</number>
          </property>
          <property name="rightMargin">
-          <number>2</number>
+          <number>0</number>
          </property>
          <property name="bottomMargin">
           <number>2</number>
@@ -229,7 +276,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="send_btn">
+          <widget class="StateBtn" name="sendBtn">
            <property name="text">
             <string>Send</string>
            </property>
@@ -247,8 +294,23 @@
   <customwidget>
    <class>ChatView</class>
    <extends>QWidget</extends>
-   <header>widgets/chatview.h</header>
+   <header location="global">widgets/chatview.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>StateLabel</class>
+   <extends>QLabel</extends>
+   <header location="global">widgets/statelabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>StateBtn</class>
+   <extends>QPushButton</extends>
+   <header location="global">buttons/statebtn.h</header>
+  </customwidget>
+  <customwidget>
+   <class>MessageTextEdit</class>
+   <extends>QTextEdit</extends>
+   <header location="global">widgets/messagetextedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

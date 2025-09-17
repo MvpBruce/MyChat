@@ -34,6 +34,7 @@ SOURCES += \
     widgets/logindialog.cpp \
     main.cpp \
     widgets/mainwindow.cpp \
+    widgets/messagetextedit.cpp \
     widgets/registerdialog.cpp \
     widgets/resetdialog.cpp \
     widgets/searchlineedit.cpp \
@@ -73,6 +74,7 @@ HEADERS += \
     widgets/loadingdlg.h \
     widgets/logindialog.h \
     widgets/mainwindow.h \
+    widgets/messagetextedit.h \
     widgets/registerdialog.h \
     widgets/resetdialog.h \
     widgets/searchlineedit.h \

@@ -54,7 +54,10 @@ enum MSG_IDS
 	ADD_FRIEND_NOTIFY = 1011,//send a adding friend notification to another user
 	AUTH_FRIEND_REQ = 1012,//send authtication to chat server for agree to add friend
 	AUTH_FRIEND_RSP = 1013,//send response to chat client after process AUTH_FRIEND_REQ 
-	AUTH_FRIEND_NOTIFY = 1014//send notifacation to another user for agree
+	AUTH_FRIEND_NOTIFY = 1014, //send notifacation to another user for agree
+	TEXT_CHAT_MSG_REQ = 1015,
+	TEXT_CHAT_MSG_RSP = 1016,
+	TEXT_CHAT_MSG_NOTIFY = 1017
 };
 
 #define MAX_LEN 2048
