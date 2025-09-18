@@ -301,6 +301,60 @@ void TcpMgr::initHandlers()
         auto pInfo = std::make_shared<AuthRsp>(nUId, strName, strNick, strIcon, nGender);
         emit sig_auth_rsp(pInfo);
     });
+
+    m_handlers.insert(RequstID::TEXT_CHAT_MSG_RSP, [this](RequstID id, int len, QByteArray data){
+        Q_UNUSED(len);
+        qDebug() << "id: " << id << "data: " << data;
+        QJsonDocument jsonDoc = QJsonDocument::fromJson(data);
+        if (jsonDoc.isNull()) {
+            qDebug() << "Failed to create QJsonDocument.";
+            return;
+        }
+
+        QJsonObject jsonObj = jsonDoc.object();
+        if (!jsonObj.contains("error")) {
+            qDebug() << "Failed to parse json, no error in json";
+            return;
+        }
+
+        int nError = jsonObj["error"].toInt();
+        if (nError != ErrorCodes::SUCCESS)
+        {
+            qDebug() << "Failed to get chat text response, error: " << nError;
+            return;
+        }
+
+        //todo, mark message as read....
+    });
+
+    m_handlers.insert(RequstID::TEXT_CHAT_MSG_NOTIFY, [this](RequstID id, int len, QByteArray data){
+        Q_UNUSED(len);
+        qDebug() << "id: " << id << "data: " << data;
+        QJsonDocument jsonDoc = QJsonDocument::fromJson(data);
+        if (jsonDoc.isNull()) {
+            qDebug() << "Failed to create QJsonDocument.";
+            return;
+        }
+
+        QJsonObject jsonObj = jsonDoc.object();
+        if (!jsonObj.contains("error")) {
+            qDebug() << "Failed to parse json, no error in json";
+            return;
+        }
+
+        int nError = jsonObj["error"].toInt();
+        if (nError != ErrorCodes::SUCCESS)
+        {
+            qDebug() << "Failed to notify chat text msg, error: " << nError;
+            return;
+        }
+
+        auto fromUid = jsonObj["fromuid"].toInt();
+        auto toUid = jsonObj["touid"].toInt();
+        auto textArray = jsonObj["text_array"].toArray();
+        auto pChatTextMsg = std::make_shared<ChatTextMsg>(fromUid, toUid, textArray);
+        emit sig_chat_text_msg(pChatTextMsg);
+    });
 }
 
 void TcpMgr::processMsg(RequstID id, int len, QByteArray data)

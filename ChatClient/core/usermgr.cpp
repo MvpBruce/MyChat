@@ -75,3 +75,21 @@ void UserMgr::AppendFriendList(QJsonArray array)
         m_mapFriend.insert(uid, pInfo);
     }
 }
+
+void UserMgr::AppendFriendChatMsg(int nUid, const std::vector<std::shared_ptr<ChatTextData>>& vChatTextData)
+{
+    auto it = m_mapFriend.find(nUid);
+    if (it == m_mapFriend.end())
+        return;
+
+    it.value()->AppendChatMsgs(vChatTextData);
+}
+
+std::shared_ptr<FriendInfo> UserMgr::GetFriendInfoById(int nUid)
+{
+    auto it = m_mapFriend.find(nUid);
+    if (it != m_mapFriend.end())
+        return it.value();
+
+    return nullptr;
+}

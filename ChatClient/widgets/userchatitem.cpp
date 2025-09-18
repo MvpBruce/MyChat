@@ -27,7 +27,6 @@ void UserChatItem::SetInfo(QString name, QString head, QString msg)
     m_Msg = msg;
 
     QPixmap pixMap(m_Head);
-
     ui->icon_lb->setPixmap(pixMap.scaled(ui->icon_lb->size()));
     ui->icon_lb->setScaledContents(true);
 
@@ -39,10 +38,33 @@ void UserChatItem::SetInfo(std::shared_ptr<UserInfo> pInfo)
 {
     m_pInfo = pInfo;
     QPixmap pixMap(m_pInfo->m_strIcon);
-
     ui->icon_lb->setPixmap(pixMap.scaled(ui->icon_lb->size()));
     ui->icon_lb->setScaledContents(true);
 
     ui->user_name_lb->setText(m_pInfo->m_strName);
     ui->user_chat_lb->setText(m_pInfo->m_strLastMsg);
+}
+
+void UserChatItem::SetInfo(std::shared_ptr<FriendInfo> pInfo)
+{
+    m_pInfo = std::make_shared<UserInfo>(pInfo);
+    QPixmap pixMap(m_pInfo->m_strIcon);
+    ui->icon_lb->setPixmap(pixMap.scaled(ui->icon_lb->size()));
+    ui->icon_lb->setScaledContents(true);
+
+    ui->user_name_lb->setText(m_pInfo->m_strName);
+    ui->user_chat_lb->setText(m_pInfo->m_strLastMsg);
+}
+
+void UserChatItem::UpdateLasgMsg(const std::vector<std::shared_ptr<ChatTextData>>& vTextData)
+{
+    QString strLastMsg = "";
+    for (const auto& pData : vTextData)
+    {
+        strLastMsg = pData->m_strContent;
+        m_pInfo->m_vChatTextData.push_back(pData);
+    }
+
+    m_pInfo->m_strLastMsg = strLastMsg;
+    ui->user_chat_lb->setText(strLastMsg);
 }

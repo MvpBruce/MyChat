@@ -1,6 +1,8 @@
 #ifndef USERDATA_H
 #define USERDATA_H
 #include <QString>
+#include <QJsonArray>
+#include <QJsonObject>
 
 class SearchInfo {
 public:
@@ -91,6 +93,7 @@ public:
     int m_nGender;
 };
 
+class ChatTextData;
 class FriendInfo
 {
 public:
@@ -103,6 +106,8 @@ public:
         m_strBack(std::move(strBack)), m_strLastMsg(std::move(strLastMsg)) {
     }
 
+    void AppendChatMsgs(const std::vector<std::shared_ptr<ChatTextData>>& vChatTextData);
+
     int m_nUID;
     QString m_strName;
     QString m_strNick;
@@ -111,6 +116,7 @@ public:
     QString m_strDesc;
     QString m_strBack;
     QString m_strLastMsg;
+    std::vector<std::shared_ptr<ChatTextData>> m_vChatTextData;
 };
 
 class UserInfo
@@ -127,12 +133,20 @@ public:
     UserInfo(std::shared_ptr<AuthRsp> pInfo)
         : m_nUID(pInfo->m_nUID), m_strName(pInfo->m_strName), m_strNick(pInfo->m_strNick), m_strIcon(pInfo->m_strIcon), m_strLastMsg(""), m_nGender(pInfo->m_nGender)
     {}
+
+    UserInfo(std::shared_ptr<FriendInfo> pInfo)
+        : m_nUID(pInfo->m_nUID), m_strName(pInfo->m_strName), m_strNick(pInfo->m_strNick), m_strIcon(pInfo->m_strIcon), m_strLastMsg(""), m_nGender(pInfo->m_nGender)
+    {
+        m_vChatTextData = pInfo->m_vChatTextData;
+    }
+
     int m_nUID;
     QString m_strName;
     QString m_strNick;
     QString m_strIcon;
     QString m_strLastMsg;
     int m_nGender;
+    std::vector<std::shared_ptr<ChatTextData>> m_vChatTextData;
 };
 
 class ChatTextData
@@ -148,6 +162,28 @@ public:
     QString m_strContent;
     int m_nFromUid;
     int m_nToUid;
+};
+
+class ChatTextMsg
+{
+public:
+    ChatTextMsg(int nFromUid, int nToUid, QJsonArray jsonArray)
+        : m_nFromUid(nFromUid), m_nToUid(nToUid)
+    {
+        for (auto msgData : jsonArray)
+        {
+            auto msgObj = msgData.toObject();
+            auto strContent = msgObj["content"].toString();
+            auto strMsgID = msgObj["msgid"].toString();
+            auto pChatTextData = std::make_shared<ChatTextData>(strMsgID, strContent, m_nFromUid, m_nToUid);
+            m_vChatMsg.push_back(pChatTextData);
+        }
+    }
+
+public:
+    int m_nFromUid;
+    int m_nToUid;
+    std::vector<std::shared_ptr<ChatTextData>> m_vChatMsg;
 };
 
 #endif // USERDATA_H

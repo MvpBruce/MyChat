@@ -371,6 +371,42 @@ void TaskSystem::ProcessChatTextMsg(std::shared_ptr<Session> session, const shor
 	Json::Reader reader;
 	Json::Value root;
 	reader.parse(msgData, root);
+
+	auto uid = root["fromuid"].asInt();
+	auto touid = root["touid"].asInt();
+	const Json::Value tetxArray = root["text_array"];
+
+	Json::Value retValue;
+	retValue["error"] = ErrorCodes::Success;
+	retValue["text_arry"] = tetxArray;
+	retValue["fromuid"] = uid;
+	retValue["touid"] = touid;
+
+	Defer defer([this, &retValue, session]() {
+		session->Send(retValue.toStyledString(), MSG_IDS::TEXT_CHAT_MSG_RSP);
+	});
+
+	//find touid's server ip in redis
+	std::string strKey = USERIPPREFIX;
+	strKey += std::to_string(touid);
+	std::string strValue = "";
+	bool bRet = CRedisMgr::GetInstance()->Get(strKey, strValue);
+	if (!bRet)
+		return;
+
+	auto& cfg = ConfigMgr::GetInstance();
+	auto selfName = cfg["CurrentServer"]["name"];
+	if (selfName == strValue)
+	{
+		auto pSession = UserMgr::GetInstance()->GetSession(touid);
+		if (pSession)
+			pSession->Send(retValue.toStyledString(), TEXT_CHAT_MSG_NOTIFY);
+
+		return;
+	}
+
+	//not in same chat server, so send via grpc, todo
+
 }
 
 bool TaskSystem::GetBaseInfo(std::string strKey, int uid, std::shared_ptr<UserInfo>& pUserInfo)

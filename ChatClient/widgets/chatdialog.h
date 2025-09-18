@@ -32,6 +32,7 @@ public slots:
     void slot_add_auth_friend(std::shared_ptr<AuthInfo> pInfo);
     void slot_auth_rsp(std::shared_ptr<AuthRsp> pInfo);
     void slot_append_chat_msg(std::shared_ptr<ChatTextData> pData);
+    void slot_chat_text_msg(std::shared_ptr<ChatTextMsg> pTextMsg);
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event);

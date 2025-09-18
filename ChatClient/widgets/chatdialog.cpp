@@ -5,6 +5,7 @@
 #include "userchatitem.h"
 #include <QMouseEvent>
 #include "core/TcpMgr.h"
+#include "core/usermgr.h"
 
 ChatDialog::ChatDialog(QWidget *parent)
     : QDialog(parent)
@@ -69,6 +70,7 @@ ChatDialog::ChatDialog(QWidget *parent)
 
     connect(TcpMgr::GetInstance().get(), &TcpMgr::sig_add_auth_friend, this, &ChatDialog::slot_add_auth_friend);
     connect(TcpMgr::GetInstance().get(), &TcpMgr::sig_auth_rsp, this, &ChatDialog::slot_auth_rsp);
+    connect(TcpMgr::GetInstance().get(), &TcpMgr::sig_chat_text_msg, this, &ChatDialog::slot_chat_text_msg);
 
     ui->search_chat_list->SetSearchEdit(ui->search_edit);
     AddChatUserList();
@@ -195,7 +197,37 @@ void ChatDialog::slot_auth_rsp(std::shared_ptr<AuthRsp> pInfo)
 
 void ChatDialog::slot_append_chat_msg(std::shared_ptr<ChatTextData> pData)
 {
+    //todo
+}
 
+void ChatDialog::slot_chat_text_msg(std::shared_ptr<ChatTextMsg> pTextMsg)
+{
+    auto it = m_mapUidToItem.find(pTextMsg->m_nFromUid);
+    if (it != m_mapUidToItem.end())
+    {
+        QWidget* pWidget = ui->user_chat_list->itemWidget(it.value());
+        UserChatItem* pChatItem = qobject_cast<UserChatItem*>(pWidget);
+        if (!pChatItem)
+            return;
+
+        //update current chat item
+        pChatItem->UpdateLasgMsg(pTextMsg->m_vChatMsg);
+        UserMgr::GetInstance()->AppendFriendChatMsg(pTextMsg->m_nFromUid, pTextMsg->m_vChatMsg);
+        return;
+    }
+
+    //create new item if not existed
+    UserChatItem* pChatItem = new UserChatItem();
+    //get friend's info
+    auto pFriendInfo = UserMgr::GetInstance()->GetFriendInfoById(pTextMsg->m_nFromUid);
+    pChatItem->SetInfo(pFriendInfo);
+    QListWidgetItem* pItem = new QListWidgetItem();
+    pItem->setSizeHint(pChatItem->sizeHint());
+    pChatItem->UpdateLasgMsg(pTextMsg->m_vChatMsg);
+    UserMgr::GetInstance()->AppendFriendChatMsg(pTextMsg->m_nFromUid, pTextMsg->m_vChatMsg);
+    ui->user_chat_list->insertItem(0, pItem);
+    ui->user_chat_list->setItemWidget(pItem, pChatItem);
+    m_mapUidToItem.insert(pTextMsg->m_nFromUid, pItem);
 }
 
 bool ChatDialog::eventFilter(QObject *watched, QEvent *event)

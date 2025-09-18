@@ -21,6 +21,8 @@ public:
     QString& GetIcon();
     void AppendApplyList(QJsonArray array);
     void AppendFriendList(QJsonArray array);
+    void AppendFriendChatMsg(int nUid, const std::vector<std::shared_ptr<ChatTextData>>& vChatTextData);
+    std::shared_ptr<FriendInfo> GetFriendInfoById(int nUid);
 
 private:
     UserMgr();
