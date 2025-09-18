@@ -23,6 +23,7 @@ public:
     void SetInfo(std::shared_ptr<UserInfo> pInfo);
     void SetInfo(std::shared_ptr<FriendInfo> pInfo);
     void UpdateLasgMsg(const std::vector<std::shared_ptr<ChatTextData>>& vTextData);
+    std::shared_ptr<UserInfo> GetUserInfo();
 
 private:
     Ui::UserChatItem *ui;

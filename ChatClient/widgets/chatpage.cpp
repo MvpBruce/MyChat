@@ -79,7 +79,7 @@ void ChatPage::on_send_btn_clicked()
         }
         else if (strType == "image")
         {
-
+            pBubble = new ImageBubble(QPixmap(msgList[i].content), role);
         }
         else if (strType == "file")
         {

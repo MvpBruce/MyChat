@@ -125,7 +125,7 @@
           </widget>
          </item>
          <item>
-          <widget class="StateWidget" name="contacts_lable" native="true">
+          <widget class="StateWidget" name="contact_lable" native="true">
            <property name="minimumSize">
             <size>
              <width>30</width>
@@ -248,6 +248,11 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>StateBtn</class>
+   <extends>QPushButton</extends>
+   <header location="global">buttons/statebtn.h</header>
+  </customwidget>
+  <customwidget>
    <class>SearchLineEdit</class>
    <extends>QLineEdit</extends>
    <header location="global">widgets/searchlineedit.h</header>
@@ -256,11 +261,6 @@
    <class>UserChatList</class>
    <extends>QListWidget</extends>
    <header location="global">widgets/userchatlist.h</header>
-  </customwidget>
-  <customwidget>
-   <class>StateBtn</class>
-   <extends>QPushButton</extends>
-   <header location="global">buttons/statebtn.h</header>
   </customwidget>
   <customwidget>
    <class>ChatPage</class>

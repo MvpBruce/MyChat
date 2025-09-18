@@ -68,3 +68,8 @@ void UserChatItem::UpdateLasgMsg(const std::vector<std::shared_ptr<ChatTextData>
     m_pInfo->m_strLastMsg = strLastMsg;
     ui->user_chat_lb->setText(strLastMsg);
 }
+
+std::shared_ptr<UserInfo> UserChatItem::GetUserInfo()
+{
+    return m_pInfo;
+}

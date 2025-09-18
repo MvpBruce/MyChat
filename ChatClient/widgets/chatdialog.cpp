@@ -9,7 +9,7 @@
 
 ChatDialog::ChatDialog(QWidget *parent)
     : QDialog(parent)
-    , ui(new Ui::ChatDialog), m_bLoading(false), m_Mode(SideBarMode::Chat), m_State(SideBarMode::Chat)
+    , ui(new Ui::ChatDialog), m_bLoading(false), m_Mode(SideBarMode::Chat), m_State(SideBarMode::Chat), m_nCurChatUId(0)
 {
     ui->setupUi(this);
 
@@ -57,15 +57,16 @@ ChatDialog::ChatDialog(QWidget *parent)
     //Set contacts icon
     ui->chat_lable->setProperty("state", "normal");
     ui->chat_lable->SetState("normal","hover","pressed","selected_normal","selected_hover","selected_pressed");
-    ui->contacts_lable->SetState("normal","hover","pressed","selected_normal","selected_hover","selected_pressed");
+    ui->contact_lable->SetState("normal","hover","pressed","selected_normal","selected_hover","selected_pressed");
 
     m_listWidget.push_back(ui->chat_lable);
-    m_listWidget.push_back(ui->contacts_lable);
+    m_listWidget.push_back(ui->contact_lable);
     connect(ui->chat_lable, &StateWidget::clicked, this, &ChatDialog::slot_clicked_chat);
-    connect(ui->contacts_lable, &StateWidget::clicked, this, &ChatDialog::slot_clicked_contact);
+    connect(ui->contact_lable, &StateWidget::clicked, this, &ChatDialog::slot_clicked_contact);
 
     connect(ui->search_edit, &QLineEdit::textChanged, this, &ChatDialog::slot_text_changed);
     connect(ui->user_con_list, &ContactList::sig_switch_friend_info_page, this, &ChatDialog::slot_friend_info_page);
+    connect(ui->user_con_list, &ContactList::sig_switch_apply_friend_page, this, &ChatDialog::slot_switch_apply_friend_page);
     connect(TcpMgr::GetInstance().get(), &TcpMgr::sig_friend_apply, this, &ChatDialog::slot_apply_friend);
 
     connect(TcpMgr::GetInstance().get(), &TcpMgr::sig_add_auth_friend, this, &ChatDialog::slot_add_auth_friend);
@@ -80,6 +81,7 @@ ChatDialog::ChatDialog(QWidget *parent)
     this->installEventFilter(this);
 
     connect(ui->chat_page, &ChatPage::sig_append_chat_msg, this, &ChatDialog::slot_append_chat_msg);
+    connect(ui->user_chat_list, &QListWidget::itemClicked, this, &ChatDialog::slot_item_clicked);
 }
 
 ChatDialog::~ChatDialog()
@@ -139,7 +141,7 @@ void ChatDialog::slot_clicked_chat()
 
 void ChatDialog::slot_clicked_contact()
 {
-    ClearSideBarState(ui->contacts_lable);
+    ClearSideBarState(ui->contact_lable);
     m_State = SideBarMode::Contact;
     SwitchMode(false);
 }
@@ -158,10 +160,15 @@ void ChatDialog::slot_friend_info_page(std::shared_ptr<UserInfo> pUserInfo)
     qDebug() << "ChatDialog::slot_friend_info_page";
 }
 
+void ChatDialog::slot_switch_apply_friend_page()
+{
+    ui->stackedWidget->setCurrentWidget(ui->applyFriendPage);
+}
+
 void ChatDialog::slot_apply_friend(std::shared_ptr<AddFriendInfo> pInfo)
 {
     //todo, need to check friend request already sent
-    ui->contacts_lable->ShowRedPoint(true);
+    ui->contact_lable->ShowRedPoint(true);
     ui->user_con_list->ShowRedPoint(true);
     ui->applyFriendPage->AddNewApplication(pInfo);
 }
@@ -197,7 +204,34 @@ void ChatDialog::slot_auth_rsp(std::shared_ptr<AuthRsp> pInfo)
 
 void ChatDialog::slot_append_chat_msg(std::shared_ptr<ChatTextData> pData)
 {
-    //todo
+    if (m_nCurChatUId == 0)
+        return;
+
+    auto it = m_mapUidToItem.find(m_nCurChatUId);
+    if (it == m_mapUidToItem.end())
+        return;
+
+    QWidget* pWidget = ui->user_chat_list->itemWidget(it.value());
+    if (!pWidget)
+        return;
+
+    ListItemBase* pBaseItem = qobject_cast<ListItemBase*>(pWidget);
+    if (!pBaseItem)
+        return;
+
+    auto itemType = pBaseItem->GetItemType();
+    if (itemType == ListItemType::CHAT_USER_ITEM)
+    {
+        UserChatItem* pUserItem = qobject_cast<UserChatItem*>(pBaseItem);
+        if (!pUserItem)
+            return;
+
+        auto pUserInfo = pUserItem->GetUserInfo();
+        pUserInfo->m_vChatTextData.push_back(pData);
+        std::vector<std::shared_ptr<ChatTextData>> vMsg;
+        vMsg.push_back(pData);
+        UserMgr::GetInstance()->AppendFriendChatMsg(m_nCurChatUId, vMsg);
+    }
 }
 
 void ChatDialog::slot_chat_text_msg(std::shared_ptr<ChatTextMsg> pTextMsg)
@@ -228,6 +262,29 @@ void ChatDialog::slot_chat_text_msg(std::shared_ptr<ChatTextMsg> pTextMsg)
     ui->user_chat_list->insertItem(0, pItem);
     ui->user_chat_list->setItemWidget(pItem, pChatItem);
     m_mapUidToItem.insert(pTextMsg->m_nFromUid, pItem);
+}
+
+void ChatDialog::slot_item_clicked(QListWidgetItem *pItem)
+{
+    QWidget* pWidget = ui->user_chat_list->itemWidget(pItem);
+    if (!pWidget)
+        return;
+
+    ListItemBase* pBase = qobject_cast<ListItemBase*>(pWidget);
+    if (!pBase)
+        return;
+
+    auto nType = pBase->GetItemType();
+    if (nType == ListItemType::INVALID_ITEM || nType == ListItemType::GROUP_ITEM)
+        return;
+
+    if (nType == ListItemType::CHAT_USER_ITEM)
+    {
+        auto pChatItem = qobject_cast<UserChatItem*>(pBase);
+        auto pUserInfo = pChatItem->GetUserInfo();
+        //todo, update chat page, like label name and chat history
+        m_nCurChatUId = pUserInfo->m_nUID;
+    }
 }
 
 bool ChatDialog::eventFilter(QObject *watched, QEvent *event)

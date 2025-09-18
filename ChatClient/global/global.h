@@ -82,7 +82,7 @@ struct MsgInfo
 {
     QString msgType;
     QString content;
-    QString pixMap;
+    QPixmap pixMap;
 };
 
 const std::vector<QString>  strs ={"hello world !",
