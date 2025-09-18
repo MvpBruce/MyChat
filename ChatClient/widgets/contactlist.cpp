@@ -12,12 +12,8 @@ ContactList::ContactList(QWidget* parent)
 {
     this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
     this->viewport()->installEventFilter(this);
-
-    //todo, need to get data from server
     AddContactList();
-
     connect(this, &QListWidget::itemClicked, this, &ContactList::slot_item_clicked);
     connect(TcpMgr::GetInstance().get(), &TcpMgr::sig_add_auth_friend, this, &ContactList::slot_add_auth_friend);
     connect(TcpMgr::GetInstance().get(), &TcpMgr::sig_auth_rsp, this, &ContactList::slot_auth_rsp);
@@ -59,6 +55,14 @@ bool ContactList::eventFilter(QObject *object, QEvent *event)
 
 void ContactList::AddContactList()
 {
+    //group tip
+    auto pGroupTip = new GroupItem();
+    QListWidgetItem* pItem = new QListWidgetItem();
+    pItem->setSizeHint(pGroupTip->sizeHint());
+    this->addItem(pItem);
+    this->setItemWidget(pItem, pGroupTip);
+    pItem->setFlags(pItem->flags() &~ Qt::ItemIsSelectable);
+
     //add addfriend item
     m_pAddFriendItem = new UserContactItem();
     m_pAddFriendItem->setObjectName("addFriendItem");
@@ -73,6 +77,7 @@ void ContactList::AddContactList()
     //add group item
     m_pGroupItem = new QListWidgetItem();
     auto pGroupItem = new GroupItem();
+    pGroupItem->SetGroupTip("Contacts");
     m_pGroupItem->setSizeHint(pGroupItem->sizeHint());
     this->addItem(m_pGroupItem);
     this->setItemWidget(m_pGroupItem, pGroupItem);
