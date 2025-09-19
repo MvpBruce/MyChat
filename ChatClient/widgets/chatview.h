@@ -11,7 +11,8 @@ class ChatView : public QWidget
     Q_OBJECT
 public:
     explicit ChatView(QWidget *parent = nullptr);
-    void appendChild(QWidget* widget);
+    void AppendChild(QWidget* widget);
+    void RemoveAllItems();
 
 protected:
     bool eventFilter(QObject *o, QEvent *e) override;

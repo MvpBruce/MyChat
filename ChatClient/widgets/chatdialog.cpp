@@ -91,6 +91,7 @@ ChatDialog::~ChatDialog()
 
 void ChatDialog::AddChatUserList()
 {
+    //to do
     for(int i = 0; i < 13; i++){
         int randomValue = QRandomGenerator::global()->bounded(100);
         int str_i = randomValue%strs.size();
@@ -282,7 +283,7 @@ void ChatDialog::slot_item_clicked(QListWidgetItem *pItem)
     {
         auto pChatItem = qobject_cast<UserChatItem*>(pBase);
         auto pUserInfo = pChatItem->GetUserInfo();
-        //todo, update chat page, like label name and chat history
+        ui->chat_page->SetUserInfo(pUserInfo);
         m_nCurChatUId = pUserInfo->m_nUID;
     }
 }

@@ -37,11 +37,28 @@ ChatView::ChatView(QWidget *parent)
     m_pScrollArea->installEventFilter(this);
 }
 
-void ChatView::appendChild(QWidget *widget)
+void ChatView::AppendChild(QWidget *widget)
 {
     QVBoxLayout* pV = qobject_cast<QVBoxLayout*>(m_pScrollArea->widget()->layout());
     pV->insertWidget(pV->count() - 1, widget);
     m_bAppended = true;
+}
+
+void ChatView::RemoveAllItems()
+{
+    QVBoxLayout* pLayout = qobject_cast<QVBoxLayout*>(m_pScrollArea->widget()->layout());
+    int nCount = pLayout->count();
+    for (int i = 0; i < nCount; i++)
+    {
+        QLayoutItem* pItem = pLayout->takeAt(0);
+        if (pItem)
+        {
+            if (QWidget* pWidget = pItem->widget())
+                delete pWidget;
+
+            delete pItem;
+        }
+    }
 }
 
 bool ChatView::eventFilter(QObject *o, QEvent *e)

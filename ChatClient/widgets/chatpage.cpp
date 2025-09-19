@@ -14,11 +14,49 @@ ChatPage::ChatPage(QWidget *parent)
     , ui(new Ui::ChatPage), m_pPeerUserInfo(nullptr)
 {
     ui->setupUi(this);
+    connect(ui->sendBtn, &QPushButton::clicked, this, &ChatPage::on_send_btn_clicked);
 }
 
 ChatPage::~ChatPage()
 {
     delete ui;
+}
+
+void ChatPage::SetUserInfo(std::shared_ptr<UserInfo> pUserInfo)
+{
+    m_pPeerUserInfo = pUserInfo;
+    ui->chat_title_lb->setText(m_pPeerUserInfo->m_strName);
+    ui->chat_history_list->RemoveAllItems();
+    for (auto& msg : m_pPeerUserInfo->m_vChatTextData)
+        AppendChatMsg(msg);
+}
+
+void ChatPage::AppendChatMsg(std::shared_ptr<ChatTextData> chatMsg)
+{
+    auto pSelfInfo = UserMgr::GetInstance()->GetUserInfo();
+    Role role;
+    if (chatMsg->m_nFromUid == pSelfInfo->m_nUID)
+    {
+        role = Role::Self;
+        ChatMsgBaseItem* pChatItem = new ChatMsgBaseItem(role);
+        pChatItem->setNmae(pSelfInfo->m_strName);
+        pChatItem->setIcon(QPixmap(pSelfInfo->m_strIcon));
+        pChatItem->setWidget(new TextBubble(role, chatMsg->m_strContent));
+        ui->chat_history_list->AppendChild(pChatItem);
+    }
+    else
+    {
+        auto pFriendInfo = UserMgr::GetInstance()->GetFriendInfoById(chatMsg->m_nFromUid);
+        if (pFriendInfo == nullptr)
+            return;
+
+        role = Role::Other;
+        ChatMsgBaseItem* pChatItem = new ChatMsgBaseItem(role);
+        pChatItem->setNmae(pFriendInfo->m_strName);
+        pChatItem->setIcon(QPixmap(pFriendInfo->m_strIcon));
+        pChatItem->setWidget(new TextBubble(role, chatMsg->m_strContent));
+        ui->chat_history_list->AppendChild(pChatItem);
+    }
 }
 
 void ChatPage::on_send_btn_clicked()
@@ -89,7 +127,7 @@ void ChatPage::on_send_btn_clicked()
         if (pBubble)
         {
             pChatItem->setWidget(pBubble);
-            ui->chat_history_list->appendChild(pChatItem);
+            ui->chat_history_list->AppendChild(pChatItem);
         }
     }
 
