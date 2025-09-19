@@ -85,6 +85,8 @@ struct MsgInfo
     QPixmap pixMap;
 };
 
+const int NUMBER_PER_PAGE = 12;
+
 const std::vector<QString>  strs ={"hello world !",
                                    "nice to meet u",
                                    "New year，new life",

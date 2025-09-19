@@ -3,7 +3,7 @@
 #include <QJsonValue>
 
 UserMgr::UserMgr()
-    : m_pUserInfo(nullptr)
+    : m_pUserInfo(nullptr), m_nChatLoaded(0)
 {
 
 }
@@ -92,4 +92,23 @@ std::shared_ptr<FriendInfo> UserMgr::GetFriendInfoById(int nUid)
         return it.value();
 
     return nullptr;
+}
+
+std::vector<std::shared_ptr<FriendInfo>> UserMgr::GetSomeChatList()
+{
+    std::vector<std::shared_ptr<FriendInfo>> vFriendList;
+    int nStart = m_nChatLoaded;
+    int nEnd = nStart + 12;
+
+    if (nStart >= m_vFriendList.size())
+        return vFriendList;
+
+    if (nEnd > m_vFriendList.size())
+    {
+        vFriendList = std::vector<std::shared_ptr<FriendInfo>>(m_vFriendList.begin() + nStart, m_vFriendList.end());
+        return vFriendList;
+    }
+
+    vFriendList = std::vector<std::shared_ptr<FriendInfo>>(m_vFriendList.begin() + nStart, m_vFriendList.end() + nEnd);
+    return vFriendList;
 }

@@ -23,15 +23,18 @@ public:
     void AppendFriendList(QJsonArray array);
     void AppendFriendChatMsg(int nUid, const std::vector<std::shared_ptr<ChatTextData>>& vChatTextData);
     std::shared_ptr<FriendInfo> GetFriendInfoById(int nUid);
+    std::vector<std::shared_ptr<FriendInfo>> GetSomeChatList();
 
 private:
     UserMgr();
+
 private:
     std::shared_ptr<UserInfo> m_pUserInfo;
     QString m_Token;
     std::vector<std::shared_ptr<ApplyInfo>> m_vApplyList;
     std::vector<std::shared_ptr<FriendInfo>> m_vFriendList;
     QMap<int, std::shared_ptr<FriendInfo>> m_mapFriend;
+    int m_nChatLoaded;
 };
 
 #endif // USERMGR_H

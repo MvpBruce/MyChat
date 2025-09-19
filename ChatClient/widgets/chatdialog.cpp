@@ -91,19 +91,24 @@ ChatDialog::~ChatDialog()
 
 void ChatDialog::AddChatUserList()
 {
-    //to do
-    for(int i = 0; i < 13; i++){
-        int randomValue = QRandomGenerator::global()->bounded(100);
-        int str_i = randomValue%strs.size();
-        int head_i = randomValue%heads.size();
-        int name_i = randomValue%names.size();
+    auto vFriendList = UserMgr::GetInstance()->GetSomeChatList();
+    if (!vFriendList.empty())
+    {
+        for (auto& friendInfo : vFriendList)
+        {
+            auto it = m_mapUidToItem.find(friendInfo->m_nUID);
+            if (it == m_mapUidToItem.end())
+                continue;
 
-        auto *chat_user_wid = new UserChatItem();
-        chat_user_wid->SetInfo(names[name_i], heads[head_i], strs[str_i]);
-        QListWidgetItem *item = new QListWidgetItem;
-        item->setSizeHint(chat_user_wid->sizeHint());
-        ui->user_chat_list->addItem(item);
-        ui->user_chat_list->setItemWidget(item, chat_user_wid);
+            auto pChatItem = new UserChatItem();
+            auto pInfo = std::make_shared<UserInfo>(friendInfo);
+            pChatItem->SetInfo(pInfo);
+            QListWidgetItem* pItem = new QListWidgetItem();
+            pItem->setSizeHint(pChatItem->sizeHint());
+            ui->user_chat_list->addItem(pItem);
+            ui->user_chat_list->setItemWidget(pItem, pChatItem);
+            m_mapUidToItem.insert(friendInfo->m_nUID, pItem);
+        }
     }
 }
 
