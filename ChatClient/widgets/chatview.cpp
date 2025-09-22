@@ -53,7 +53,8 @@ void ChatView::RemoveAllItems()
         QLayoutItem* pItem = pLayout->takeAt(0);
         if (pItem)
         {
-            if (QWidget* pWidget = pItem->widget())
+            QWidget* pWidget = pItem->widget();
+            if (pWidget)
                 delete pWidget;
 
             delete pItem;

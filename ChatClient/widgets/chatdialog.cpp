@@ -97,7 +97,7 @@ void ChatDialog::AddChatUserList()
         for (auto& friendInfo : vFriendList)
         {
             auto it = m_mapUidToItem.find(friendInfo->m_nUID);
-            if (it == m_mapUidToItem.end())
+            if (it != m_mapUidToItem.end())
                 continue;
 
             auto pChatItem = new UserChatItem();

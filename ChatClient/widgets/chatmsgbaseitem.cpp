@@ -48,7 +48,7 @@ ChatMsgBaseItem::ChatMsgBaseItem(Role role, QWidget *parent)
     this->setLayout(pGridLayout);
 }
 
-void ChatMsgBaseItem::setNmae(const QString &name)
+void ChatMsgBaseItem::setName(const QString &name)
 {
     m_pName->setText(name);
 }

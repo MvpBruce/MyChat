@@ -39,7 +39,7 @@ void ChatPage::AppendChatMsg(std::shared_ptr<ChatTextData> chatMsg)
     {
         role = Role::Self;
         ChatMsgBaseItem* pChatItem = new ChatMsgBaseItem(role);
-        pChatItem->setNmae(pSelfInfo->m_strName);
+        pChatItem->setName(pSelfInfo->m_strName);
         pChatItem->setIcon(QPixmap(pSelfInfo->m_strIcon));
         pChatItem->setWidget(new TextBubble(role, chatMsg->m_strContent));
         ui->chat_history_list->AppendChild(pChatItem);
@@ -52,7 +52,7 @@ void ChatPage::AppendChatMsg(std::shared_ptr<ChatTextData> chatMsg)
 
         role = Role::Other;
         ChatMsgBaseItem* pChatItem = new ChatMsgBaseItem(role);
-        pChatItem->setNmae(pFriendInfo->m_strName);
+        pChatItem->setName(pFriendInfo->m_strName);
         pChatItem->setIcon(QPixmap(pFriendInfo->m_strIcon));
         pChatItem->setWidget(new TextBubble(role, chatMsg->m_strContent));
         ui->chat_history_list->AppendChild(pChatItem);
@@ -86,7 +86,7 @@ void ChatPage::on_send_btn_clicked()
         QString strType = msgList[i].msgType;
         ChatMsgBaseItem* pChatItem = new ChatMsgBaseItem(role);
         pChatItem->setIcon(QPixmap(userIcon));
-        pChatItem->setNmae(userName);
+        pChatItem->setName(userName);
         QWidget* pBubble = nullptr;
         if (strType == "text")
         {

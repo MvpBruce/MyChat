@@ -84,19 +84,19 @@ void ContactList::AddContactList()
     m_pGroupItem->setFlags(m_pGroupItem->flags() &~ Qt::ItemIsSelectable);
 
     //add contacts, todo, need to get data from server
-    for(int i = 0; i < 13; i++)
-    {
-        int randomValue = QRandomGenerator::global()->bounded(100);
-        //int str_i = randomValue % strs.size();
-        int head_i = randomValue % heads.size();
-        int name_i = randomValue % names.size();
-        auto* pContactItem = new UserContactItem();
-        pContactItem->SetInfo(0, names[name_i], heads[head_i]);
-        QListWidgetItem* pItem = new QListWidgetItem();
-        pItem->setSizeHint(pContactItem->sizeHint());
-        this->addItem(pItem);
-        this->setItemWidget(pItem, pContactItem);
-    }
+    // for(int i = 0; i < 13; i++)
+    // {
+    //     int randomValue = QRandomGenerator::global()->bounded(100);
+    //     //int str_i = randomValue % strs.size();
+    //     int head_i = randomValue % heads.size();
+    //     int name_i = randomValue % names.size();
+    //     auto* pContactItem = new UserContactItem();
+    //     pContactItem->SetInfo(0, names[name_i], heads[head_i]);
+    //     QListWidgetItem* pItem = new QListWidgetItem();
+    //     pItem->setSizeHint(pContactItem->sizeHint());
+    //     this->addItem(pItem);
+    //     this->setItemWidget(pItem, pContactItem);
+    // }
 }
 
 void ContactList::slot_item_clicked(QListWidgetItem *item)

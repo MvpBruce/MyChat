@@ -10,7 +10,7 @@ class ChatMsgBaseItem : public QWidget
     Q_OBJECT
 public:
     explicit ChatMsgBaseItem(Role role, QWidget *parent = nullptr);
-    void setNmae(const QString &name);
+    void setName(const QString &name);
     void setIcon(const QPixmap &icon);
     void setWidget(QWidget* widget);
 
