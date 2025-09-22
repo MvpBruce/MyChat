@@ -24,6 +24,9 @@ ChatPage::~ChatPage()
 
 void ChatPage::SetUserInfo(std::shared_ptr<UserInfo> pUserInfo)
 {
+    if (pUserInfo == m_pPeerUserInfo)
+        return;
+
     m_pPeerUserInfo = pUserInfo;
     ui->chat_title_lb->setText(m_pPeerUserInfo->m_strName);
     ui->chat_history_list->RemoveAllItems();
@@ -99,9 +102,9 @@ void ChatPage::on_send_btn_clicked()
                 QJsonDocument jDoc(textObj);
                 QByteArray jsonData = jDoc.toJson(QJsonDocument::Compact);
                 nTextSize = 0;
+                emit TcpMgr::GetInstance()->sig_send_data(RequstID::TEXT_CHAT_MSG_REQ, jsonData);
                 textArray = QJsonArray();
                 textObj = QJsonObject();
-                emit TcpMgr::GetInstance()->sig_send_data(RequstID::TEXT_CHAT_MSG_REQ, jsonData);
             }
 
             nTextSize += msgList[i].content.length();
@@ -138,8 +141,8 @@ void ChatPage::on_send_btn_clicked()
     textObj["touid"] = m_pPeerUserInfo->m_nUID;
     QJsonDocument doc(textObj);
     QByteArray JsonData = doc.toJson(QJsonDocument::Compact);
+    emit TcpMgr::GetInstance()->sig_send_data(RequstID::TEXT_CHAT_MSG_REQ, JsonData);
     textArray = QJsonArray();
     textObj = QJsonObject();
-    emit TcpMgr::GetInstance()->sig_send_data(RequstID::TEXT_CHAT_MSG_REQ, JsonData);
 }
 

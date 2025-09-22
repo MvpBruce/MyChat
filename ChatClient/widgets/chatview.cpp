@@ -60,15 +60,13 @@ void ChatView::RemoveAllItems()
             delete pItem;
         }
     }
+
+    pLayout->addWidget(new QWidget(), 10000);
 }
 
 bool ChatView::eventFilter(QObject *o, QEvent *e)
 {
-    /*if(e->type() == QEvent::Resize && o == )
-    {
-
-    }
-    else */if(e->type() == QEvent::Enter && o == m_pScrollArea)
+    if(e->type() == QEvent::Enter && o == m_pScrollArea)
     {
         m_pScrollArea->verticalScrollBar()->setHidden(m_pScrollArea->verticalScrollBar()->maximum() == 0);
     }

@@ -351,7 +351,7 @@ void TcpMgr::initHandlers()
 
         auto fromUid = jsonObj["fromuid"].toInt();
         auto toUid = jsonObj["touid"].toInt();
-        auto textArray = jsonObj["text_array"].toArray();
+        QJsonArray textArray = jsonObj["text_array"].toArray();
         auto pChatTextMsg = std::make_shared<ChatTextMsg>(fromUid, toUid, textArray);
         emit sig_chat_text_msg(pChatTextMsg);
     });
