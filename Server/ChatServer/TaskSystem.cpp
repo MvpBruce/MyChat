@@ -118,7 +118,7 @@ void TaskSystem::LoginHandler(std::shared_ptr<Session> session, const short& msg
 			obj["nick"] = friendInfo->nick;
 			obj["gender"] = friendInfo->gender;
 			obj["desc"] = friendInfo->desc;
-			obj["status"] = friendInfo->back;
+			obj["back"] = friendInfo->back;
 			retValue["friend_list"].append(obj);
 		}
 	}
