@@ -24,6 +24,9 @@ public:
     void AppendFriendChatMsg(int nUid, const std::vector<std::shared_ptr<ChatTextData>>& vChatTextData);
     std::shared_ptr<FriendInfo> GetFriendInfoById(int nUid);
     std::vector<std::shared_ptr<FriendInfo>> GetSomeChatList();
+    void UpdateChatOffset();
+    std::vector<std::shared_ptr<FriendInfo>> GetSomeContactList();
+    void UpdateContactOffset();
 
 private:
     UserMgr();
@@ -35,6 +38,7 @@ private:
     std::vector<std::shared_ptr<FriendInfo>> m_vFriendList;
     QMap<int, std::shared_ptr<FriendInfo>> m_mapFriend;
     int m_nChatLoaded;
+    int m_nContactLoaded;
 };
 
 #endif // USERMGR_H

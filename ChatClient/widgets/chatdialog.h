@@ -19,9 +19,6 @@ public:
     explicit ChatDialog(QWidget *parent = nullptr);
     ~ChatDialog();
 
-    void AddChatUserList();
-    void ClearSideBarState(StateWidget* pWidget);
-
 public slots:
     void slot_load_more_users();
     void slot_clicked_chat();
@@ -43,6 +40,8 @@ protected:
 private:
     void SwitchMode(bool bSearch = false);
     void HandleMousePress(QMouseEvent* event);
+    void AddChatUserList();
+    void ClearSideBarState(StateWidget* pWidget);
 
 private:
     Ui::ChatDialog *ui;

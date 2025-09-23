@@ -85,4 +85,6 @@ struct MsgInfo
     QPixmap pixMap;
 };
 
+const int CHAT_NUMBER_PER_PAGE = 12;
+
 #endif // GLOBAL_H

@@ -1,9 +1,10 @@
 #include "usermgr.h"
 #include <QJsonArray>
 #include <QJsonValue>
+#include "global/global.h"
 
 UserMgr::UserMgr()
-    : m_pUserInfo(nullptr), m_nChatLoaded(0)
+    : m_pUserInfo(nullptr), m_nChatLoaded(0), m_nContactLoaded(0)
 {
 
 }
@@ -98,7 +99,7 @@ std::vector<std::shared_ptr<FriendInfo>> UserMgr::GetSomeChatList()
 {
     std::vector<std::shared_ptr<FriendInfo>> vFriendList;
     int nStart = m_nChatLoaded;
-    int nEnd = nStart + 12;
+    int nEnd = nStart + CHAT_NUMBER_PER_PAGE;
 
     if (nStart >= m_vFriendList.size())
         return vFriendList;
@@ -111,4 +112,56 @@ std::vector<std::shared_ptr<FriendInfo>> UserMgr::GetSomeChatList()
 
     vFriendList = std::vector<std::shared_ptr<FriendInfo>>(m_vFriendList.begin() + nStart, m_vFriendList.end() + nEnd);
     return vFriendList;
+}
+
+void UserMgr::UpdateChatOffset()
+{
+    int nBegin = m_nChatLoaded;
+    int nEnd = nBegin + CHAT_NUMBER_PER_PAGE;
+
+    if (nBegin >= m_vFriendList.size()) {
+        return ;
+    }
+
+    if (nEnd > m_vFriendList.size()) {
+        m_nChatLoaded = m_vFriendList.size();
+        return ;
+    }
+
+    m_nChatLoaded = nEnd;
+}
+
+void UserMgr::UpdateContactOffset()
+{
+    int nBegin = m_nContactLoaded;
+    int nEnd = nBegin + CHAT_NUMBER_PER_PAGE;
+
+    if (nBegin >= m_vFriendList.size()) {
+        return ;
+    }
+
+    if (nEnd > m_vFriendList.size()) {
+        m_nContactLoaded = m_vFriendList.size();
+        return ;
+    }
+
+    m_nContactLoaded = nEnd;
+}
+
+std::vector<std::shared_ptr<FriendInfo>> UserMgr::GetSomeContactList()
+{
+    std::vector<std::shared_ptr<FriendInfo>> vContactList;
+    int nStart = m_nContactLoaded;
+    int nEnd = nStart + CHAT_NUMBER_PER_PAGE;
+
+    if (nStart >= m_vFriendList.size())
+        return vContactList;
+
+    if (nEnd > m_vFriendList.size())
+    {
+        vContactList = std::vector<std::shared_ptr<FriendInfo>>(m_vFriendList.begin() + nStart, m_vFriendList.end());
+        return vContactList;
+    }
+
+    vContactList = std::vector<std::shared_ptr<FriendInfo>>(m_vFriendList.begin() + nStart, m_vFriendList.end() + nEnd);
 }

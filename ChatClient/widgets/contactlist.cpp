@@ -6,6 +6,7 @@
 #include <QRandomGenerator>
 #include "core/TcpMgr.h"
 #include "groupitem.h"
+#include "core/usermgr.h"
 
 ContactList::ContactList(QWidget* parent)
     : QListWidget(parent), m_pAddFriendItem(nullptr), m_pGroupItem(nullptr)
@@ -83,20 +84,19 @@ void ContactList::AddContactList()
     this->setItemWidget(m_pGroupItem, pGroupItem);
     m_pGroupItem->setFlags(m_pGroupItem->flags() &~ Qt::ItemIsSelectable);
 
-    //add contacts, todo, need to get data from server
-    // for(int i = 0; i < 13; i++)
-    // {
-    //     int randomValue = QRandomGenerator::global()->bounded(100);
-    //     //int str_i = randomValue % strs.size();
-    //     int head_i = randomValue % heads.size();
-    //     int name_i = randomValue % names.size();
-    //     auto* pContactItem = new UserContactItem();
-    //     pContactItem->SetInfo(0, names[name_i], heads[head_i]);
-    //     QListWidgetItem* pItem = new QListWidgetItem();
-    //     pItem->setSizeHint(pContactItem->sizeHint());
-    //     this->addItem(pItem);
-    //     this->setItemWidget(pItem, pContactItem);
-    // }
+    //get contacts from server
+    std::vector<std::shared_ptr<FriendInfo>> vContactList = UserMgr::GetInstance()->GetSomeContactList();
+    for (auto& pInfo : vContactList)
+    {
+        auto* pContactItem = new UserContactItem();
+        pContactItem->SetInfo(pInfo->m_nUID, pInfo->m_strName, pInfo->m_strIcon);
+        QListWidgetItem* pItem = new QListWidgetItem();
+        pItem->setSizeHint(pContactItem->sizeHint());
+        this->addItem(pItem);
+        this->setItemWidget(pItem, pContactItem);
+    }
+
+    UserMgr::GetInstance()->UpdateContactOffset();
 }
 
 void ContactList::slot_item_clicked(QListWidgetItem *item)
