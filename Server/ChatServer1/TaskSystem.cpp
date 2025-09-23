@@ -25,6 +25,8 @@ void TaskSystem::RegisterEvent()
 	m_Handler[MSG_IDS::MSG_CHAT_LOGIN] = std::bind(&TaskSystem::LoginHandler, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
 	m_Handler[MSG_IDS::SEARCH_USER_REQ] = std::bind(&TaskSystem::SearchInfoHandler, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
 	m_Handler[MSG_IDS::ADD_FRIEND_REQ] = std::bind(&TaskSystem::AddFriendApply, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+	m_Handler[MSG_IDS::AUTH_FRIEND_REQ] = std::bind(&TaskSystem::AuthFriendApply, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+	m_Handler[MSG_IDS::TEXT_CHAT_MSG_REQ] = std::bind(&TaskSystem::ProcessChatTextMsg, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
 }
 
 void TaskSystem::LoginHandler(std::shared_ptr<Session> session, const short& msgId, const std::string& msgData)
@@ -37,7 +39,7 @@ void TaskSystem::LoginHandler(std::shared_ptr<Session> session, const short& msg
 	std::cout << "User login uid: " << uid  << ", token: " << token << std::endl;
 
 	//Verify token from status server
-	auto rsp = StatusGrpcClient::GetInstance()->Login(uid, token);
+	//auto rsp = StatusGrpcClient::GetInstance()->Login(uid, token);
 
 	Json::Value retValue;
 	Defer defer([this, session, &retValue]() {
@@ -104,19 +106,19 @@ void TaskSystem::LoginHandler(std::shared_ptr<Session> session, const short& msg
 	}
 
 	//get contact list
-	std::vector<std::shared_ptr<UserInfo>> vecFriendInfo;
-	bRet = MySqlMgr::GetInstance()->GetFriendList(uid, vecFriendInfo);
+	std::vector<std::shared_ptr<UserInfo>> vecUserInfo;
+	bRet = MySqlMgr::GetInstance()->GetFriendList(uid, vecUserInfo);
 	if (bRet)
 	{
-		for (auto& friendInfo : vecFriendInfo) {
+		for (auto& friendInfo : vecUserInfo) {
 			Json::Value obj;
 			obj["name"] = friendInfo->name;
 			obj["uid"] = friendInfo->uid;
 			obj["icon"] = friendInfo->icon;
 			obj["nick"] = friendInfo->nick;
-			obj["sex"] = friendInfo->gender;
+			obj["gender"] = friendInfo->gender;
 			obj["desc"] = friendInfo->desc;
-			//obj["back"] = friendInfo->back;
+			obj["back"] = friendInfo->back;
 			retValue["friend_list"].append(obj);
 		}
 	}
@@ -276,6 +278,135 @@ void TaskSystem::AddFriendApply(std::shared_ptr<Session> session, const short& m
 
 	//Users are in different chat server, need to use grpc
 	
+}
+
+void TaskSystem::AuthFriendApply(std::shared_ptr<Session> session, const short& msgId, const std::string& msgData)
+{
+	Json::Reader reader;
+	Json::Value root;
+	reader.parse(msgData, root);
+
+	auto uid = root["fromuid"].asInt();
+	auto touid = root["touid"].asInt();
+	auto back_name = root["back"].asString();
+	std::cout << "from " << uid << " auth friend to " << touid << std::endl;
+
+	Json::Value retValue;
+	retValue["error"] = ErrorCodes::Success;
+	auto pUserInfo = std::make_shared<UserInfo>();
+	
+	std::string strKey = USERBASEINFO;
+	strKey += std::to_string(touid);
+	bool bRet = GetBaseInfo(strKey, touid, pUserInfo);
+	if (bRet)
+	{
+		retValue["uid"] = touid;
+		retValue["name"] = pUserInfo->name;
+		retValue["nick"] = pUserInfo->nick;
+		retValue["icon"] = pUserInfo->name;
+		retValue["gender"] = pUserInfo->gender;
+	}
+	else
+	{
+		retValue["error"] = ErrorCodes::Uid_Invalid;
+	}
+
+	Defer defer([this, &retValue, session]() {
+		session->Send(retValue.toStyledString(), MSG_IDS::AUTH_FRIEND_RSP);
+	});
+
+	//change apply friend status
+	MySqlMgr::GetInstance()->AuthFriendApply(uid, touid);
+
+	//add friend to sql.
+	MySqlMgr::GetInstance()->AddFriend(uid, touid, back_name);
+
+	//find touid's server ip in redis
+	std::string strToKey = USERIPPREFIX;
+	strToKey += std::to_string(touid);
+	std::string strToIpValue = "";
+	bRet = CRedisMgr::GetInstance()->Get(strToKey, strToIpValue);
+	if (!bRet)
+		return;
+
+	auto& cfg = ConfigMgr::GetInstance();
+	auto selfName = cfg["CurrentServer"]["name"];
+	if (selfName == strToIpValue)
+	{
+		auto session = UserMgr::GetInstance()->GetSession(touid);
+		if (session)
+		{
+			Json::Value jNotify;
+			jNotify["error"] = ErrorCodes::Success;
+			jNotify["fromuid"] = uid;
+			jNotify["touid"] = touid;
+			strKey = USERBASEINFO;
+			strKey += std::to_string(uid);
+			auto pInfo = std::make_shared<UserInfo>();
+			bRet = GetBaseInfo(strKey, uid, pInfo);
+			if (bRet)
+			{
+				jNotify["name"] = pInfo->name;
+				jNotify["nick"] = pInfo->nick;
+				jNotify["icon"] = pInfo->icon;
+				jNotify["gender"] = pInfo->gender;
+			}
+			else
+			{
+				jNotify["error"] = ErrorCodes::Uid_Invalid;
+			}
+
+			session->Send(jNotify.toStyledString(), MSG_IDS::AUTH_FRIEND_NOTIFY);
+		}
+
+		return;
+	}
+
+	//Not in same server, use grpc to notify
+
+}
+
+void TaskSystem::ProcessChatTextMsg(std::shared_ptr<Session> session, const short& msgId, const std::string& msgData)
+{
+	Json::Reader reader;
+	Json::Value root;
+	reader.parse(msgData, root);
+
+	auto uid = root["fromuid"].asInt();
+	auto touid = root["touid"].asInt();
+	const Json::Value tetxArray = root["text_array"];
+
+	Json::Value retValue;
+	retValue["error"] = ErrorCodes::Success;
+	retValue["text_array"] = tetxArray;
+	retValue["fromuid"] = uid;
+	retValue["touid"] = touid;
+
+	Defer defer([this, &retValue, session]() {
+		session->Send(retValue.toStyledString(), MSG_IDS::TEXT_CHAT_MSG_RSP);
+	});
+
+	//find touid's server ip in redis
+	std::string strKey = USERIPPREFIX;
+	strKey += std::to_string(touid);
+	std::string strValue = "";
+	bool bRet = CRedisMgr::GetInstance()->Get(strKey, strValue);
+	if (!bRet)
+		return;
+
+	auto& cfg = ConfigMgr::GetInstance();
+	auto selfName = cfg["CurrentServer"]["name"];
+	if (selfName == strValue)
+	{
+		auto pSession = UserMgr::GetInstance()->GetSession(touid);
+		if (pSession)
+			pSession->Send(retValue.toStyledString(), TEXT_CHAT_MSG_NOTIFY);
+
+		return;
+	}
+
+	//not in same chat server, so send via grpc, todo
+
 }
 
 bool TaskSystem::GetBaseInfo(std::string strKey, int uid, std::shared_ptr<UserInfo>& pUserInfo)

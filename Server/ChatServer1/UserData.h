@@ -11,9 +11,10 @@ struct UserInfo
 	std::string nick;
 	std::string desc;
 	std::string icon;
+	std::string back;
 
 	UserInfo()
-		: uid(0), gender(0), name(""), pwd(""), email(""), nick(""), desc(""), icon("")
+		: uid(0), gender(0), name(""), pwd(""), email(""), nick(""), desc(""), icon(""), back("")
 	{
 	}
 };

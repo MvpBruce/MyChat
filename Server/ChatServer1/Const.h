@@ -49,9 +49,15 @@ enum MSG_IDS
 	MSG_CHAT_LOGIN_RSP = 1006,
 	SEARCH_USER_REQ = 1007,
 	SEARCH_USER_RSP = 1008,
-	ADD_FRIEND_REQ = 1009,
-	ADD_FRIEND_RSP = 1010,
-	ADD_FRIEND_NOTIFY = 1011
+	ADD_FRIEND_REQ = 1009,//send adding friend requst to chat server
+	ADD_FRIEND_RSP = 1010,//send adding friend response to chat client after processing friend request
+	ADD_FRIEND_NOTIFY = 1011,//send a adding friend notification to another user
+	AUTH_FRIEND_REQ = 1012,//send authtication to chat server for agree to add friend
+	AUTH_FRIEND_RSP = 1013,//send response to chat client after process AUTH_FRIEND_REQ 
+	AUTH_FRIEND_NOTIFY = 1014, //send notifacation to another user for agree
+	TEXT_CHAT_MSG_REQ = 1015,
+	TEXT_CHAT_MSG_RSP = 1016,
+	TEXT_CHAT_MSG_NOTIFY = 1017
 };
 
 #define MAX_LEN 2048
