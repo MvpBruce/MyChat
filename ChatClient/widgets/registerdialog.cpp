@@ -220,8 +220,8 @@ void RegisterDialog::on_btn_ok_clicked()
     jsonObj["gender"] = 0;
 
     int randomValue = QRandomGenerator::global()->bounded(100);
-    int head_i = randomValue % heads.size();
-    jsonObj["icon"] = heads[head_i];
+    //int head_i = randomValue % heads.size();
+    jsonObj["icon"] = ":/assets/image/head_1.jpg";
 
     HttpMgr::GetInstance()->PostHttpRequst(QUrl(strGateServerURL + "/register"), jsonObj, RequstID::REGISTER_USER, Modules::REGISTER);
 }

@@ -48,9 +48,9 @@ ChatDialog::ChatDialog(QWidget *parent)
     connect(ui->user_chat_list, &UserChatList::sig_load_more_users, this, &ChatDialog::slot_load_more_users);
 
     //Add user head icon
-    QString strIconHead = ":/assets/image/head_1.jpg";
-    QPixmap pixMat(strIconHead);
-    QPixmap scaledPix = pixMat.scaled(ui->head_lable->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    QString strIconHead = UserMgr::GetInstance()->GetIcon();;
+    QPixmap pixMap(strIconHead);
+    QPixmap scaledPix = pixMap.scaled(ui->head_lable->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
     ui->head_lable->setPixmap(scaledPix);
     ui->head_lable->setScaledContents(true);
 

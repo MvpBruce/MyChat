@@ -23,11 +23,10 @@ ApplyFriendPage::~ApplyFriendPage()
 
 void ApplyFriendPage::AddNewApplication(std::shared_ptr<AddFriendInfo> pInfo)
 {
-    int nRandom = QRandomGenerator::global()->bounded(100);
-    int nHeadIndex = nRandom % heads.size();
+    QString strIcon = ":/assets/image/head_1.jpg";
     auto applyItem = new ApplyFriendItem();
     auto pApplyInfo = std::make_shared<ApplyInfo>(pInfo->m_nFromUId, pInfo->m_strName,
-                        pInfo->m_strDesc, heads[nHeadIndex], pInfo->m_strName, 0, 0);
+                        pInfo->m_strDesc, strIcon, pInfo->m_strName, 0, 0);
 
     applyItem->SetInfo(pApplyInfo);
     QListWidgetItem* pItem = new QListWidgetItem();

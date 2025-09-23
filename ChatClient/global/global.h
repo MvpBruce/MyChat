@@ -85,31 +85,4 @@ struct MsgInfo
     QPixmap pixMap;
 };
 
-const int NUMBER_PER_PAGE = 12;
-
-const std::vector<QString>  strs ={"hello world !",
-                                   "nice to meet u",
-                                   "New year，new life",
-                                   "You have to love yourself",
-                                   "My love is written in the wind ever since the whole world is you"};
-
-const std::vector<QString> names = {
-    "HanMeiMei",
-    "Lily",
-    "Ben",
-    "Androw",
-    "Max",
-    "Summer",
-    "Candy",
-    "Hunter"
-};
-
-const std::vector<QString> heads = {
-    ":/assets/image/head_1.jpg",
-    ":/assets/image/head_2.jpg",
-    ":/assets/image/head_3.jpg",
-    ":/assets/image/head_4.jpg",
-    ":/assets/image/head_5.jpg"
-};
-
 #endif // GLOBAL_H
