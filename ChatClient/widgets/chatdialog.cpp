@@ -254,6 +254,7 @@ void ChatDialog::slot_chat_text_msg(std::shared_ptr<ChatTextMsg> pTextMsg)
 
         //update current chat item
         pChatItem->UpdateLasgMsg(pTextMsg->m_vChatMsg);
+        UpdateChatMsg(pTextMsg->m_vChatMsg);
         UserMgr::GetInstance()->AppendFriendChatMsg(pTextMsg->m_nFromUid, pTextMsg->m_vChatMsg);
         return;
     }
@@ -304,6 +305,17 @@ bool ChatDialog::eventFilter(QObject *watched, QEvent *event)
     }
 
     return QDialog::eventFilter(watched, event);
+}
+
+void ChatDialog::UpdateChatMsg(const std::vector<std::shared_ptr<ChatTextData>>& vChatText)
+{
+    for (auto& chatText: vChatText)
+    {
+        if (chatText->m_nFromUid != m_nCurChatUId)
+            break;
+
+        ui->chat_page->AppendChatMsg(chatText);
+    }
 }
 
 void ChatDialog::SwitchMode(bool bSearch)

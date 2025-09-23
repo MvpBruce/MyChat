@@ -24,8 +24,8 @@ ChatPage::~ChatPage()
 
 void ChatPage::SetUserInfo(std::shared_ptr<UserInfo> pUserInfo)
 {
-    if (pUserInfo == m_pPeerUserInfo)
-        return;
+    // if (pUserInfo == m_pPeerUserInfo)
+    //     return;
 
     m_pPeerUserInfo = pUserInfo;
     ui->chat_title_lb->setText(m_pPeerUserInfo->m_strName);

@@ -378,7 +378,7 @@ void TaskSystem::ProcessChatTextMsg(std::shared_ptr<Session> session, const shor
 
 	Json::Value retValue;
 	retValue["error"] = ErrorCodes::Success;
-	retValue["text_arry"] = tetxArray;
+	retValue["text_array"] = tetxArray;
 	retValue["fromuid"] = uid;
 	retValue["touid"] = touid;
 

@@ -38,6 +38,7 @@ public slots:
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event);
+    void UpdateChatMsg(const std::vector<std::shared_ptr<ChatTextData>>& vChatText);
 
 private:
     void SwitchMode(bool bSearch = false);
