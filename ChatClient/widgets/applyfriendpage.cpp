@@ -38,8 +38,6 @@ void ApplyFriendPage::AddNewApplication(std::shared_ptr<AddFriendInfo> pInfo)
         //set moddal
         //set applyinfo
         //show
-        qDebug() << "Show authenticate friend page";
-        qDebug() << "Slot Apply Sure ";
         QJsonObject jsonObj;
         auto uid = UserMgr::GetInstance()->GetUId();
         jsonObj["fromuid"] = uid;
@@ -53,7 +51,6 @@ void ApplyFriendPage::AddNewApplication(std::shared_ptr<AddFriendInfo> pInfo)
         //this->hide();
         //deleteLater();
     });
-
 }
 
 void ApplyFriendPage::slot_auth_rsp(std::shared_ptr<AuthRsp> pInfo)

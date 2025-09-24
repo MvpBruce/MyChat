@@ -136,15 +136,13 @@ void ContactList::slot_item_clicked(QListWidgetItem *item)
         emit sig_switch_friend_info_page(pUserInfo);
         return;
     }
-
-    //todo
-    //1.friend info page
-    //2.other, likes apply page
 }
 
 void ContactList::slot_add_auth_friend(std::shared_ptr<AuthInfo> pInfo)
 {
-    //todo, check if they are aleady friend
+    auto pFriendInfo = UserMgr::GetInstance()->GetFriendInfoById(pInfo->m_nUID);
+    if (pFriendInfo)
+        return;
 
     //insert after group item
     auto pUserItem = new UserContactItem();
@@ -155,12 +153,14 @@ void ContactList::slot_add_auth_friend(std::shared_ptr<AuthInfo> pInfo)
     int nIndex = this->row(m_pGroupItem);
     this->insertItem(nIndex + 1, pItem);
     this->setItemWidget(pItem, pUserItem);
-
 }
 
 void ContactList::slot_auth_rsp(std::shared_ptr<AuthRsp> pInfo)
 {
-    //todo, check if they are aleady friend
+    auto pFriendInfo = UserMgr::GetInstance()->GetFriendInfoById(pInfo->m_nUID);
+    if (pFriendInfo)
+        return;
+
     auto pUserItem = new UserContactItem();
     pUserItem->SetInfo(pInfo->m_nUID, pInfo->m_strName, pInfo->m_strIcon);
     QListWidgetItem* pItem = new QListWidgetItem();

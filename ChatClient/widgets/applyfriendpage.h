@@ -18,6 +18,7 @@ public:
     explicit ApplyFriendPage(QWidget *parent = nullptr);
     ~ApplyFriendPage();
 
+    //Add new apply from search
     void AddNewApplication(std::shared_ptr<AddFriendInfo> pInfo);
 
 public slots:

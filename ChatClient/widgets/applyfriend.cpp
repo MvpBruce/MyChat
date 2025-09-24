@@ -32,7 +32,7 @@ ApplyFriend::ApplyFriend(QWidget *parent)
 
     m_tipData = {"Classmate", "Family", "Junior tutorial", "c++ Primer", "Rust design", "Pytho", "Node js", "go"};
     connect(ui->moreLb, &TipLabel::clicked, this, &ApplyFriend::slot_show_more);
-    InitTipLabels();
+    //InitTipLabels();
 
     connect(ui->okBtn, &QPushButton::clicked, this, &ApplyFriend::slot_apply_ok);
     connect(ui->cancelBtn, &QPushButton::clicked, this, &ApplyFriend::slot_apply_cancel);
