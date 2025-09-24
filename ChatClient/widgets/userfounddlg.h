@@ -15,7 +15,7 @@ class UserFoundDlg : public QDialog
 public:
     explicit UserFoundDlg(QWidget *parent = nullptr);
     ~UserFoundDlg();
-    void SetSearchInfo(std::shared_ptr<SearchInfo> info);
+    void SetSearchInfo(std::shared_ptr<SearchInfo> pInfo);
 
 private slots:
     void on_add_to_contact_clicked();

@@ -10,10 +10,6 @@ UserFoundDlg::UserFoundDlg(QWidget *parent)
     ui->setupUi(this);
     this->setWindowTitle("Add");
     setWindowFlags(windowFlags() | Qt::FramelessWindowHint);
-    //todo, need to use real image
-    QPixmap headPixmap(":/assets/image/head_1.jpg");
-    headPixmap = headPixmap.scaled(ui->head_lb->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-    ui->head_lb->setPixmap(headPixmap);
     ui->add_to_contact->SetState("normal", "hover", "press");
     this->setModal(true);
 
@@ -24,10 +20,13 @@ UserFoundDlg::~UserFoundDlg()
     delete ui;
 }
 
-void UserFoundDlg::SetSearchInfo(std::shared_ptr<SearchInfo> info)
+void UserFoundDlg::SetSearchInfo(std::shared_ptr<SearchInfo> pInfo)
 {
-    ui->name_lb->setText(info->m_strName);
-    m_pSearchInfo = info;
+    ui->name_lb->setText(pInfo->m_strName);
+    QPixmap headPixmap(pInfo->m_strIcon);
+    headPixmap = headPixmap.scaled(ui->head_lb->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    ui->head_lb->setPixmap(headPixmap);
+    m_pSearchInfo = pInfo;
 }
 
 void UserFoundDlg::on_add_to_contact_clicked()
