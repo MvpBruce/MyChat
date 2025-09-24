@@ -1,5 +1,5 @@
-#include "applyfriend.h"
-#include "ui_applyfriend.h"
+#include "applyfrienddlg.h"
+#include "ui_applyfrienddlg.h"
 #include "core/userdata.h"
 #include "statelabel.h"
 #include <QFontMetrics>
@@ -11,13 +11,13 @@
 const int g_tipHOffset = 5;
 const int g_tipVOffset = 15;
 
-ApplyFriend::ApplyFriend(QWidget *parent)
+ApplyFriendDlg::ApplyFriendDlg(QWidget *parent)
     : QDialog(parent)
-    , ui(new Ui::ApplyFriend), m_labelPoint(2, 6), m_pSearchInfo(nullptr)
+    , ui(new Ui::ApplyFriendDlg), m_labelPoint(2, 6), m_pSearchInfo(nullptr)
 {
     ui->setupUi(this);
     setWindowFlags(windowFlags()|Qt::FramelessWindowHint);
-    this->setObjectName("applyFriend");
+    this->setObjectName("applyFriendDlg");
     this->setModal(true);
     ui->nameEdit->setPlaceholderText("test user");
     ui->labelEdit->setPlaceholderText("search and add lables");
@@ -31,19 +31,19 @@ ApplyFriend::ApplyFriend(QWidget *parent)
     m_curTipPoint = QPoint(5, 5);
 
     m_tipData = {"Classmate", "Family", "Junior tutorial", "c++ Primer", "Rust design", "Pytho", "Node js", "go"};
-    connect(ui->moreLb, &TipLabel::clicked, this, &ApplyFriend::slot_show_more);
+    connect(ui->moreLb, &TipLabel::clicked, this, &ApplyFriendDlg::slot_show_more);
     //InitTipLabels();
 
-    connect(ui->okBtn, &QPushButton::clicked, this, &ApplyFriend::slot_apply_ok);
-    connect(ui->cancelBtn, &QPushButton::clicked, this, &ApplyFriend::slot_apply_cancel);
+    connect(ui->okBtn, &QPushButton::clicked, this, &ApplyFriendDlg::slot_apply_ok);
+    connect(ui->cancelBtn, &QPushButton::clicked, this, &ApplyFriendDlg::slot_apply_cancel);
 }
 
-ApplyFriend::~ApplyFriend()
+ApplyFriendDlg::~ApplyFriendDlg()
 {
     delete ui;
 }
 
-void ApplyFriend::InitTipLabels()
+void ApplyFriendDlg::InitTipLabels()
 {
     int nLines = 1;
     for (int i = 0; i < m_tipData.size(); i++)
@@ -52,7 +52,7 @@ void ApplyFriend::InitTipLabels()
         pLb->SetState("normal", "hover", "pressed", "selected_normal", "selected_hover", "selected_pressed");
         pLb->setObjectName("tipslb");
         pLb->setText(m_tipData[i]);
-        connect(pLb, &StateLabel::clicked, this, &ApplyFriend::slot_change_tip);
+        connect(pLb, &StateLabel::clicked, this, &ApplyFriendDlg::slot_change_tip);
 
         QFontMetrics fontMetrics(pLb->font());
         int nWidth = fontMetrics.boundingRect(pLb->text()).width();
@@ -77,7 +77,7 @@ void ApplyFriend::InitTipLabels()
     }
 }
 
-void ApplyFriend::AddTipLabels(StateLabel *pLable, QPoint curPoint, QPoint &nextPoint, int nWidth, int nHeight)
+void ApplyFriendDlg::AddTipLabels(StateLabel *pLable, QPoint curPoint, QPoint &nextPoint, int nWidth, int nHeight)
 {
     pLable->move(curPoint);
     pLable->show();
@@ -86,7 +86,7 @@ void ApplyFriend::AddTipLabels(StateLabel *pLable, QPoint curPoint, QPoint &next
     nextPoint.setY(pLable->pos().y());
 }
 
-bool ApplyFriend::eventFilter(QObject *obj, QEvent *event)
+bool ApplyFriendDlg::eventFilter(QObject *obj, QEvent *event)
 {
     if (obj == ui->scrollArea && event->type() == QEvent::Enter)
     {
@@ -100,7 +100,7 @@ bool ApplyFriend::eventFilter(QObject *obj, QEvent *event)
     return QObject::eventFilter(obj, event);
 }
 
-void ApplyFriend::SetSearchInfo(std::shared_ptr<SearchInfo> pSearchInfo)
+void ApplyFriendDlg::SetSearchInfo(std::shared_ptr<SearchInfo> pSearchInfo)
 {
     m_pSearchInfo = pSearchInfo;
     auto applyName = UserMgr::GetInstance()->GetName();
@@ -109,18 +109,18 @@ void ApplyFriend::SetSearchInfo(std::shared_ptr<SearchInfo> pSearchInfo)
     ui->nickNameEdit->setText(nickName);
 }
 
-void ApplyFriend::slot_show_more()
+void ApplyFriendDlg::slot_show_more()
 {
     ui->moreLbWid->hide();
     //todo
 }
 
-void ApplyFriend::slot_change_tip(QString text, ClickState state)
+void ApplyFriendDlg::slot_change_tip(QString text, ClickState state)
 {
 
 }
 
-void ApplyFriend::slot_apply_ok()
+void ApplyFriendDlg::slot_apply_ok()
 {
     QJsonObject jObj;
     auto uid = UserMgr::GetInstance()->GetUId();
@@ -145,7 +145,7 @@ void ApplyFriend::slot_apply_ok()
     deleteLater();
 }
 
-void ApplyFriend::slot_apply_cancel()
+void ApplyFriendDlg::slot_apply_cancel()
 {
     this->hide();
     deleteLater();

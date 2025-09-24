@@ -17,7 +17,7 @@ SOURCES += \
     global/global.cpp \
     core/usermgr.cpp \
     widgets/adduseritem.cpp \
-    widgets/applyfriend.cpp \
+    widgets/applyfrienddlg.cpp \
     widgets/applyfrienditem.cpp \
     widgets/applyfriendlist.cpp \
     widgets/applyfriendpage.cpp \
@@ -58,7 +58,7 @@ HEADERS += \
     global/global.h \
     core/usermgr.h \
     widgets/adduseritem.h \
-    widgets/applyfriend.h \
+    widgets/applyfrienddlg.h \
     widgets/applyfrienditem.h \
     widgets/applyfriendlist.h \
     widgets/applyfriendpage.h \
@@ -100,7 +100,7 @@ FORMS += \
     ui/loadingdlg.ui \
     ui/adduseritem.ui \
     ui/userfounddlg.ui \
-    ui/applyfriend.ui \
+    ui/applyfrienddlg.ui \
     ui/usercontactitem.ui \
     ui/applyfriendpage.ui \
     ui/groupitem.ui

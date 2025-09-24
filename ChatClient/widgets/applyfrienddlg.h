@@ -1,22 +1,22 @@
-#ifndef APPLYFRIEND_H
-#define APPLYFRIEND_H
+#ifndef APPLYFRIENDDLG_H
+#define APPLYFRIENDDLG_H
 
 #include <QDialog>
 #include "global/global.h"
 
 namespace Ui {
-class ApplyFriend;
+class ApplyFriendDlg;
 }
 
 class SearchInfo;
 class StateLabel;
-class ApplyFriend : public QDialog
+class ApplyFriendDlg : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit ApplyFriend(QWidget *parent = nullptr);
-    ~ApplyFriend();
+    explicit ApplyFriendDlg(QWidget *parent = nullptr);
+    ~ApplyFriendDlg();
 
     void InitTipLabels();
     void AddTipLabels(StateLabel* pLable, QPoint curPoint, QPoint& nextPoint, int nWidth, int nHeight);
@@ -33,7 +33,7 @@ private:
     void ResetLabesl();
 
 private:
-    Ui::ApplyFriend *ui;
+    Ui::ApplyFriendDlg *ui;
     QPoint m_curTipPoint;
     QPoint m_labelPoint;
     std::vector<QString> m_tipData;
@@ -41,4 +41,4 @@ private:
     std::shared_ptr<SearchInfo> m_pSearchInfo;
 };
 
-#endif // APPLYFRIEND_H
+#endif // APPLYFRIENDDLG_H
