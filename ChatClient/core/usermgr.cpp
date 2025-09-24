@@ -164,4 +164,5 @@ std::vector<std::shared_ptr<FriendInfo>> UserMgr::GetSomeContactList()
     }
 
     vContactList = std::vector<std::shared_ptr<FriendInfo>>(m_vFriendList.begin() + nStart, m_vFriendList.end() + nEnd);
+    return vContactList;
 }

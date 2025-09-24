@@ -86,6 +86,8 @@ ChatDialog::ChatDialog(QWidget *parent)
 
     connect(ui->chat_page, &ChatPage::sig_append_chat_msg, this, &ChatDialog::slot_append_chat_msg);
     connect(ui->user_chat_list, &QListWidget::itemClicked, this, &ChatDialog::slot_item_clicked);
+    connect(ui->user_chat_list, &QListWidget::currentItemChanged, this, &ChatDialog::slot_current_Item_Changed);
+    SetCurChatItem(0);
 }
 
 ChatDialog::~ChatDialog()
@@ -127,6 +129,41 @@ void ChatDialog::ClearSideBarState(StateWidget *pWidget)
 
         pItem->ClearState();
     }
+}
+
+void ChatDialog::SetCurChatItem(int nUid)
+{
+    if (ui->user_chat_list->count() <= 0)
+        return;
+
+    if (nUid == 0)
+    {
+        ui->user_chat_list->setCurrentRow(0);
+        QListWidgetItem* pItem = ui->user_chat_list->item(0);
+        if (!pItem)
+            return;
+
+        QWidget* pWidget = ui->user_chat_list->itemWidget(pItem);
+        if (!pWidget)
+            return;
+
+        auto pUserItem = qobject_cast<UserChatItem*>(pWidget);
+        if (!pUserItem)
+            return;
+
+        m_nCurChatUId = pUserItem->GetUserInfo()->m_nUID;
+        return;
+    }
+
+    auto it = m_mapUidToItem.find(nUid);
+    if (it == m_mapUidToItem.end())
+    {
+        ui->user_chat_list->setCurrentRow(0);
+        return;
+    }
+
+    ui->user_chat_list->setCurrentItem(it.value());
+    m_nCurChatUId = nUid;
 }
 
 void ChatDialog::slot_load_more_users()
@@ -298,6 +335,11 @@ void ChatDialog::slot_item_clicked(QListWidgetItem *pItem)
         ui->chat_page->SetUserInfo(pUserInfo);
         m_nCurChatUId = pUserInfo->m_nUID;
     }
+}
+
+void ChatDialog::slot_current_Item_Changed(QListWidgetItem *current, QListWidgetItem *previous)
+{
+    this->slot_item_clicked(current);
 }
 
 bool ChatDialog::eventFilter(QObject *watched, QEvent *event)

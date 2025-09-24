@@ -32,6 +32,7 @@ public slots:
     void slot_append_chat_msg(std::shared_ptr<ChatTextData> pData);
     void slot_chat_text_msg(std::shared_ptr<ChatTextMsg> pTextMsg);
     void slot_item_clicked(QListWidgetItem *pItem);
+    void slot_current_Item_Changed(QListWidgetItem *current, QListWidgetItem *previous);
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event);
@@ -42,6 +43,7 @@ private:
     void HandleMousePress(QMouseEvent* event);
     void AddChatUserList();
     void ClearSideBarState(StateWidget* pWidget);
+    void SetCurChatItem(int nUid);
 
 private:
     Ui::ChatDialog *ui;
