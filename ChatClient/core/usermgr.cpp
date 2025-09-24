@@ -148,6 +148,32 @@ void UserMgr::UpdateContactOffset()
     m_nContactLoaded = nEnd;
 }
 
+bool UserMgr::HasApplied(int nUid)
+{
+    for (const auto& apply : m_vApplyList)
+    {
+        if (nUid == apply->m_nUID)
+            return true;
+    }
+
+    return false;
+}
+
+void UserMgr::AddApplyList(std::shared_ptr<ApplyInfo> pInfo)
+{
+    m_vApplyList.push_back(pInfo);
+}
+
+void UserMgr::AddFriend(std::shared_ptr<AuthInfo> pAuthInfo)
+{
+    m_mapFriend[pAuthInfo->m_nUID] = std::make_shared<FriendInfo>(pAuthInfo);;
+}
+
+std::vector<std::shared_ptr<ApplyInfo>> &UserMgr::GetApplyList()
+{
+    return m_vApplyList;
+}
+
 std::vector<std::shared_ptr<FriendInfo>> UserMgr::GetSomeContactList()
 {
     std::vector<std::shared_ptr<FriendInfo>> vContactList;

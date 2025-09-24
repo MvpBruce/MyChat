@@ -125,6 +125,7 @@ void ContactList::slot_item_clicked(QListWidgetItem *item)
     if (nType == ListItemType::APPLY_FRIEND_ITEM)
     {
         qDebug() << "Invalid Item";
+        emit sig_switch_apply_friend_page();
         return;
     }
 

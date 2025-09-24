@@ -216,7 +216,11 @@ void ChatDialog::slot_switch_apply_friend_page()
 
 void ChatDialog::slot_apply_friend(std::shared_ptr<AddFriendInfo> pInfo)
 {
-    //todo, need to check friend request already sent
+    bool bRet = UserMgr::GetInstance()->HasApplied(pInfo->m_nFromUId);
+    if (bRet)
+        return;
+
+    UserMgr::GetInstance()->AddApplyList(std::make_shared<ApplyInfo>(pInfo));
     ui->contact_lable->ShowRedPoint(true);
     ui->user_con_list->ShowRedPoint(true);
     ui->applyFriendPage->AddNewApplication(pInfo);
@@ -224,9 +228,11 @@ void ChatDialog::slot_apply_friend(std::shared_ptr<AddFriendInfo> pInfo)
 
 void ChatDialog::slot_add_auth_friend(std::shared_ptr<AuthInfo> pInfo)
 {
-    //todo, check if they are already friend
-    //if not, add to usermgr
+    auto pFriendInfo = UserMgr::GetInstance()->GetFriendInfoById(pInfo->m_nUID);
+    if (pFriendInfo)
+        return;
 
+    UserMgr::GetInstance()->AddFriend(pInfo);
     auto pChatItem = new UserChatItem();
     auto pUserInfo = std::make_shared<UserInfo>(pInfo);
     pChatItem->SetInfo(pUserInfo);
@@ -239,8 +245,10 @@ void ChatDialog::slot_add_auth_friend(std::shared_ptr<AuthInfo> pInfo)
 
 void ChatDialog::slot_auth_rsp(std::shared_ptr<AuthRsp> pInfo)
 {
-    //todo, check if they are already friend
-    //if not, add to usermgr
+    auto pFriendInfo = UserMgr::GetInstance()->GetFriendInfoById(pInfo->m_nUID);
+    if (pFriendInfo)
+        return;
+
     auto pChatItem = new UserChatItem();
     auto pUserInfo = std::make_shared<UserInfo>(pInfo);
     pChatItem->SetInfo(pUserInfo);

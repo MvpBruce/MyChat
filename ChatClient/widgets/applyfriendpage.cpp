@@ -13,6 +13,7 @@ ApplyFriendPage::ApplyFriendPage(QWidget *parent)
     , ui(new Ui::ApplyFriendPage)
 {
     ui->setupUi(this);
+    LoadApplicationList();
     connect(TcpMgr::GetInstance().get(), &TcpMgr::sig_auth_rsp, this, &ApplyFriendPage::slot_auth_rsp);
 }
 
@@ -23,11 +24,8 @@ ApplyFriendPage::~ApplyFriendPage()
 
 void ApplyFriendPage::AddNewApplication(std::shared_ptr<AddFriendInfo> pInfo)
 {
-    QString strIcon = ":/assets/image/head_1.jpg";
     auto applyItem = new ApplyFriendItem();
-    auto pApplyInfo = std::make_shared<ApplyInfo>(pInfo->m_nFromUId, pInfo->m_strName,
-                        pInfo->m_strDesc, strIcon, pInfo->m_strName, 0, 0);
-
+    auto pApplyInfo = std::make_shared<ApplyInfo>(pInfo);
     applyItem->SetInfo(pApplyInfo);
     QListWidgetItem* pItem = new QListWidgetItem();
     pItem->setFlags(pItem->flags() &~ Qt::ItemIsEnabled &~ Qt::ItemIsSelectable);
@@ -60,8 +58,8 @@ void ApplyFriendPage::AddNewApplication(std::shared_ptr<AddFriendInfo> pInfo)
 
 void ApplyFriendPage::slot_auth_rsp(std::shared_ptr<AuthRsp> pInfo)
 {
-    auto it = m_mapAuthItems.find(pInfo->m_nUID);
-    if (it == m_mapAuthItems.end())
+    auto it = m_mapUnAuthItems.find(pInfo->m_nUID);
+    if (it == m_mapUnAuthItems.end())
         return;
 
     it.value()->ShowAddBtn(false);
@@ -69,5 +67,33 @@ void ApplyFriendPage::slot_auth_rsp(std::shared_ptr<AuthRsp> pInfo)
 
 void ApplyFriendPage::LoadApplicationList()
 {
+    auto applyList = UserMgr::GetInstance()->GetApplyList();
+    for (const auto& apply : applyList)
+    {
+        auto* pApplyItem = new ApplyFriendItem();
+        pApplyItem->SetInfo(apply);
+        QListWidgetItem* pItem = new QListWidgetItem();
+        pItem->setSizeHint(pApplyItem->sizeHint());
+        pItem->setFlags(pItem->flags() &~ Qt::ItemIsEnabled &~ Qt::ItemIsSelectable);
+        ui->applyFriendList->insertItem(0, pItem);
+        ui->applyFriendList->setItemWidget(pItem, pApplyItem);
+        if (apply->m_nStatus)
+        {
+            pApplyItem->ShowAddBtn(false);
+        }
+        else
+        {
+            pApplyItem->ShowAddBtn(true);
+            m_mapUnAuthItems[apply->m_nUID] = pApplyItem;
+        }
 
+        //receive authenticatd signal
+        connect(pApplyItem, &ApplyFriendItem::sig_auth_friend, [this](std::shared_ptr<ApplyInfo> pInfo){
+            //todo,
+            //new authe friend dialog
+            //set modal
+            //set apply info to dialg
+            //show
+        });
+    }
 }

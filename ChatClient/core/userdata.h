@@ -103,8 +103,12 @@ public:
         : m_nUID(nUID), m_strName(std::move(strName)),
         m_strNick(std::move(strNick)), m_strIcon(std::move(strIcon)),
         m_nGender(nGender), m_strDesc(std::move(strDesc)),
-        m_strBack(std::move(strBack)), m_strLastMsg(std::move(strLastMsg)) {
-    }
+        m_strBack(std::move(strBack)), m_strLastMsg(std::move(strLastMsg)) {}
+
+    FriendInfo(std::shared_ptr<AuthInfo> pInfo)
+        :m_nUID(pInfo->m_nUID), m_strName(std::move(pInfo->m_strName)),
+        m_strNick(std::move(pInfo->m_strNick)), m_strIcon(std::move(pInfo->m_strIcon)),
+        m_nGender(pInfo->m_nGender), m_strDesc(""), m_strBack(""), m_strLastMsg("") {}
 
     void AppendChatMsgs(const std::vector<std::shared_ptr<ChatTextData>>& vChatTextData);
 

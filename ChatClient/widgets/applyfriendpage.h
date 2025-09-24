@@ -28,7 +28,7 @@ private:
 
 private:
     Ui::ApplyFriendPage *ui;
-    QMap<int, ApplyFriendItem*> m_mapAuthItems;
+    QMap<int, ApplyFriendItem*> m_mapUnAuthItems;
 };
 
 #endif // APPLYFRIENDPAGE_H

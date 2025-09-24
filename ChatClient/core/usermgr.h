@@ -27,6 +27,10 @@ public:
     void UpdateChatOffset();
     std::vector<std::shared_ptr<FriendInfo>> GetSomeContactList();
     void UpdateContactOffset();
+    bool HasApplied(int nUid);
+    void AddApplyList(std::shared_ptr<ApplyInfo> pInfo);
+    void AddFriend(std::shared_ptr<AuthInfo> pAuthInfo);
+    std::vector<std::shared_ptr<ApplyInfo>>& GetApplyList();
 
 private:
     UserMgr();
