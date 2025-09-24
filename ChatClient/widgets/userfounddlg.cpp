@@ -12,7 +12,6 @@ UserFoundDlg::UserFoundDlg(QWidget *parent)
     setWindowFlags(windowFlags() | Qt::FramelessWindowHint);
     ui->add_to_contact->SetState("normal", "hover", "press");
     this->setModal(true);
-
 }
 
 UserFoundDlg::~UserFoundDlg()

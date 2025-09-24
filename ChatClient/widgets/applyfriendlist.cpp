@@ -4,6 +4,7 @@
 #include <QScrollBar>
 
 ApplyFriendList::ApplyFriendList(QWidget *parent)
+    :QListWidget(parent)
 {
     this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     this->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
