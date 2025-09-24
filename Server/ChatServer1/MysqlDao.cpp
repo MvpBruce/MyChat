@@ -291,8 +291,9 @@ bool MysqlDao::GetApplyList(int toUId, std::vector<std::shared_ptr<ApplyInfo>>& 
 	try
 	{
 		std::unique_ptr<sql::PreparedStatement> st(con->prepareStatement("SELECT apply.from_uid, apply.status, user.name, "
-		"user.nick, user.gender from friend_apply as apply join user on apply.from_uid = user.uid where apply.to_uid = ? "
-		"and apply.id > ? order by apply.id ASC LIMIT ?"));
+			"user.nick, user.gender, user.icon from friend_apply as apply join user on apply.from_uid = user.uid where apply.to_uid = ? "
+			"and apply.id > ? order by apply.id ASC LIMIT ?"));
+
 		st->setInt(1, toUId);
 		st->setInt(2, offset);
 		st->setInt(3, limit);
@@ -304,8 +305,8 @@ bool MysqlDao::GetApplyList(int toUId, std::vector<std::shared_ptr<ApplyInfo>>& 
 			auto status = res->getInt("status");
 			auto nick = res->getString("nick");
 			auto gender = res->getInt("gender");
-
-			auto pResult = std::make_shared<ApplyInfo>(uid, gender, name, "", "", nick, status);
+			auto icon = res->getString("icon");
+			auto pResult = std::make_shared<ApplyInfo>(uid, gender, name, "", icon, nick, status);
 			vecApplyInfo.push_back(pResult);
 		}
 			
