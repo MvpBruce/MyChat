@@ -303,7 +303,7 @@ void TaskSystem::AuthFriendApply(std::shared_ptr<Session> session, const short& 
 		retValue["uid"] = touid;
 		retValue["name"] = pUserInfo->name;
 		retValue["nick"] = pUserInfo->nick;
-		retValue["icon"] = pUserInfo->name;
+		retValue["icon"] = pUserInfo->icon;
 		retValue["gender"] = pUserInfo->gender;
 	}
 	else

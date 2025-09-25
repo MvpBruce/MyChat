@@ -1,12 +1,11 @@
 #include "applyfriendpage.h"
 #include "ui_applyfriendpage.h"
 #include <QRandomGenerator>
-#include "global/global.h"
 #include "applyfrienditem.h"
-
 #include <QJsonObject>
 #include "core/usermgr.h"
 #include "core/TcpMgr.h"
+#include "authenfrienddlg.h"
 
 ApplyFriendPage::ApplyFriendPage(QWidget *parent)
     : QWidget(parent)
@@ -34,22 +33,10 @@ void ApplyFriendPage::AddNewApplication(std::shared_ptr<AddFriendInfo> pInfo)
     ui->applyFriendList->setItemWidget(pItem, applyItem);
     applyItem->ShowAddBtn(true);
     connect(applyItem, &ApplyFriendItem::sig_auth_friend, [this](std::shared_ptr<ApplyInfo> pInfo) {
-        //todo, create authenticate friend page
-        //set moddal
-        //set applyinfo
-        //show
-        QJsonObject jsonObj;
-        auto uid = UserMgr::GetInstance()->GetUId();
-        jsonObj["fromuid"] = uid;
-        jsonObj["touid"] = pInfo->m_nUID;
-        jsonObj["back"] = "backName";
-
-        QJsonDocument doc(jsonObj);
-        QByteArray jsonData = doc.toJson(QJsonDocument::Compact);
-        emit TcpMgr::GetInstance()->sig_send_data(RequstID::AUTH_FRIEND_REQ, jsonData);
-
-        //this->hide();
-        //deleteLater();
+        auto pAuthenDlg = new AuthenFriendDlg(this);
+        pAuthenDlg->setModal(true);
+        pAuthenDlg->SetApplyInfo(pInfo);
+        pAuthenDlg->show();
     });
 }
 
@@ -86,11 +73,10 @@ void ApplyFriendPage::LoadApplicationList()
 
         //receive authenticatd signal
         connect(pApplyItem, &ApplyFriendItem::sig_auth_friend, [this](std::shared_ptr<ApplyInfo> pInfo){
-            //todo,
-            //new authe friend dialog
-            //set modal
-            //set apply info to dialg
-            //show
+            auto pAuthenDlg = new AuthenFriendDlg(this);
+            pAuthenDlg->setModal(true);
+            pAuthenDlg->SetApplyInfo(pInfo);
+            pAuthenDlg->show();
         });
     }
 }
