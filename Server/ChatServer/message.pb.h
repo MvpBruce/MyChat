@@ -47,7 +47,7 @@ struct TableStruct_message_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[8]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[10]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -55,6 +55,12 @@ struct TableStruct_message_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_message_2eproto;
 namespace message {
+class AddFriendReq;
+class AddFriendReqDefaultTypeInternal;
+extern AddFriendReqDefaultTypeInternal _AddFriendReq_default_instance_;
+class AddFriendRsp;
+class AddFriendRspDefaultTypeInternal;
+extern AddFriendRspDefaultTypeInternal _AddFriendRsp_default_instance_;
 class GetChatServerReq;
 class GetChatServerReqDefaultTypeInternal;
 extern GetChatServerReqDefaultTypeInternal _GetChatServerReq_default_instance_;
@@ -81,6 +87,8 @@ class SendChatMsgRspDefaultTypeInternal;
 extern SendChatMsgRspDefaultTypeInternal _SendChatMsgRsp_default_instance_;
 }  // namespace message
 PROTOBUF_NAMESPACE_OPEN
+template<> ::message::AddFriendReq* Arena::CreateMaybeMessage<::message::AddFriendReq>(Arena*);
+template<> ::message::AddFriendRsp* Arena::CreateMaybeMessage<::message::AddFriendRsp>(Arena*);
 template<> ::message::GetChatServerReq* Arena::CreateMaybeMessage<::message::GetChatServerReq>(Arena*);
 template<> ::message::GetChatServerRsp* Arena::CreateMaybeMessage<::message::GetChatServerRsp>(Arena*);
 template<> ::message::GetVerifyReq* Arena::CreateMaybeMessage<::message::GetVerifyReq>(Arena*);
@@ -1060,6 +1068,396 @@ class LoginRsp PROTOBUF_FINAL :
 };
 // -------------------------------------------------------------------
 
+class AddFriendReq PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:message.AddFriendReq) */ {
+ public:
+  inline AddFriendReq() : AddFriendReq(nullptr) {}
+  virtual ~AddFriendReq();
+
+  AddFriendReq(const AddFriendReq& from);
+  AddFriendReq(AddFriendReq&& from) noexcept
+    : AddFriendReq() {
+    *this = ::std::move(from);
+  }
+
+  inline AddFriendReq& operator=(const AddFriendReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline AddFriendReq& operator=(AddFriendReq&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const AddFriendReq& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const AddFriendReq* internal_default_instance() {
+    return reinterpret_cast<const AddFriendReq*>(
+               &_AddFriendReq_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    6;
+
+  friend void swap(AddFriendReq& a, AddFriendReq& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(AddFriendReq* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(AddFriendReq* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline AddFriendReq* New() const final {
+    return CreateMaybeMessage<AddFriendReq>(nullptr);
+  }
+
+  AddFriendReq* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<AddFriendReq>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const AddFriendReq& from);
+  void MergeFrom(const AddFriendReq& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(AddFriendReq* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "message.AddFriendReq";
+  }
+  protected:
+  explicit AddFriendReq(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_message_2eproto);
+    return ::descriptor_table_message_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kNameFieldNumber = 3,
+    kDescFieldNumber = 4,
+    kIconFieldNumber = 5,
+    kNickFieldNumber = 6,
+    kApplyuidFieldNumber = 1,
+    kTouidFieldNumber = 2,
+    kGenderFieldNumber = 7,
+  };
+  // string name = 3;
+  void clear_name();
+  const std::string& name() const;
+  void set_name(const std::string& value);
+  void set_name(std::string&& value);
+  void set_name(const char* value);
+  void set_name(const char* value, size_t size);
+  std::string* mutable_name();
+  std::string* release_name();
+  void set_allocated_name(std::string* name);
+  private:
+  const std::string& _internal_name() const;
+  void _internal_set_name(const std::string& value);
+  std::string* _internal_mutable_name();
+  public:
+
+  // string desc = 4;
+  void clear_desc();
+  const std::string& desc() const;
+  void set_desc(const std::string& value);
+  void set_desc(std::string&& value);
+  void set_desc(const char* value);
+  void set_desc(const char* value, size_t size);
+  std::string* mutable_desc();
+  std::string* release_desc();
+  void set_allocated_desc(std::string* desc);
+  private:
+  const std::string& _internal_desc() const;
+  void _internal_set_desc(const std::string& value);
+  std::string* _internal_mutable_desc();
+  public:
+
+  // string icon = 5;
+  void clear_icon();
+  const std::string& icon() const;
+  void set_icon(const std::string& value);
+  void set_icon(std::string&& value);
+  void set_icon(const char* value);
+  void set_icon(const char* value, size_t size);
+  std::string* mutable_icon();
+  std::string* release_icon();
+  void set_allocated_icon(std::string* icon);
+  private:
+  const std::string& _internal_icon() const;
+  void _internal_set_icon(const std::string& value);
+  std::string* _internal_mutable_icon();
+  public:
+
+  // string nick = 6;
+  void clear_nick();
+  const std::string& nick() const;
+  void set_nick(const std::string& value);
+  void set_nick(std::string&& value);
+  void set_nick(const char* value);
+  void set_nick(const char* value, size_t size);
+  std::string* mutable_nick();
+  std::string* release_nick();
+  void set_allocated_nick(std::string* nick);
+  private:
+  const std::string& _internal_nick() const;
+  void _internal_set_nick(const std::string& value);
+  std::string* _internal_mutable_nick();
+  public:
+
+  // int32 applyuid = 1;
+  void clear_applyuid();
+  ::PROTOBUF_NAMESPACE_ID::int32 applyuid() const;
+  void set_applyuid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_applyuid() const;
+  void _internal_set_applyuid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 touid = 2;
+  void clear_touid();
+  ::PROTOBUF_NAMESPACE_ID::int32 touid() const;
+  void set_touid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_touid() const;
+  void _internal_set_touid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 gender = 7;
+  void clear_gender();
+  ::PROTOBUF_NAMESPACE_ID::int32 gender() const;
+  void set_gender(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_gender() const;
+  void _internal_set_gender(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:message.AddFriendReq)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr desc_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr icon_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr nick_;
+  ::PROTOBUF_NAMESPACE_ID::int32 applyuid_;
+  ::PROTOBUF_NAMESPACE_ID::int32 touid_;
+  ::PROTOBUF_NAMESPACE_ID::int32 gender_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_message_2eproto;
+};
+// -------------------------------------------------------------------
+
+class AddFriendRsp PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:message.AddFriendRsp) */ {
+ public:
+  inline AddFriendRsp() : AddFriendRsp(nullptr) {}
+  virtual ~AddFriendRsp();
+
+  AddFriendRsp(const AddFriendRsp& from);
+  AddFriendRsp(AddFriendRsp&& from) noexcept
+    : AddFriendRsp() {
+    *this = ::std::move(from);
+  }
+
+  inline AddFriendRsp& operator=(const AddFriendRsp& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline AddFriendRsp& operator=(AddFriendRsp&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const AddFriendRsp& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const AddFriendRsp* internal_default_instance() {
+    return reinterpret_cast<const AddFriendRsp*>(
+               &_AddFriendRsp_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    7;
+
+  friend void swap(AddFriendRsp& a, AddFriendRsp& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(AddFriendRsp* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(AddFriendRsp* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline AddFriendRsp* New() const final {
+    return CreateMaybeMessage<AddFriendRsp>(nullptr);
+  }
+
+  AddFriendRsp* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<AddFriendRsp>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const AddFriendRsp& from);
+  void MergeFrom(const AddFriendRsp& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(AddFriendRsp* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "message.AddFriendRsp";
+  }
+  protected:
+  explicit AddFriendRsp(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_message_2eproto);
+    return ::descriptor_table_message_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kErrorFieldNumber = 1,
+    kApplyuidFieldNumber = 2,
+    kTouidFieldNumber = 3,
+  };
+  // int32 error = 1;
+  void clear_error();
+  ::PROTOBUF_NAMESPACE_ID::int32 error() const;
+  void set_error(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_error() const;
+  void _internal_set_error(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 applyuid = 2;
+  void clear_applyuid();
+  ::PROTOBUF_NAMESPACE_ID::int32 applyuid() const;
+  void set_applyuid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_applyuid() const;
+  void _internal_set_applyuid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 touid = 3;
+  void clear_touid();
+  ::PROTOBUF_NAMESPACE_ID::int32 touid() const;
+  void set_touid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_touid() const;
+  void _internal_set_touid(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:message.AddFriendRsp)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::int32 error_;
+  ::PROTOBUF_NAMESPACE_ID::int32 applyuid_;
+  ::PROTOBUF_NAMESPACE_ID::int32 touid_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_message_2eproto;
+};
+// -------------------------------------------------------------------
+
 class SendChatMsgReq PROTOBUF_FINAL :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:message.SendChatMsgReq) */ {
  public:
@@ -1102,7 +1500,7 @@ class SendChatMsgReq PROTOBUF_FINAL :
                &_SendChatMsgReq_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    6;
+    8;
 
   friend void swap(SendChatMsgReq& a, SendChatMsgReq& b) {
     a.Swap(&b);
@@ -1268,7 +1666,7 @@ class SendChatMsgRsp PROTOBUF_FINAL :
                &_SendChatMsgRsp_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    7;
+    9;
 
   friend void swap(SendChatMsgRsp& a, SendChatMsgRsp& b) {
     a.Swap(&b);
@@ -2032,6 +2430,382 @@ inline void LoginRsp::set_allocated_token(std::string* token) {
 
 // -------------------------------------------------------------------
 
+// AddFriendReq
+
+// int32 applyuid = 1;
+inline void AddFriendReq::clear_applyuid() {
+  applyuid_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 AddFriendReq::_internal_applyuid() const {
+  return applyuid_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 AddFriendReq::applyuid() const {
+  // @@protoc_insertion_point(field_get:message.AddFriendReq.applyuid)
+  return _internal_applyuid();
+}
+inline void AddFriendReq::_internal_set_applyuid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  applyuid_ = value;
+}
+inline void AddFriendReq::set_applyuid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_applyuid(value);
+  // @@protoc_insertion_point(field_set:message.AddFriendReq.applyuid)
+}
+
+// int32 touid = 2;
+inline void AddFriendReq::clear_touid() {
+  touid_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 AddFriendReq::_internal_touid() const {
+  return touid_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 AddFriendReq::touid() const {
+  // @@protoc_insertion_point(field_get:message.AddFriendReq.touid)
+  return _internal_touid();
+}
+inline void AddFriendReq::_internal_set_touid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  touid_ = value;
+}
+inline void AddFriendReq::set_touid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_touid(value);
+  // @@protoc_insertion_point(field_set:message.AddFriendReq.touid)
+}
+
+// string name = 3;
+inline void AddFriendReq::clear_name() {
+  name_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& AddFriendReq::name() const {
+  // @@protoc_insertion_point(field_get:message.AddFriendReq.name)
+  return _internal_name();
+}
+inline void AddFriendReq::set_name(const std::string& value) {
+  _internal_set_name(value);
+  // @@protoc_insertion_point(field_set:message.AddFriendReq.name)
+}
+inline std::string* AddFriendReq::mutable_name() {
+  // @@protoc_insertion_point(field_mutable:message.AddFriendReq.name)
+  return _internal_mutable_name();
+}
+inline const std::string& AddFriendReq::_internal_name() const {
+  return name_.Get();
+}
+inline void AddFriendReq::_internal_set_name(const std::string& value) {
+  
+  name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void AddFriendReq::set_name(std::string&& value) {
+  
+  name_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:message.AddFriendReq.name)
+}
+inline void AddFriendReq::set_name(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:message.AddFriendReq.name)
+}
+inline void AddFriendReq::set_name(const char* value,
+    size_t size) {
+  
+  name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:message.AddFriendReq.name)
+}
+inline std::string* AddFriendReq::_internal_mutable_name() {
+  
+  return name_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* AddFriendReq::release_name() {
+  // @@protoc_insertion_point(field_release:message.AddFriendReq.name)
+  return name_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void AddFriendReq::set_allocated_name(std::string* name) {
+  if (name != nullptr) {
+    
+  } else {
+    
+  }
+  name_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), name,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:message.AddFriendReq.name)
+}
+
+// string desc = 4;
+inline void AddFriendReq::clear_desc() {
+  desc_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& AddFriendReq::desc() const {
+  // @@protoc_insertion_point(field_get:message.AddFriendReq.desc)
+  return _internal_desc();
+}
+inline void AddFriendReq::set_desc(const std::string& value) {
+  _internal_set_desc(value);
+  // @@protoc_insertion_point(field_set:message.AddFriendReq.desc)
+}
+inline std::string* AddFriendReq::mutable_desc() {
+  // @@protoc_insertion_point(field_mutable:message.AddFriendReq.desc)
+  return _internal_mutable_desc();
+}
+inline const std::string& AddFriendReq::_internal_desc() const {
+  return desc_.Get();
+}
+inline void AddFriendReq::_internal_set_desc(const std::string& value) {
+  
+  desc_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void AddFriendReq::set_desc(std::string&& value) {
+  
+  desc_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:message.AddFriendReq.desc)
+}
+inline void AddFriendReq::set_desc(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  desc_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:message.AddFriendReq.desc)
+}
+inline void AddFriendReq::set_desc(const char* value,
+    size_t size) {
+  
+  desc_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:message.AddFriendReq.desc)
+}
+inline std::string* AddFriendReq::_internal_mutable_desc() {
+  
+  return desc_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* AddFriendReq::release_desc() {
+  // @@protoc_insertion_point(field_release:message.AddFriendReq.desc)
+  return desc_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void AddFriendReq::set_allocated_desc(std::string* desc) {
+  if (desc != nullptr) {
+    
+  } else {
+    
+  }
+  desc_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), desc,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:message.AddFriendReq.desc)
+}
+
+// string icon = 5;
+inline void AddFriendReq::clear_icon() {
+  icon_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& AddFriendReq::icon() const {
+  // @@protoc_insertion_point(field_get:message.AddFriendReq.icon)
+  return _internal_icon();
+}
+inline void AddFriendReq::set_icon(const std::string& value) {
+  _internal_set_icon(value);
+  // @@protoc_insertion_point(field_set:message.AddFriendReq.icon)
+}
+inline std::string* AddFriendReq::mutable_icon() {
+  // @@protoc_insertion_point(field_mutable:message.AddFriendReq.icon)
+  return _internal_mutable_icon();
+}
+inline const std::string& AddFriendReq::_internal_icon() const {
+  return icon_.Get();
+}
+inline void AddFriendReq::_internal_set_icon(const std::string& value) {
+  
+  icon_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void AddFriendReq::set_icon(std::string&& value) {
+  
+  icon_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:message.AddFriendReq.icon)
+}
+inline void AddFriendReq::set_icon(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  icon_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:message.AddFriendReq.icon)
+}
+inline void AddFriendReq::set_icon(const char* value,
+    size_t size) {
+  
+  icon_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:message.AddFriendReq.icon)
+}
+inline std::string* AddFriendReq::_internal_mutable_icon() {
+  
+  return icon_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* AddFriendReq::release_icon() {
+  // @@protoc_insertion_point(field_release:message.AddFriendReq.icon)
+  return icon_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void AddFriendReq::set_allocated_icon(std::string* icon) {
+  if (icon != nullptr) {
+    
+  } else {
+    
+  }
+  icon_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), icon,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:message.AddFriendReq.icon)
+}
+
+// string nick = 6;
+inline void AddFriendReq::clear_nick() {
+  nick_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& AddFriendReq::nick() const {
+  // @@protoc_insertion_point(field_get:message.AddFriendReq.nick)
+  return _internal_nick();
+}
+inline void AddFriendReq::set_nick(const std::string& value) {
+  _internal_set_nick(value);
+  // @@protoc_insertion_point(field_set:message.AddFriendReq.nick)
+}
+inline std::string* AddFriendReq::mutable_nick() {
+  // @@protoc_insertion_point(field_mutable:message.AddFriendReq.nick)
+  return _internal_mutable_nick();
+}
+inline const std::string& AddFriendReq::_internal_nick() const {
+  return nick_.Get();
+}
+inline void AddFriendReq::_internal_set_nick(const std::string& value) {
+  
+  nick_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void AddFriendReq::set_nick(std::string&& value) {
+  
+  nick_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:message.AddFriendReq.nick)
+}
+inline void AddFriendReq::set_nick(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  nick_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:message.AddFriendReq.nick)
+}
+inline void AddFriendReq::set_nick(const char* value,
+    size_t size) {
+  
+  nick_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:message.AddFriendReq.nick)
+}
+inline std::string* AddFriendReq::_internal_mutable_nick() {
+  
+  return nick_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* AddFriendReq::release_nick() {
+  // @@protoc_insertion_point(field_release:message.AddFriendReq.nick)
+  return nick_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void AddFriendReq::set_allocated_nick(std::string* nick) {
+  if (nick != nullptr) {
+    
+  } else {
+    
+  }
+  nick_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), nick,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:message.AddFriendReq.nick)
+}
+
+// int32 gender = 7;
+inline void AddFriendReq::clear_gender() {
+  gender_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 AddFriendReq::_internal_gender() const {
+  return gender_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 AddFriendReq::gender() const {
+  // @@protoc_insertion_point(field_get:message.AddFriendReq.gender)
+  return _internal_gender();
+}
+inline void AddFriendReq::_internal_set_gender(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  gender_ = value;
+}
+inline void AddFriendReq::set_gender(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_gender(value);
+  // @@protoc_insertion_point(field_set:message.AddFriendReq.gender)
+}
+
+// -------------------------------------------------------------------
+
+// AddFriendRsp
+
+// int32 error = 1;
+inline void AddFriendRsp::clear_error() {
+  error_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 AddFriendRsp::_internal_error() const {
+  return error_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 AddFriendRsp::error() const {
+  // @@protoc_insertion_point(field_get:message.AddFriendRsp.error)
+  return _internal_error();
+}
+inline void AddFriendRsp::_internal_set_error(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  error_ = value;
+}
+inline void AddFriendRsp::set_error(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_error(value);
+  // @@protoc_insertion_point(field_set:message.AddFriendRsp.error)
+}
+
+// int32 applyuid = 2;
+inline void AddFriendRsp::clear_applyuid() {
+  applyuid_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 AddFriendRsp::_internal_applyuid() const {
+  return applyuid_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 AddFriendRsp::applyuid() const {
+  // @@protoc_insertion_point(field_get:message.AddFriendRsp.applyuid)
+  return _internal_applyuid();
+}
+inline void AddFriendRsp::_internal_set_applyuid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  applyuid_ = value;
+}
+inline void AddFriendRsp::set_applyuid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_applyuid(value);
+  // @@protoc_insertion_point(field_set:message.AddFriendRsp.applyuid)
+}
+
+// int32 touid = 3;
+inline void AddFriendRsp::clear_touid() {
+  touid_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 AddFriendRsp::_internal_touid() const {
+  return touid_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 AddFriendRsp::touid() const {
+  // @@protoc_insertion_point(field_get:message.AddFriendRsp.touid)
+  return _internal_touid();
+}
+inline void AddFriendRsp::_internal_set_touid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  touid_ = value;
+}
+inline void AddFriendRsp::set_touid(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_touid(value);
+  // @@protoc_insertion_point(field_set:message.AddFriendRsp.touid)
+}
+
+// -------------------------------------------------------------------
+
 // SendChatMsgReq
 
 // int32 fromuid = 1;
@@ -2203,6 +2977,10 @@ inline void SendChatMsgRsp::set_token(::PROTOBUF_NAMESPACE_ID::int32 value) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

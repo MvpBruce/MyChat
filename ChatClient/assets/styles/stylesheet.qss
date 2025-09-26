@@ -185,7 +185,7 @@ UserChatItem {
 
 /****** Apply friend dialog ******/
 
-#applyFriend {
+#applyFriendDlg {
 	border: 2px solid #f1f1f1;
     font-size: 14px;
     background: #f7f7f8;
@@ -200,7 +200,7 @@ UserChatItem {
 	background: #f7f7f8;
 }
 
-#scrollAreaWidgetContents #applyLb {
+#scrollAreaWidgetContents #applyLabel {
     font-family: "Microsoft YaHei";
     font-size: 16px;
     font-weight: normal;
@@ -225,46 +225,46 @@ UserChatItem {
     font-family: "Microsoft YaHei";
 }
 
-#applyWid #moreLb{
+#applyWid #moreLabel{
     border-image: url(::/assets/image/arrowdown.png);
 }
 
-#applyWid #tipslb[state='normal'] {
+#applyWid #tipLabel[state='normal'] {
     padding: 2px;
     background: #e1e1e1;
     color: #1e1e1e;
     border-radius: 10px;
 }
 
-#applyWid #tipslb[state='hover'] {
+#applyWid #tipLabel[state='hover'] {
     padding: 2px;
     background: #e1e1e1;
     color: #1e1e1e;
     border-radius: 10px;
 }
 
-#applyWid #tipslb[state='pressed'] {
+#applyWid #tipLabel[state='pressed'] {
     padding: 2px;
     background: #e1e1e1;
     color: #48bf56;
     border-radius: 10px;
 }
 
-#applyWid #tipslb[state='selected_normal'] {
+#applyWid #tipLabel[state='selected_normal'] {
     padding: 2px;
     background: #e1e1e1;
     color: #48bf56;
     border-radius: 10px;
 }
 
-#applyWid #tipslb[state='selected_hover'] {
+#applyWid #tipLabel[state='selected_hover'] {
     padding: 2px;
     background: #e1e1e1;
     color: #48bf56;
     border-radius: 10px;
 }
 
-#applyWid #tipslb[state='selected_pressed'] {
+#applyWid #tipLabel[state='selected_pressed'] {
     padding: 2px;
     background: #e1e1e1;
     color: #1e1e1e;
@@ -275,7 +275,7 @@ UserChatItem {
     background: #d3eaf8;
 }
 
-#applyWid #tipLb {
+#applyWid #tipLabel {
     padding-left: 2px;
     color:rgb(153,153,153);
     font-size: 14px;

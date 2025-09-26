@@ -31,7 +31,7 @@ ApplyFriendDlg::ApplyFriendDlg(QWidget *parent)
     m_curTipPoint = QPoint(5, 5);
 
     m_tipData = {"Classmate", "Family", "Junior tutorial", "c++ Primer", "Rust design", "Pytho", "Node js", "go"};
-    connect(ui->moreLb, &TipLabel::clicked, this, &ApplyFriendDlg::slot_show_more);
+    connect(ui->moreLabel, &TipLabel::clicked, this, &ApplyFriendDlg::slot_show_more);
     //InitTipLabels();
 
     connect(ui->okBtn, &QPushButton::clicked, this, &ApplyFriendDlg::slot_apply_ok);

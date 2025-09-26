@@ -147,7 +147,6 @@ void Session::AsyncReadBody(std::size_t totalLen)
 			m_recvData->m_cur += bytes_transfered;
 			m_recvData->m_pData[m_recvData->m_totalLen] = '\0';
 			std::cout << "Received data: " << m_recvData->m_pData << std::endl;
-			//Post msg to logic queue, todo
 			TaskSystem::GetInstance()->PostMsg(std::make_shared<TaskNode>(self, m_recvData));
 			
 			//Continue to read next head

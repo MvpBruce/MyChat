@@ -6,6 +6,7 @@
 #include "RedisMgr.h"
 #include "ConfigMgr.h"
 #include "MySqlMgr.h"
+#include "ChatGrpcClient.h"
 
 TaskSystem::TaskSystem(): m_bStop(false)
 {
@@ -65,7 +66,6 @@ void TaskSystem::LoginHandler(std::shared_ptr<Session> session, const short& msg
 	}
 
 	retValue["error"] = ErrorCodes::Success;
-
 	auto pUserInfo = std::make_shared<UserInfo>();
 	std::string strBaseInfo = USERBASEINFO;
 	strBaseInfo += strUid;
@@ -227,7 +227,7 @@ void TaskSystem::AddFriendApply(std::shared_ptr<Session> session, const short& m
 	auto bakname = root["bakname"].asString();
 	auto touid = root["touid"].asInt();
 	std::cout << "uid: " << uid << " applyname: "
-		<< applyname << " bakname: " << bakname << " touid: " << touid << std::endl;
+		<< applyname << " backname: " << bakname << " touid: " << touid << std::endl;
 
 	Json::Value retValue;
 	retValue["error"] = ErrorCodes::Success;
@@ -276,7 +276,19 @@ void TaskSystem::AddFriendApply(std::shared_ptr<Session> session, const short& m
 		return;
 	}
 
-	//Users are in different chat server, need to use grpc
+	//Users are in different chat server, need to use grpc, todo
+	AddFriendReq req;
+	req.set_applyuid(uid);
+	req.set_touid(touid);
+	req.set_name(applyname);
+	if (bRet)
+	{
+		req.set_icon(pInfo->icon);
+		req.set_gender(pInfo->gender);
+		req.set_nick(pInfo->nick);
+	}
+
+	ChatGrpcClient::GetInstance()->NotifyAddFriend(toServerName, req);
 	
 }
 
@@ -318,7 +330,7 @@ void TaskSystem::AuthFriendApply(std::shared_ptr<Session> session, const short& 
 	//change apply friend status
 	MySqlMgr::GetInstance()->AuthFriendApply(uid, touid);
 
-	//add friend to sql.
+	//add friend to sql. todo, need to need as friend for each other
 	MySqlMgr::GetInstance()->AddFriend(uid, touid, back_name);
 
 	//find touid's server ip in redis
@@ -362,7 +374,7 @@ void TaskSystem::AuthFriendApply(std::shared_ptr<Session> session, const short& 
 		return;
 	}
 
-	//Not in same server, use grpc to notify
+	//Not in same server, use grpc to notify, todo
 
 }
 

@@ -1,10 +1,16 @@
 #pragma once
 #include "message.grpc.pb.h"
+#include "message.pb.h"
 #include <grpcpp/grpcpp.h>
 #include <queue>
 #include "Singleton.h"
 
+using grpc::ClientContext;
+using grpc::Status;
+
 using message::ChatService;
+using message::AddFriendReq;
+using message::AddFriendRsp;
 
 class ChatPool
 {
@@ -70,6 +76,9 @@ private:
 class ChatGrpcClient : public Singleton<ChatGrpcClient>
 {
 	friend class Singleton<ChatGrpcClient>;
+public:
+	AddFriendRsp NotifyAddFriend(std::string strSeverAddress, const AddFriendReq& req);
+
 private:
 	ChatGrpcClient();
 

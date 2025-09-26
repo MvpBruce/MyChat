@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package message;
 
+
+/*VerifyService*/
 service VerifyService {
 	rpc GetVerifyCode(GetVerifyReq) returns (GetVerifyRsp) {}
 }
@@ -16,6 +18,7 @@ message GetVerifyRsp {
 	string code = 3;
 }
 
+/*StatusService*/
 message GetChatServerReq {
 	int32 uid = 1;
 }
@@ -43,6 +46,23 @@ service StatusService {
 	rpc Login(LoginReq) returns (LoginRsp) {}
 }
 
+/*ChatService*/
+message AddFriendReq {
+	int32 applyuid = 1;
+	int32 touid = 2;
+	string name = 3;
+	string desc = 4;
+	string icon = 5;
+	string nick = 6;
+	int32 gender = 7;
+}
+
+message AddFriendRsp {
+	int32 error = 1;
+	int32 applyuid = 2;
+	int32 touid = 3;
+}
+
 message SendChatMsgReq {
 	int32 fromuid = 1;
 	int32 touid = 2;
@@ -56,5 +76,6 @@ message SendChatMsgRsp {
 }
 
 service ChatService {
+	rpc NotifyAddFriend(AddFriendReq) returns (AddFriendRsp) {}
 	rpc SendChatMsg(SendChatMsgReq) returns (SendChatMsgRsp) {}
 }
