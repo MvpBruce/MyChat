@@ -22,6 +22,11 @@ public:
         : m_nFromUId(from_uid), m_strName(name), m_strDesc(desc), m_strIcon(icon), m_strNick(nick), m_nGender(gender)
     {}
 
+    ~AddFriendInfo()
+    {
+        qDebug() << "AddFriendInfo::~AddFriendInfo";
+    }
+
 public:
     int m_nFromUId;
     QString m_strName;
@@ -37,15 +42,15 @@ public:
     ApplyInfo(int nUID, QString strName, QString strDesc,
               QString strIcon, QString strNick, int nGender,
               int nStatus)
-        : m_nUID(nUID), m_strName(std::move(strName)),
-        m_strDesc(std::move(strDesc)), m_strIcon(std::move(strIcon)),
-        m_strNick(std::move(strNick)), m_nGender(nGender),
+        : m_nUID(nUID), m_strName(strName),
+        m_strDesc(strDesc), m_strIcon(strIcon),
+        m_strNick(strNick), m_nGender(nGender),
         m_nStatus(nStatus) {}
 
     ApplyInfo(std::shared_ptr<AddFriendInfo> pInfo)
-    : m_nUID(pInfo->m_nFromUId), m_strName(std::move(pInfo->m_strName)),
-        m_strDesc(std::move(pInfo->m_strDesc)), m_strIcon(std::move(pInfo->m_strIcon)),
-        m_strNick(std::move(pInfo->m_strIcon)), m_nGender(pInfo->m_nGender),
+    : m_nUID(pInfo->m_nFromUId), m_strName(pInfo->m_strName),
+        m_strDesc(pInfo->m_strDesc), m_strIcon(pInfo->m_strIcon),
+        m_strNick(pInfo->m_strIcon), m_nGender(pInfo->m_nGender),
         m_nStatus(0) {}
 
     void SetInfo(QString strHead) { m_strIcon = strHead;}
@@ -64,8 +69,8 @@ class AuthInfo
 public:
     AuthInfo(int nUID, QString strName, QString strNick, QString strIcon,
              int nGender)
-        : m_nUID(nUID), m_strName(std::move(strName)),
-        m_strNick(std::move(strNick)), m_strIcon(std::move(strIcon)),
+        : m_nUID(nUID), m_strName(strName),
+        m_strNick(strNick), m_strIcon(strIcon),
         m_nGender(nGender) {}
 
 public:
@@ -81,8 +86,8 @@ class AuthRsp
 public:
     AuthRsp(int nUID, QString strName, QString strNick, QString strIcon,
             int nGender)
-        : m_nUID(nUID), m_strName(std::move(strName)),
-        m_strNick(std::move(strNick)), m_strIcon(std::move(strIcon)),
+        : m_nUID(nUID), m_strName(strName),
+        m_strNick(strNick), m_strIcon(strIcon),
         m_nGender(nGender) {}
 
 public:
@@ -100,14 +105,14 @@ public:
     FriendInfo(int nUID, QString strName, QString strNick,
                QString strIcon, int nGender, QString strDesc,
                QString strBack, QString strLastMsg = "")
-        : m_nUID(nUID), m_strName(std::move(strName)),
-        m_strNick(std::move(strNick)), m_strIcon(std::move(strIcon)),
-        m_nGender(nGender), m_strDesc(std::move(strDesc)),
-        m_strBack(std::move(strBack)), m_strLastMsg(std::move(strLastMsg)) {}
+        : m_nUID(nUID), m_strName(strName),
+        m_strNick(strNick), m_strIcon(strIcon),
+        m_nGender(nGender), m_strDesc(strDesc),
+        m_strBack(strBack), m_strLastMsg(strLastMsg) {}
 
     FriendInfo(std::shared_ptr<AuthInfo> pInfo)
-        :m_nUID(pInfo->m_nUID), m_strName(std::move(pInfo->m_strName)),
-        m_strNick(std::move(pInfo->m_strNick)), m_strIcon(std::move(pInfo->m_strIcon)),
+        :m_nUID(pInfo->m_nUID), m_strName(pInfo->m_strName),
+        m_strNick(pInfo->m_strNick), m_strIcon(pInfo->m_strIcon),
         m_nGender(pInfo->m_nGender), m_strDesc(""), m_strBack(""), m_strLastMsg("") {}
 
     void AppendChatMsgs(const std::vector<std::shared_ptr<ChatTextData>>& vChatTextData);
@@ -158,8 +163,8 @@ class ChatTextData
 public:
     ChatTextData(QString strMsgID, QString strContent, int nFromUid,
                  int nToUid)
-        : m_strMsgID(std::move(strMsgID)),
-        m_strContent(std::move(strContent)), m_nFromUid(nFromUid),
+        : m_strMsgID(strMsgID),
+        m_strContent(strContent), m_nFromUid(nFromUid),
         m_nToUid(nToUid) {}
 
     QString m_strMsgID;
