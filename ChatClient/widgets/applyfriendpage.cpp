@@ -32,6 +32,7 @@ void ApplyFriendPage::AddNewApplication(std::shared_ptr<AddFriendInfo> pInfo)
     ui->applyFriendList->insertItem(0, pItem);
     ui->applyFriendList->setItemWidget(pItem, applyItem);
     applyItem->ShowAddBtn(true);
+    m_mapUnAuthItems[pInfo->m_nFromUId] = applyItem;
     connect(applyItem, &ApplyFriendItem::sig_auth_friend, [this](std::shared_ptr<ApplyInfo> pInfo) {
         auto pAuthenDlg = new AuthenFriendDlg(this);
         pAuthenDlg->setModal(true);
