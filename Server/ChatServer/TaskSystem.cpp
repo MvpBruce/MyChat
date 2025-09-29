@@ -276,7 +276,7 @@ void TaskSystem::AddFriendApply(std::shared_ptr<Session> session, const short& m
 		return;
 	}
 
-	//Users are in different chat server, need to use grpc, todo
+	//Users are in different chat server, need to use grpc
 	AddFriendReq req;
 	req.set_applyuid(uid);
 	req.set_touid(touid);
