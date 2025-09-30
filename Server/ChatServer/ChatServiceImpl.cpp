@@ -34,3 +34,19 @@ Status ChatServiceImpl::NotifyAddFriend(ServerContext* context, const AddFriendR
 
 	return Status::OK;
 }
+
+Status ChatServiceImpl::NotifyAuthFriend(ServerContext* context, const AuthFriendReq* req, AuthFriendRsp* rsp)
+{
+	auto touid = req->touid();
+	auto fromuid = req->fromuid();
+	Defer defer([req, rsp]() {
+		rsp->set_error(ErrorCodes::Success);
+		rsp->set_fromuid(req->fromuid());
+		rsp->set_touid(req->touid());
+	});
+	auto session = UserMgr::GetInstance()->GetSession(touid);
+	if (session == nullptr)
+		return Status::OK;
+
+	return Status::OK;
+}

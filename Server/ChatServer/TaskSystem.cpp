@@ -289,7 +289,6 @@ void TaskSystem::AddFriendApply(std::shared_ptr<Session> session, const short& m
 	}
 
 	ChatGrpcClient::GetInstance()->NotifyAddFriend(toServerName, req);
-	
 }
 
 void TaskSystem::AuthFriendApply(std::shared_ptr<Session> session, const short& msgId, const std::string& msgData)
@@ -374,8 +373,12 @@ void TaskSystem::AuthFriendApply(std::shared_ptr<Session> session, const short& 
 		return;
 	}
 
-	//Not in same server, use grpc to notify, todo
+	//Not in same server, use grpc to notify
+	AuthFriendReq req;
+	req.set_fromuid(uid);
+	req.set_touid(touid);
 
+	ChatGrpcClient::GetInstance()->NotifyAuthFriend(selfName, req);
 }
 
 void TaskSystem::ProcessChatTextMsg(std::shared_ptr<Session> session, const short& msgId, const std::string& msgData)

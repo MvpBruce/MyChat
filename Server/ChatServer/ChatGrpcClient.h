@@ -11,6 +11,8 @@ using grpc::Status;
 using message::ChatService;
 using message::AddFriendReq;
 using message::AddFriendRsp;
+using message::AuthFriendReq;
+using message::AuthFriendRsp;
 
 class ChatPool
 {
@@ -78,6 +80,7 @@ class ChatGrpcClient : public Singleton<ChatGrpcClient>
 	friend class Singleton<ChatGrpcClient>;
 public:
 	AddFriendRsp NotifyAddFriend(std::string strSeverAddress, const AddFriendReq& req);
+	AuthFriendRsp NotifyAuthFriend(std::string strSeverAddress, const AuthFriendReq& req);
 
 private:
 	ChatGrpcClient();
