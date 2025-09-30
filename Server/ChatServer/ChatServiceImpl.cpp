@@ -2,6 +2,8 @@
 #include "UserMgr.h"
 #include "Const.h"
 #include "Session.h"
+#include "MySqlMgr.h"
+#include "RedisMgr.h"
 
 ChatServiceImpl::ChatServiceImpl()
 {
@@ -48,5 +50,68 @@ Status ChatServiceImpl::NotifyAuthFriend(ServerContext* context, const AuthFrien
 	if (session == nullptr)
 		return Status::OK;
 
+	Json::Value retValue;
+	retValue["error"] = ErrorCodes::Success;
+	retValue["fromuid"] = fromuid;
+	retValue["touid"] = touid;
+
+	std::string strKey = USERBASEINFO;
+	strKey += std::to_string(fromuid);
+	auto pInfo = std::make_shared<UserInfo>();
+	bool bRet = GetBaseInfo(strKey, fromuid, pInfo);
+	if (bRet)
+	{
+		retValue["name"] = pInfo->name;
+		retValue["nick"] = pInfo->nick;
+		retValue["icon"] = pInfo->icon;
+		retValue["gender"] = pInfo->gender;
+	}
+	else
+	{
+		retValue["error"] = ErrorCodes::Uid_Invalid;
+	}
+
+	session->Send(retValue.toStyledString(), MSG_IDS::AUTH_FRIEND_NOTIFY);
+
 	return Status::OK;
+}
+
+bool ChatServiceImpl::GetBaseInfo(std::string strKey, int uid, std::shared_ptr<UserInfo>& pUserInfo)
+{
+	std::string strInfo = "";
+	bool bRet = CRedisMgr::GetInstance()->Get(strKey, strInfo);
+	if (bRet)
+	{
+		Json::Reader reader;
+		Json::Value root;
+		reader.parse(strInfo, root);
+		pUserInfo->uid = root["uid"].asInt();
+		pUserInfo->name = root["name"].asString();
+		pUserInfo->pwd = root["pwd"].asString();
+		pUserInfo->email = root["email"].asString();
+		pUserInfo->nick = root["nick"].asString();
+		pUserInfo->desc = root["desc"].asString();
+		pUserInfo->gender = root["gender"].asInt();
+		pUserInfo->icon = root["icon"].asString();
+	}
+	else
+	{
+		pUserInfo = MySqlMgr::GetInstance()->GetUserInfo(uid);
+		if (pUserInfo == nullptr)
+			return false;
+
+		Json::Value redisRoot;
+		redisRoot["uid"] = uid;
+		redisRoot["name"] = pUserInfo->name;
+		redisRoot["pwd"] = pUserInfo->pwd;
+		redisRoot["email"] = pUserInfo->email;
+		redisRoot["nick"] = pUserInfo->nick;
+		redisRoot["desc"] = pUserInfo->desc;
+		redisRoot["gender"] = pUserInfo->gender;
+		redisRoot["icon"] = pUserInfo->icon;
+
+		CRedisMgr::GetInstance()->Set(strKey, redisRoot.toStyledString());
+	}
+
+	return true;
 }
