@@ -1,6 +1,67 @@
 #include "ChatGrpcClient.h"
 #include "ConfigMgr.h"
 #include <sstream>
+#include "Const.h"
+
+AddFriendRsp ChatGrpcClient::NotifyAddFriend(std::string strSeverAddress, const AddFriendReq& req)
+{
+	AddFriendRsp rsp;
+	Defer defer([&rsp, &req]() {
+		rsp.set_error(ErrorCodes::Success);
+		rsp.set_applyuid(req.applyuid());
+		rsp.set_touid(req.touid());
+	});
+
+	auto it = m_chatPool.find(strSeverAddress);
+	if (it == m_chatPool.end())
+		return rsp;
+
+	auto& pool = it->second;
+	ClientContext context;
+	auto stub = pool->GetConnection();
+	Status status = stub->NotifyAddFriend(&context, req, &rsp);
+	Defer conDefer([&stub, this, &pool]() {
+		pool->ReturnConnection(std::move(stub));
+	});
+
+	if (!status.ok())
+	{
+		rsp.set_error(ErrorCodes::Error_RPC);
+		return rsp;
+	}
+
+	return rsp;
+}
+
+AuthFriendRsp ChatGrpcClient::NotifyAuthFriend(std::string strSeverAddress, const AuthFriendReq& req)
+{
+	AuthFriendRsp rsp;
+	Defer defer([&rsp, &req]() {
+		rsp.set_error(ErrorCodes::Success);
+		rsp.set_fromuid(req.fromuid());
+		rsp.set_touid(req.touid());
+	});
+
+	auto it = m_chatPool.find(strSeverAddress);
+	if (it == m_chatPool.end())
+		return rsp;
+
+	auto& pool = it->second;
+	ClientContext context;
+	auto stub = pool->GetConnection();
+	Status status = stub->NotifyAuthFriend(&context, req, &rsp);
+	Defer conDefer([&stub, this, &pool]() {
+		pool->ReturnConnection(std::move(stub));
+	});
+
+	if (!status.ok())
+	{
+		rsp.set_error(ErrorCodes::Error_RPC);
+		return rsp;
+	}
+
+	return rsp;
+}
 
 ChatGrpcClient::ChatGrpcClient()
 {

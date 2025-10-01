@@ -25,10 +25,7 @@ AddFriendRsp ChatGrpcClient::NotifyAddFriend(std::string strSeverAddress, const 
 	});
 
 	if (!status.ok())
-	{
 		rsp.set_error(ErrorCodes::Error_RPC);
-		return rsp;
-	}
 
 	return rsp;
 }

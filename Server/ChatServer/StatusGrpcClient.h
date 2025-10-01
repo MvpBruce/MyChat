@@ -11,8 +11,9 @@ using message::GetChatServerRsp;
 using message::LoginReq;
 using message::LoginRsp;
 
-class StatusPool;
+using grpc::Channel;
 
+class StatusPool;
 class StatusGrpcClient : public Singleton<StatusGrpcClient>
 {
 	friend class Singleton<StatusGrpcClient>;
@@ -36,7 +37,8 @@ public:
 	{
 		for (size_t i = 0; i < nSize; ++i)
 		{
-			m_connections.emplace(StatusService::NewStub(grpc::CreateChannel(host + ":" + port, grpc::InsecureChannelCredentials())));
+			std::shared_ptr<Channel> pChannel = grpc::CreateChannel(host + ":" + port, grpc::InsecureChannelCredentials());
+			m_connections.emplace(StatusService::NewStub(pChannel));
 		}
 	}
 

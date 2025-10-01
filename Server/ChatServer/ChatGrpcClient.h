@@ -7,12 +7,14 @@
 
 using grpc::ClientContext;
 using grpc::Status;
+using grpc::Channel;
 
 using message::ChatService;
 using message::AddFriendReq;
 using message::AddFriendRsp;
 using message::AuthFriendReq;
 using message::AuthFriendRsp;
+
 
 class ChatPool
 {
@@ -22,7 +24,8 @@ public:
 	{
 		for (size_t i = 0; i < nSize; i++)
 		{
-			m_connections.emplace(ChatService::NewStub(grpc::CreateChannel(host + ":" + port, grpc::InsecureChannelCredentials())));
+			std::shared_ptr<Channel> pChannel = grpc::CreateChannel(host + ":" + port, grpc::InsecureChannelCredentials());
+			m_connections.emplace(ChatService::NewStub(pChannel));
 		}
 	}
 

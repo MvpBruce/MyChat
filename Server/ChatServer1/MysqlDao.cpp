@@ -5,7 +5,6 @@
 MysqlDao::MysqlDao()
 {
 	auto& configMgr = ConfigMgr::GetInstance();
-	//Get config from ini, todo
 	std::string url = configMgr["Mysql"]["host"];
 	std::string port = configMgr["Mysql"]["port"];
 	std::string user = configMgr["Mysql"]["user"];

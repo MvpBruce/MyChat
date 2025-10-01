@@ -1,10 +1,20 @@
 #pragma once
 #include "message.grpc.pb.h"
+#include "message.pb.h"
 #include <grpcpp/grpcpp.h>
 #include <queue>
 #include "Singleton.h"
 
+using grpc::ClientContext;
+using grpc::Status;
+
 using message::ChatService;
+using message::AddFriendReq;
+using message::AddFriendRsp;
+using message::AuthFriendReq;
+using message::AuthFriendRsp;
+
+using grpc::Channel;
 
 class ChatPool
 {
@@ -14,7 +24,8 @@ public:
 	{
 		for (size_t i = 0; i < nSize; i++)
 		{
-			m_connections.emplace(ChatService::NewStub(grpc::CreateChannel(host + ":" + port, grpc::InsecureChannelCredentials())));
+			std::shared_ptr<Channel> pChannel = grpc::CreateChannel(host + ":" + port, grpc::InsecureChannelCredentials());
+			m_connections.emplace(ChatService::NewStub(pChannel));
 		}
 	}
 
@@ -70,6 +81,10 @@ private:
 class ChatGrpcClient : public Singleton<ChatGrpcClient>
 {
 	friend class Singleton<ChatGrpcClient>;
+public:
+	AddFriendRsp NotifyAddFriend(std::string strSeverAddress, const AddFriendReq& req);
+	AuthFriendRsp NotifyAuthFriend(std::string strSeverAddress, const AuthFriendReq& req);
+
 private:
 	ChatGrpcClient();
 
