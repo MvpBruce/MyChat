@@ -7,7 +7,6 @@
 
 using grpc::ClientContext;
 using grpc::Status;
-using grpc::Channel;
 
 using message::ChatService;
 using message::AddFriendReq;
@@ -24,8 +23,7 @@ public:
 	{
 		for (size_t i = 0; i < nSize; i++)
 		{
-			std::shared_ptr<Channel> pChannel = grpc::CreateChannel(host + ":" + port, grpc::InsecureChannelCredentials());
-			m_connections.emplace(ChatService::NewStub(pChannel));
+			m_connections.emplace(ChatService::NewStub(grpc::CreateChannel(host + ":" + port, grpc::InsecureChannelCredentials())));
 		}
 	}
 

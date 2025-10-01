@@ -11,13 +11,23 @@ int main()
 	auto serverName = cfg["CurrentServer"]["name"];
 	try
 	{
-		std::string serverAddress(cfg["CurrentServer"]["host"] + ":" + cfg["CurrentServer"]["port"]);
 		//Set login number
 		CRedisMgr::GetInstance()->HSet(LOGIN_NUMBER, serverName, "0");
+		Defer defer([serverName]() {
+			CRedisMgr::GetInstance()->HDel(LOGIN_NUMBER, serverName);
+			CRedisMgr::GetInstance()->Close();
+		});
+
+		//CServer
+		boost::asio::io_context ioc;
+		auto port = cfg["CurrentServer"]["port"];
+		std::shared_ptr<CServer> pServer = std::make_shared<CServer>(ioc, atoi(port.c_str()));
+		pServer->Start();
 
 		//Grpc service
 		ChatServiceImpl service;
 		grpc::ServerBuilder builder;
+		std::string serverAddress(cfg["CurrentServer"]["host"] + ":" + cfg["CurrentServer"]["rpcport"]);
 		//Listen and register service
 		builder.AddListeningPort(serverAddress, grpc::InsecureServerCredentials());
 		builder.RegisterService(&service);
@@ -29,21 +39,13 @@ int main()
 			grpcServer->Wait();
 		});
 
-		boost::asio::io_context ioc;
 		boost::asio::signal_set signals(ioc, SIGTERM, SIGINT);
 		signals.async_wait([&ioc, &grpcServer](auto, auto) {
 			ioc.stop();
 			grpcServer->Shutdown();
 		});
 
-		auto port = cfg["CurrentServer"]["port"];
-		std::shared_ptr<CServer> pServer = std::make_shared<CServer>(ioc, atoi(port.c_str()));
-		pServer->Start();
-		ioc.run();
-
-		//Relase resource
-		CRedisMgr::GetInstance()->HDel(LOGIN_NUMBER, serverName);
-		CRedisMgr::GetInstance()->Close();
+		ioc.run();		
 		grpcThread.join();
 	}
 	catch (const std::exception& e)

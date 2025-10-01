@@ -14,7 +14,7 @@ CRedisMgr::CRedisMgr()
 
 CRedisMgr::~CRedisMgr()
 {
-	m_redisPool.reset();
+	Close();
 }
 
 bool CRedisMgr::Set(const std::string& key, const std::string& value)
