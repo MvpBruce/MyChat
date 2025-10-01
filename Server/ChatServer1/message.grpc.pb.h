@@ -775,6 +775,13 @@ class ChatService final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::AuthFriendRsp>> PrepareAsyncNotifyAuthFriend(::grpc::ClientContext* context, const ::message::AuthFriendReq& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::AuthFriendRsp>>(PrepareAsyncNotifyAuthFriendRaw(context, request, cq));
     }
+    virtual ::grpc::Status NotifyChatTextMsg(::grpc::ClientContext* context, const ::message::ChatTextMsgReq& request, ::message::ChatTextMsgRsp* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::ChatTextMsgRsp>> AsyncNotifyChatTextMsg(::grpc::ClientContext* context, const ::message::ChatTextMsgReq& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::ChatTextMsgRsp>>(AsyncNotifyChatTextMsgRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::ChatTextMsgRsp>> PrepareAsyncNotifyChatTextMsg(::grpc::ClientContext* context, const ::message::ChatTextMsgReq& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::message::ChatTextMsgRsp>>(PrepareAsyncNotifyChatTextMsgRaw(context, request, cq));
+    }
     class experimental_async_interface {
      public:
       virtual ~experimental_async_interface() {}
@@ -796,6 +803,12 @@ class ChatService final {
       #else
       virtual void NotifyAuthFriend(::grpc::ClientContext* context, const ::message::AuthFriendReq* request, ::message::AuthFriendRsp* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
       #endif
+      virtual void NotifyChatTextMsg(::grpc::ClientContext* context, const ::message::ChatTextMsgReq* request, ::message::ChatTextMsgRsp* response, std::function<void(::grpc::Status)>) = 0;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      virtual void NotifyChatTextMsg(::grpc::ClientContext* context, const ::message::ChatTextMsgReq* request, ::message::ChatTextMsgRsp* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      #else
+      virtual void NotifyChatTextMsg(::grpc::ClientContext* context, const ::message::ChatTextMsgReq* request, ::message::ChatTextMsgRsp* response, ::grpc::experimental::ClientUnaryReactor* reactor) = 0;
+      #endif
     };
     #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
     typedef class experimental_async_interface async_interface;
@@ -811,6 +824,8 @@ class ChatService final {
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::SendChatMsgRsp>* PrepareAsyncSendChatMsgRaw(::grpc::ClientContext* context, const ::message::SendChatMsgReq& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::AuthFriendRsp>* AsyncNotifyAuthFriendRaw(::grpc::ClientContext* context, const ::message::AuthFriendReq& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::AuthFriendRsp>* PrepareAsyncNotifyAuthFriendRaw(::grpc::ClientContext* context, const ::message::AuthFriendReq& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::ChatTextMsgRsp>* AsyncNotifyChatTextMsgRaw(::grpc::ClientContext* context, const ::message::ChatTextMsgReq& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::message::ChatTextMsgRsp>* PrepareAsyncNotifyChatTextMsgRaw(::grpc::ClientContext* context, const ::message::ChatTextMsgReq& request, ::grpc::CompletionQueue* cq) = 0;
   };
   class Stub final : public StubInterface {
    public:
@@ -836,6 +851,13 @@ class ChatService final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::AuthFriendRsp>> PrepareAsyncNotifyAuthFriend(::grpc::ClientContext* context, const ::message::AuthFriendReq& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::AuthFriendRsp>>(PrepareAsyncNotifyAuthFriendRaw(context, request, cq));
     }
+    ::grpc::Status NotifyChatTextMsg(::grpc::ClientContext* context, const ::message::ChatTextMsgReq& request, ::message::ChatTextMsgRsp* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::ChatTextMsgRsp>> AsyncNotifyChatTextMsg(::grpc::ClientContext* context, const ::message::ChatTextMsgReq& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::ChatTextMsgRsp>>(AsyncNotifyChatTextMsgRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::ChatTextMsgRsp>> PrepareAsyncNotifyChatTextMsg(::grpc::ClientContext* context, const ::message::ChatTextMsgReq& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::message::ChatTextMsgRsp>>(PrepareAsyncNotifyChatTextMsgRaw(context, request, cq));
+    }
     class experimental_async final :
       public StubInterface::experimental_async_interface {
      public:
@@ -857,6 +879,12 @@ class ChatService final {
       #else
       void NotifyAuthFriend(::grpc::ClientContext* context, const ::message::AuthFriendReq* request, ::message::AuthFriendRsp* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
       #endif
+      void NotifyChatTextMsg(::grpc::ClientContext* context, const ::message::ChatTextMsgReq* request, ::message::ChatTextMsgRsp* response, std::function<void(::grpc::Status)>) override;
+      #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      void NotifyChatTextMsg(::grpc::ClientContext* context, const ::message::ChatTextMsgReq* request, ::message::ChatTextMsgRsp* response, ::grpc::ClientUnaryReactor* reactor) override;
+      #else
+      void NotifyChatTextMsg(::grpc::ClientContext* context, const ::message::ChatTextMsgReq* request, ::message::ChatTextMsgRsp* response, ::grpc::experimental::ClientUnaryReactor* reactor) override;
+      #endif
      private:
       friend class Stub;
       explicit experimental_async(Stub* stub): stub_(stub) { }
@@ -874,9 +902,12 @@ class ChatService final {
     ::grpc::ClientAsyncResponseReader< ::message::SendChatMsgRsp>* PrepareAsyncSendChatMsgRaw(::grpc::ClientContext* context, const ::message::SendChatMsgReq& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::message::AuthFriendRsp>* AsyncNotifyAuthFriendRaw(::grpc::ClientContext* context, const ::message::AuthFriendReq& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::message::AuthFriendRsp>* PrepareAsyncNotifyAuthFriendRaw(::grpc::ClientContext* context, const ::message::AuthFriendReq& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::message::ChatTextMsgRsp>* AsyncNotifyChatTextMsgRaw(::grpc::ClientContext* context, const ::message::ChatTextMsgReq& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::message::ChatTextMsgRsp>* PrepareAsyncNotifyChatTextMsgRaw(::grpc::ClientContext* context, const ::message::ChatTextMsgReq& request, ::grpc::CompletionQueue* cq) override;
     const ::grpc::internal::RpcMethod rpcmethod_NotifyAddFriend_;
     const ::grpc::internal::RpcMethod rpcmethod_SendChatMsg_;
     const ::grpc::internal::RpcMethod rpcmethod_NotifyAuthFriend_;
+    const ::grpc::internal::RpcMethod rpcmethod_NotifyChatTextMsg_;
   };
   static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
 
@@ -887,6 +918,7 @@ class ChatService final {
     virtual ::grpc::Status NotifyAddFriend(::grpc::ServerContext* context, const ::message::AddFriendReq* request, ::message::AddFriendRsp* response);
     virtual ::grpc::Status SendChatMsg(::grpc::ServerContext* context, const ::message::SendChatMsgReq* request, ::message::SendChatMsgRsp* response);
     virtual ::grpc::Status NotifyAuthFriend(::grpc::ServerContext* context, const ::message::AuthFriendReq* request, ::message::AuthFriendRsp* response);
+    virtual ::grpc::Status NotifyChatTextMsg(::grpc::ServerContext* context, const ::message::ChatTextMsgReq* request, ::message::ChatTextMsgRsp* response);
   };
   template <class BaseClass>
   class WithAsyncMethod_NotifyAddFriend : public BaseClass {
@@ -948,7 +980,27 @@ class ChatService final {
       ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_NotifyAddFriend<WithAsyncMethod_SendChatMsg<WithAsyncMethod_NotifyAuthFriend<Service > > > AsyncService;
+  template <class BaseClass>
+  class WithAsyncMethod_NotifyChatTextMsg : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_NotifyChatTextMsg() {
+      ::grpc::Service::MarkMethodAsync(3);
+    }
+    ~WithAsyncMethod_NotifyChatTextMsg() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status NotifyChatTextMsg(::grpc::ServerContext* /*context*/, const ::message::ChatTextMsgReq* /*request*/, ::message::ChatTextMsgRsp* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestNotifyChatTextMsg(::grpc::ServerContext* context, ::message::ChatTextMsgReq* request, ::grpc::ServerAsyncResponseWriter< ::message::ChatTextMsgRsp>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(3, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  typedef WithAsyncMethod_NotifyAddFriend<WithAsyncMethod_SendChatMsg<WithAsyncMethod_NotifyAuthFriend<WithAsyncMethod_NotifyChatTextMsg<Service > > > > AsyncService;
   template <class BaseClass>
   class ExperimentalWithCallbackMethod_NotifyAddFriend : public BaseClass {
    private:
@@ -1090,11 +1142,58 @@ class ChatService final {
     #endif
       { return nullptr; }
   };
+  template <class BaseClass>
+  class ExperimentalWithCallbackMethod_NotifyChatTextMsg : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithCallbackMethod_NotifyChatTextMsg() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodCallback(3,
+          new ::grpc::internal::CallbackUnaryHandler< ::message::ChatTextMsgReq, ::message::ChatTextMsgRsp>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::message::ChatTextMsgReq* request, ::message::ChatTextMsgRsp* response) { return this->NotifyChatTextMsg(context, request, response); }));}
+    void SetMessageAllocatorFor_NotifyChatTextMsg(
+        ::grpc::experimental::MessageAllocator< ::message::ChatTextMsgReq, ::message::ChatTextMsgRsp>* allocator) {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(3);
+    #else
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::experimental().GetHandler(3);
+    #endif
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::message::ChatTextMsgReq, ::message::ChatTextMsgRsp>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~ExperimentalWithCallbackMethod_NotifyChatTextMsg() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status NotifyChatTextMsg(::grpc::ServerContext* /*context*/, const ::message::ChatTextMsgReq* /*request*/, ::message::ChatTextMsgRsp* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* NotifyChatTextMsg(
+      ::grpc::CallbackServerContext* /*context*/, const ::message::ChatTextMsgReq* /*request*/, ::message::ChatTextMsgRsp* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* NotifyChatTextMsg(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::message::ChatTextMsgReq* /*request*/, ::message::ChatTextMsgRsp* /*response*/)
+    #endif
+      { return nullptr; }
+  };
   #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
-  typedef ExperimentalWithCallbackMethod_NotifyAddFriend<ExperimentalWithCallbackMethod_SendChatMsg<ExperimentalWithCallbackMethod_NotifyAuthFriend<Service > > > CallbackService;
+  typedef ExperimentalWithCallbackMethod_NotifyAddFriend<ExperimentalWithCallbackMethod_SendChatMsg<ExperimentalWithCallbackMethod_NotifyAuthFriend<ExperimentalWithCallbackMethod_NotifyChatTextMsg<Service > > > > CallbackService;
   #endif
 
-  typedef ExperimentalWithCallbackMethod_NotifyAddFriend<ExperimentalWithCallbackMethod_SendChatMsg<ExperimentalWithCallbackMethod_NotifyAuthFriend<Service > > > ExperimentalCallbackService;
+  typedef ExperimentalWithCallbackMethod_NotifyAddFriend<ExperimentalWithCallbackMethod_SendChatMsg<ExperimentalWithCallbackMethod_NotifyAuthFriend<ExperimentalWithCallbackMethod_NotifyChatTextMsg<Service > > > > ExperimentalCallbackService;
   template <class BaseClass>
   class WithGenericMethod_NotifyAddFriend : public BaseClass {
    private:
@@ -1142,6 +1241,23 @@ class ChatService final {
     }
     // disable synchronous version of this method
     ::grpc::Status NotifyAuthFriend(::grpc::ServerContext* /*context*/, const ::message::AuthFriendReq* /*request*/, ::message::AuthFriendRsp* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_NotifyChatTextMsg : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_NotifyChatTextMsg() {
+      ::grpc::Service::MarkMethodGeneric(3);
+    }
+    ~WithGenericMethod_NotifyChatTextMsg() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status NotifyChatTextMsg(::grpc::ServerContext* /*context*/, const ::message::ChatTextMsgReq* /*request*/, ::message::ChatTextMsgRsp* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -1204,6 +1320,26 @@ class ChatService final {
     }
     void RequestNotifyAuthFriend(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_NotifyChatTextMsg : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_NotifyChatTextMsg() {
+      ::grpc::Service::MarkMethodRaw(3);
+    }
+    ~WithRawMethod_NotifyChatTextMsg() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status NotifyChatTextMsg(::grpc::ServerContext* /*context*/, const ::message::ChatTextMsgReq* /*request*/, ::message::ChatTextMsgRsp* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestNotifyChatTextMsg(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(3, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1321,6 +1457,44 @@ class ChatService final {
       { return nullptr; }
   };
   template <class BaseClass>
+  class ExperimentalWithRawCallbackMethod_NotifyChatTextMsg : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    ExperimentalWithRawCallbackMethod_NotifyChatTextMsg() {
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+      ::grpc::Service::
+    #else
+      ::grpc::Service::experimental().
+    #endif
+        MarkMethodRawCallback(3,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+                   ::grpc::CallbackServerContext*
+    #else
+                   ::grpc::experimental::CallbackServerContext*
+    #endif
+                     context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->NotifyChatTextMsg(context, request, response); }));
+    }
+    ~ExperimentalWithRawCallbackMethod_NotifyChatTextMsg() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status NotifyChatTextMsg(::grpc::ServerContext* /*context*/, const ::message::ChatTextMsgReq* /*request*/, ::message::ChatTextMsgRsp* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    #ifdef GRPC_CALLBACK_API_NONEXPERIMENTAL
+    virtual ::grpc::ServerUnaryReactor* NotifyChatTextMsg(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #else
+    virtual ::grpc::experimental::ServerUnaryReactor* NotifyChatTextMsg(
+      ::grpc::experimental::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)
+    #endif
+      { return nullptr; }
+  };
+  template <class BaseClass>
   class WithStreamedUnaryMethod_NotifyAddFriend : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
@@ -1401,9 +1575,36 @@ class ChatService final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status StreamedNotifyAuthFriend(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::message::AuthFriendReq,::message::AuthFriendRsp>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_NotifyAddFriend<WithStreamedUnaryMethod_SendChatMsg<WithStreamedUnaryMethod_NotifyAuthFriend<Service > > > StreamedUnaryService;
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_NotifyChatTextMsg : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_NotifyChatTextMsg() {
+      ::grpc::Service::MarkMethodStreamed(3,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::message::ChatTextMsgReq, ::message::ChatTextMsgRsp>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::message::ChatTextMsgReq, ::message::ChatTextMsgRsp>* streamer) {
+                       return this->StreamedNotifyChatTextMsg(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_NotifyChatTextMsg() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status NotifyChatTextMsg(::grpc::ServerContext* /*context*/, const ::message::ChatTextMsgReq* /*request*/, ::message::ChatTextMsgRsp* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedNotifyChatTextMsg(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::message::ChatTextMsgReq,::message::ChatTextMsgRsp>* server_unary_streamer) = 0;
+  };
+  typedef WithStreamedUnaryMethod_NotifyAddFriend<WithStreamedUnaryMethod_SendChatMsg<WithStreamedUnaryMethod_NotifyAuthFriend<WithStreamedUnaryMethod_NotifyChatTextMsg<Service > > > > StreamedUnaryService;
   typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_NotifyAddFriend<WithStreamedUnaryMethod_SendChatMsg<WithStreamedUnaryMethod_NotifyAuthFriend<Service > > > StreamedService;
+  typedef WithStreamedUnaryMethod_NotifyAddFriend<WithStreamedUnaryMethod_SendChatMsg<WithStreamedUnaryMethod_NotifyAuthFriend<WithStreamedUnaryMethod_NotifyChatTextMsg<Service > > > > StreamedService;
 };
 
 }  // namespace message

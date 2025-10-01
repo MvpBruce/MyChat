@@ -11,8 +11,9 @@ using message::GetChatServerRsp;
 using message::LoginReq;
 using message::LoginRsp;
 
-class StatusPool;
+using grpc::Channel;
 
+class StatusPool;
 class StatusGrpcClient : public Singleton<StatusGrpcClient>
 {
 	friend class Singleton<StatusGrpcClient>;

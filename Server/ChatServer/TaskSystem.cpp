@@ -420,8 +420,21 @@ void TaskSystem::ProcessChatTextMsg(std::shared_ptr<Session> session, const shor
 		return;
 	}
 
-	//not in same chat server, so send via grpc, todo
+	//not in same chat server, so send via grpc
+	ChatTextMsgReq msgReq;
+	msgReq.set_fromuid(uid);
+	msgReq.set_touid(touid);
+	for (const auto& textData : tetxArray)
+	{
+		auto content = textData["content"].asString();
+		auto msgid = textData["msgid"].asString();
+		//create textmsg array
+		auto pTextData = msgReq.add_textmsgs();
+		pTextData->set_msgid(msgid);
+		pTextData->set_msgcontent(content);
+	}
 
+	ChatGrpcClient::GetInstance()->NotifyChatTextMsg(strValue, msgReq);
 }
 
 bool TaskSystem::GetBaseInfo(std::string strKey, int uid, std::shared_ptr<UserInfo>& pUserInfo)

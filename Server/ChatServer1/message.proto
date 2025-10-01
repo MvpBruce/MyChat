@@ -86,8 +86,27 @@ message AuthFriendRsp {
 	int32 touid = 3;
 }
 
+message ChatTextMsgReq {
+	int32 fromuid = 1;
+	int32 touid = 2;
+	repeated ChatTextData textmsgs = 3;
+}
+
+message ChatTextData {
+	string msgid = 1;
+	string msgcontent = 2;
+}
+
+message ChatTextMsgRsp {
+	int32 error = 1;
+	int32 fromuid = 2;
+	int32 touid = 3;
+	repeated ChatTextData textmsgs = 4;
+}
+
 service ChatService {
 	rpc NotifyAddFriend(AddFriendReq) returns (AddFriendRsp) {}
 	rpc SendChatMsg(SendChatMsgReq) returns (SendChatMsgRsp) {}
 	rpc NotifyAuthFriend(AuthFriendReq) returns (AuthFriendRsp) {}
+	rpc NotifyChatTextMsg(ChatTextMsgReq) returns (ChatTextMsgRsp) {}
 }

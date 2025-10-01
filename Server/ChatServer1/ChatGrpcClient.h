@@ -13,7 +13,8 @@ using message::AddFriendReq;
 using message::AddFriendRsp;
 using message::AuthFriendReq;
 using message::AuthFriendRsp;
-
+using message::ChatTextMsgReq;
+using message::ChatTextMsgRsp;
 
 class ChatPool
 {
@@ -82,7 +83,7 @@ class ChatGrpcClient : public Singleton<ChatGrpcClient>
 public:
 	AddFriendRsp NotifyAddFriend(std::string strSeverAddress, const AddFriendReq& req);
 	AuthFriendRsp NotifyAuthFriend(std::string strSeverAddress, const AuthFriendReq& req);
-
+	ChatTextMsgRsp NotifyChatTextMsg(std::string strSeverAddress, const ChatTextMsgReq& req);
 private:
 	ChatGrpcClient();
 
