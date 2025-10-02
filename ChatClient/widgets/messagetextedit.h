@@ -4,6 +4,7 @@
 #include <QTextEdit>
 #include <QWidget>
 #include "global/global.h"
+#include <QKeyEvent>
 
 class MessageTextEdit : public QTextEdit
 {
@@ -11,6 +12,12 @@ class MessageTextEdit : public QTextEdit
 public:
     MessageTextEdit(QWidget *parent = nullptr);
     QVector<MsgInfo>& GetMessages();
+
+signals:
+    void send();
+
+protected:
+    void keyPressEvent(QKeyEvent *e) override;
 
 private:
     void InsertMsgList(QVector<MsgInfo> &list, QString type, QString text, QPixmap pix);

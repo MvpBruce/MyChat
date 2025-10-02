@@ -8,12 +8,17 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include "core/TcpMgr.h"
+#include <QStyleOption>
+#include <QPainter>
 
 ChatPage::ChatPage(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::ChatPage), m_pPeerUserInfo(nullptr)
 {
     ui->setupUi(this);
+    ui->emoLabel->SetState("normal", "hover", "press", "normal", "hover", "press");
+    ui->fileLabel->SetState("normal", "hover", "press", "normal", "hover", "press");
+    ui->sendBtn->SetState("normal", "hover", "press");
     connect(ui->sendBtn, &QPushButton::clicked, this, &ChatPage::on_send_btn_clicked);
 }
 
@@ -60,6 +65,14 @@ void ChatPage::AppendChatMsg(std::shared_ptr<ChatTextData> chatMsg)
         pChatItem->setWidget(new TextBubble(role, chatMsg->m_strContent));
         ui->chat_history_list->AppendChild(pChatItem);
     }
+}
+
+void ChatPage::paintEvent(QPaintEvent *event)
+{
+    QStyleOption opt;
+    opt.initFrom(this);
+    QPainter p(this);
+    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }
 
 void ChatPage::on_send_btn_clicked()

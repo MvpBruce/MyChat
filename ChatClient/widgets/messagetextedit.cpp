@@ -54,6 +54,17 @@ QVector<MsgInfo>& MessageTextEdit::GetMessages()
     return m_getMsgList;
 }
 
+void MessageTextEdit::keyPressEvent(QKeyEvent *e)
+{
+    if ((e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return) && (e->modifiers() & Qt::ShiftModifier))
+    {
+        emit send();
+        return;
+    }
+
+    QTextEdit::keyPressEvent(e);
+}
+
 void MessageTextEdit::InsertMsgList(QVector<MsgInfo> &list, QString type, QString text, QPixmap pix)
 {
     MsgInfo msg;

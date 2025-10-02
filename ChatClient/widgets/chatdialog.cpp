@@ -62,8 +62,8 @@ ChatDialog::ChatDialog(QWidget *parent)
     m_listWidget.push_back(ui->chat_lable);
     m_listWidget.push_back(ui->contact_lable);
 
-    ui->stackedWidget->setCurrentWidget(ui->chat_page);
     ui->chat_lable->SetSelected(true);
+    ui->stackedWidget->setCurrentWidget(ui->chat_page);
 
     connect(ui->chat_lable, &StateWidget::clicked, this, &ChatDialog::slot_clicked_chat);
     connect(ui->contact_lable, &StateWidget::clicked, this, &ChatDialog::slot_clicked_contact);

@@ -226,7 +226,7 @@ UserChatItem {
 }
 
 #applyWid #moreLabel{
-    border-image: url(::/assets/image/arrowdown.png);
+    border-image: url(:/assets/image/arrowdown.png);
 }
 
 #applyWid #tipLabel[state='normal'] {
@@ -335,6 +335,66 @@ UserChatItem {
 }
 
 /****** end ******/
+
+/****** chat_page ******/
+#toolWid{
+	background: #ffffff;
+    border-bottom: 0.5px solid #ececec;
+}
+
+#chat_title_lb{
+	font-family: "Microsoft YaHei";
+    font-size: 18px;
+    font-weight: normal;
+}
+
+#emoLabel[state='normal']{
+	border-image: url(:/assets/image/smile.png);
+}
+
+#emoLabel[state='hover']{
+	border-image: url(:/assets/image/smile_hover.png);
+}
+
+#emoLabel[state='press']{
+	border-image: url(:/assets/image/smile_press.png);
+}
+
+#fileLabel[state='normal']{
+	border-image: url(:/assets/image/dir.png);
+}
+
+#fileLabel[state='hover']{
+	border-image: url(:/assets/image/dir_hover.png);
+}
+
+#fileLabel[state='press']{
+	border-image: url(:/assets/image/dir_press.png);
+}
+
+#sendBtn[state='normal']{
+	background: #f0f0f0;
+	color: #2cb46e;
+	font-size: 16px;
+	font-family: "Microsoft YaHei";
+	border-radius: 20px;
+}
+
+#sendBtn[state='hover']{
+	background: #d2d2d2;
+	color: #2cb46e;
+	font-size: 16px;
+	font-family: "Microsoft YaHei";
+	border-radius: 20px;
+}
+
+#sendBtn[state='press']{
+	background: #c6c6c6;
+	color: #2cb46e;
+	font-size: 16px;
+	font-family: "Microsoft YaHei";
+	border-radius: 20px;
+}
 
 
 

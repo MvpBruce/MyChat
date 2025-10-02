@@ -18,6 +18,9 @@ public:
     void SetUserInfo(std::shared_ptr<UserInfo> pUserInfo);
     void AppendChatMsg(std::shared_ptr<ChatTextData> chatMsg);
 
+protected:
+    void paintEvent(QPaintEvent *event) override;
+
 private slots:
     void on_send_btn_clicked();
 

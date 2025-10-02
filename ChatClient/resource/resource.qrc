@@ -23,5 +23,11 @@
         <file>../assets/image/right_tip.png</file>
         <file>../assets/image/red_point.png</file>
         <file>../assets/image/arrowdown.png</file>
+		<file>../assets/image/smile.png</file>
+		<file>../assets/image/smile_hover.png</file>
+		<file>../assets/image/smile_press.png</file>
+		<file>../assets/image/dir.png</file>
+		<file>../assets/image/dir_hover.png</file>
+		<file>../assets/image/dir_press.png</file>
     </qresource>
 </RCC>
