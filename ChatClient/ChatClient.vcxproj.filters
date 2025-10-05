@@ -1,0 +1,449 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Distribution Files">
+      <UniqueIdentifier>{B83CAF91-C7BF-462F-B76C-EA11631F866C}</UniqueIdentifier>
+      <Extensions>*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Distribution Files">
+      <UniqueIdentifier>{B83CAF91-C7BF-462F-B76C-EA11631F866C}</UniqueIdentifier>
+      <Extensions>*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="core\HttpMgr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\TcpMgr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\adduseritem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\applyfrienddlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\applyfrienditem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\applyfriendlist.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\applyfriendpage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\authenfrienddlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\bubbleframebase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\chatdialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\chatmsgbaseitem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\chatpage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\chatview.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\contactlist.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="global\global.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\groupitem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\imagebubble.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\listitembase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\loadingdlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\logindialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\mainwindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\messagetextedit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\registerdialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\resetdialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\searchlineedit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\searchlist.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="buttons\statebtn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\statelabel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\statewidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\textbubble.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="buttons\timebutton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\tiplabel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\userchatitem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\userchatlist.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\usercontactitem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\userdata.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widgets\userfounddlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\usermgr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="core\HttpMgr.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="core\Singleton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="core\TcpMgr.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="widgets\adduseritem.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="widgets\applyfrienddlg.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="widgets\applyfrienditem.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="widgets\applyfriendlist.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="widgets\applyfriendpage.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="widgets\authenfrienddlg.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="widgets\bubbleframebase.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="widgets\chatdialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="widgets\chatmsgbaseitem.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="widgets\chatpage.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="widgets\chatview.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="widgets\contactlist.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="global\global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="widgets\groupitem.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="widgets\imagebubble.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="widgets\listitembase.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="widgets\loadingdlg.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="widgets\logindialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="widgets\mainwindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="widgets\messagetextedit.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="widgets\registerdialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="widgets\resetdialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="widgets\searchlineedit.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="widgets\searchlist.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="buttons\statebtn.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="widgets\statelabel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="widgets\statewidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="widgets\textbubble.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="buttons\timebutton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="widgets\tiplabel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="widgets\userchatitem.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="widgets\userchatlist.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="widgets\usercontactitem.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClInclude Include="core\userdata.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="widgets\userfounddlg.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="core\usermgr.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="moc\moc_predefs.h.cbt">
+      <Filter>Generated Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="ui\adduseritem.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\applyfrienddlg.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\applyfrienditem.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\applyfriendpage.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\authenfrienddlg.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\chatdialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\chatpage.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\groupitem.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\loadingdlg.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\logindialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\mainwindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\registerdialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\resetdialog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\userchatitem.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\usercontactitem.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="ui\userfounddlg.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\image\add_friend.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\image\add_friend_hover.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\image\add_friend_normal.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\image\add_tip.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\image\arrowdown.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\image\chat_hover.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\image\chat_normal.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\image\chat_press.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\image\contact_list.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\image\contact_list_hover.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\image\contact_list_press.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\image\dir.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\image\dir_hover.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\image\dir_press.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\image\head_1.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\image\head_2.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\image\head_3.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\image\head_4.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\image\head_5.jpg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\image\loading.gif">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\image\red_point.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <QtRcc Include="resource\resource.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+    <None Include="assets\image\right_tip.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\image\search.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\image\search_close.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\image\search_transparent.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\image\smile.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\image\smile_hover.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\image\smile_press.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="assets\styles\stylesheet.qss">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="config.ini">
+      <Filter>Distribution Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>
